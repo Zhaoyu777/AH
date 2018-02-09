@@ -1,0 +1,81 @@
+一 : 混混顿顿，想太多的一天 
+1.完成bug疏离
+2.完成api请求方式的修改
+3.开回顾和迭代
+4.根据迭代需求修改注册接口，更新接口文档
+
+二 : 周二元气满满的一天
+
+
+1.课堂教学课程
+
+三。后台页面需求
+后台页面
+登陆页面，注册api
+http://czie.edusoho.com/admin/setting/developer/magic
+"is_try_site": 1
+
+
+四。有点夸
+计划，完成登陆流程 ok
+扫码跳转流程 ok
+教案导入判断 ok
+$this->generateUrl('login', array('goto' => $goto));
+
+
+头脑风暴,实践作业,点名答题,一句话问答,展示墙
+
+
+演示版正式版本区分
+
+this.$http.post(api.login(),
+  qs.stringify({
+    nickname: nickname,
+    password: password
+  }), {
+  headers: {
+    'X-Requested-With': 'XMLHttpRequest',
+  },
+  xsrfHeaderName: 'X-CSRF-TOKEN',
+  emulateJSON: true
+}).then((res) => {
+  this.$vux.toast.show({
+    text: '发表成功',
+  })
+});
+
+五。元气满满
+计划，活动重复开始结束
+活动为开始提醒
+提交修改完成的代码
+
+
+练一练
+
+
+
+
+周报
+完成
+移动端注册api修改，更新api文档（还整理有安全隐患api）
+对接完成扫码加入课程
+后台 添加 课堂教学课程 （教学课程管理）
+移动端实践作业提示文案带type
+教案导入，导入失败文案修改
+
+本周问题
+在对接已完成的api，对接过程中发现bug，
+浪费两个人的时间（自测保证自己的功能完整）
+
+
+
+
+
+
+
+
+
+
+
+
+

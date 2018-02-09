@@ -1,0 +1,116 @@
+一  xx 75  jl 70
+计划：练一练嘿嘿嘿  解锁式学习
+完成：数据库表 activity_practice_practice
+
+二 : xx:75 jl:75
+计划：上午迭代，下午数据库表结构
+完成：ok
+
+三 : xxx
+计划：练一练活动微信端接口 
+完成：ok
+
+四 : xx:80 jl:70
+计划：web端接口,活动导入功能
+完成：ok
+
+五 : 
+计划：推送收尾,对活动影响
+完成：
+
+
+1.好的：迭代任务细节拆分很细，
+  坏的：
+
+2.大菊观（产品层面结构写代码）
+
+创建活动
+注意项:
+1.取消上课时删除活动结果及相关的数据
+需要在取消上课事件中调用该活动删除方法
+2.导入活动
+需要添加文件的活动（要加添加活动的类型CustomBundle\Biz\Course\Copy\TaskCopy.php）
+3.互动活动需要统计
+查询该互动任务时加入活动类型（CustomBundle\Biz\Task\Dao\Impl\TaskDaoImpl.php）
+4.活动显示页面(教师展示页，教师预览页，学生展示页）
+5.学生教师的课堂报告（教师结果页，学生结果页）
+6.线上课程是否可以使用
+7.获得积分方式 
+自动获得积分 
+开发积分事件
+
+需要的开发的基本接口
+练一练活动为例：
+
+### 1.获取练一练活动所有结果
+url:/weixin/practice/task/{taskId}/result
+
+### 2.练一练作品点赞
+url:/weixin/practice/content/${contentId}/like
+
+### 3.练一练作品取消点赞
+url:/weixin/practice/content/${contentId}/cancel_like
+
+### 4.练一练作品详情
+url:/weixin/practice/result/content/{contentId}/show
+
+### 5.练一练作品评论
+url:/weixin/practice/content/${contentId}/post
+
+### 6.练一练作品评分
+url:/weixin/practice/result/{resultId}/remark
+
+
+微信接口：
+### 1.学生提交活动结果
+url:/weixin/upload/image
+
+### 2.获取练一练活动所有结果
+/weixin/practice/task/{taskId}/result
+
+### 3.练一练作品详情
+/weixin/practice/result/content/{contentId}/show
+
+### 4.练一练作品点赞
+/weixin/practice/content/{contentId}/like
+
+### 5.练一练作品取消点赞
+/weixin/practice/content/{contentId}/cancel_like
+
+### 6.练一练作品评论
+/weixin/practice/content/{contentId}/post
+
+### 7.练一练作品评分
+/weixin/practice/result/{resultId}/remark
+
+其他接口：（通用接口）
+开始活动 /weixin/course/{courseId}/lesson/{lessonId}/task/{taskId}/start
+结束活动 /weixin/course/{courseId}/lesson/{lessonId}/task/{taskId}/end
+
+
+推送对接：
+图片首次上传：create practice result
+图片再次上传：change practice image
+点赞：like practice content
+取消点赞：cancel like practice content
+评论图片：practice post num
+评分：task result remark
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ feature/33031-pc-code-m

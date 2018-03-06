@@ -1,0 +1,406 @@
+weixin_login:
+    path: /weixin/code
+    defaults: { _controller: CustomBundle:Weixin/WeixinLogin:code }
+
+weixin_host_name:
+    path: /weixin/host_name
+    defaults: { _controller: CustomBundle:Weixin/WeixinLogin:hostName }
+
+weixin_jssdk:
+    path: /weixin/jssdk
+    defaults: { _controller: CustomBundle:Weixin/WeixinLogin:jssdk }
+
+weixin_instant_course_lesson_push_params:
+    path: /weixin/instant/course/{courseId}/lesson/{lessonId}/push_params
+    defaults: { _controller: CustomBundle:Course/CourseLesson:getPushParams }
+
+weixin_current_user:
+    path: /weixin/current_user
+    defaults: { _controller: CustomBundle:Weixin/WeixinLogin:currentUser }
+
+weixin_user_login:
+    path: /weixin/user_login
+    defaults:    { _controller: CustomBundle:Weixin/WeixinLogin:userLogin }
+
+weixin_courses_teaching:
+    path: /weixin/teachingCourses
+    defaults: { _controller: CustomBundle:Weixin/Course:teachingCourses }
+
+weixin_courses_learning:
+    path: /weixin/learningCourses
+    defaults: { _controller: CustomBundle:Weixin/Course:learningCourses }
+
+custom_weixin_course_complete_lessons:
+    path: /weixin/course/{courseId}/lessons/complete
+    defaults: { _controller: CustomBundle:Weixin/CourseLesson:completeLessons }
+
+custom_weixin_course_concision_lessons:
+    path: /weixin/course/{courseId}/lessons/concision
+    defaults: { _controller: CustomBundle:Weixin/CourseLesson:concisionLessons }
+
+weixin_student_course_in_task:
+    path: /weixin/student/course/{courseId}/in/task
+    defaults: { _controller: CustomBundle:Weixin/Task:studentInTask }
+
+weixin_student_course_task:
+    path: /weixin/student/course/{courseId}/task/{taskId}
+    defaults: { _controller: CustomBundle:Weixin/Task:studentTask }
+
+custom_weixin_course_students:
+    path: /weixin/course/{courseId}/students
+    defaults: { _controller: CustomBundle:Weixin/Student:students }
+
+custom_weixin_course_study:
+    path: /weixin/course/{courseId}/study
+    defaults: { _controller: CustomBundle:Weixin/Course:courseStudy }
+
+custom_weixin_course_resources:
+    path: /weixin/course/{courseId}/resources
+    defaults: { _controller: CustomBundle:Weixin/Resource:resources }
+
+custom_weixin_course_lesson_task:
+    path: /weixin/course/{courseId}/lesson/{lessonId}/task/show
+    defaults: { _controller: CustomBundle:Weixin/Task:lessonTask }
+
+custom_token:
+    path: /weixin/token
+    defaults: { _controller: CustomBundle:Weixin/WeixinLogin:token }
+
+custom_weixin_my:
+    path: /weixin/my
+    defaults: { _controller: CustomBundle:Weixin/My:my }
+
+custom_weixin_my_score:
+    path: /weixin/my/score
+    defaults: { _controller: CustomBundle:Weixin/My:score }
+
+custom_weixin_my_teacher_score:
+    path: /weixin/my/teacher/score
+    defaults: { _controller: CustomBundle:Weixin/My:teacherScore }
+
+custom_weixin_my_albums:
+    path: /weixin/my/albums
+    defaults: { _controller: CustomBundle:Weixin/My:albums }
+
+weixin_my_courses_teaching:
+    path: /weixin/my/courses/teaching
+    defaults: { _controller: CustomBundle:Weixin/Course:myTeaching }
+
+weixin_my_courses_learning:
+    path: /weixin/my/courses/learning
+    defaults: { _controller: CustomBundle:Weixin/Course:myLearning }
+
+course_weixin_lesson_start:
+    path:  /weixin/course/lesson/start
+    defaults: { _controller: CustomBundle:Weixin/Task:startLesson }
+
+custom_weixin_lesson_end:
+    path:  /weixin/course/lesson/end
+    defaults: { _controller: CustomBundle:Weixin/CourseLesson:lessonEnd }
+
+instant_weixin_course_lesson_cancel:
+    path: /weixin/course/lesson/cancel
+    defaults: { _controller: CustomBundle:Weixin/Task:lessonCancel }
+
+weixin_instant_course_student_rand:
+    path: /weixin/instant/course/student/rand
+    defaults: { _controller: CustomBundle:Weixin/Rollcall:randStudent }
+
+weixin_instant_course_student_task_status:
+    path: /weixin/instant/course/student/task/status
+    defaults: { _controller: CustomBundle:Weixin/Rollcall:taskStatus }
+
+weixin_instant_course_teacher_task_result_remark:
+    path: /weixin/instant/course/teacher/task/remark/result
+    defaults: { _controller: CustomBundle:Weixin/Rollcall:remark }
+
+weixin_instant_course_teacher_task_rollcall_student:
+    path: /weixin/instant/course/teacher/task/rollcall/student
+    defaults: { _controller: CustomBundle:Weixin/Task:rollcallStudent }
+
+#头脑风暴  活动开始，其他活动后期也调用这个接口
+weixin_task_start:
+    path: /weixin/course/{courseId}/lesson/{lessonId}/task/{taskId}/start
+    defaults: { _controller: CustomBundle:Weixin/Task:startInstantCourseTask }
+
+#头脑风暴  活动结束，其他活动后期也调用这个接口
+weixin_task_end:
+    path: /weixin/course/{courseId}/lesson/{lessonId}/task/{taskId}/end
+    defaults: { _controller: CustomBundle:Weixin/Task:endInstantCourseTask }
+
+# 头脑风暴  学生回复
+weixin_brain_storm_answer:
+    path: /weixin/task/{taskId}/brain_storm/answer
+    defaults: { _controller: CustomBundle:Weixin/BrainStorm:answer }
+    methods: [POST]
+
+#头脑风暴  展示结果
+weixin_brain_storm_result:
+    path: /weixin/task/{taskId}/brain_storm/result
+    defaults: { _controller: CustomBundle:Weixin/BrainStorm:result }
+
+#头脑风暴  加入随机分组,后期路由指向task controller
+weixin_task_random_group_join:
+    path: /weixin/task/{taskId}/random_group/{groupId}/join
+    defaults: { _controller: CustomBundle:Weixin/BrainStorm:joinTaskGroup }
+
+#头脑风暴  结果评分
+weixin_brain_storm_result_remark:
+    path: /weixin/brain_storm/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Weixin/BrainStorm:remark }
+
+weixin_one_sentence_answer:
+    path: /weixin/task/{taskId}/one_sentence/answer
+    defaults: { _controller: CustomBundle:Weixin/OneSentence:answer }
+    methods: [POST]
+
+weixin_one_sentence_result:
+    path: /weixin/task/{taskId}/one_sentence/result
+    defaults: { _controller: CustomBundle:Weixin/OneSentence:result }
+
+weixin_one_sentence_start:
+    path: /weixin/task/{taskId}/activity/{activityId}/one_sentence/start
+    defaults: { _controller: CustomBundle:Weixin/OneSentence:start }
+
+weixin_one_sentence_end:
+    path: /weixin/task/{taskId}/activity/{activityId}/one_sentence/end
+    defaults: { _controller: CustomBundle:Weixin/OneSentence:end }
+
+weixin_sign_in_start:
+    path: /weixin/lesson/{lessonId}/start
+    defaults: { _controller: CustomBundle:Weixin/SignIn:start }
+
+weixin_sign_in_cancel:
+    path: /weixin/sign_in/{signInId}/cancel
+    defaults: { _controller: CustomBundle:Weixin/SignIn:cancel }
+
+weixin_sign_in_end:
+    path: /weixin/sign_in/{signInId}/end
+    defaults: { _controller: CustomBundle:Weixin/SignIn:end }
+
+weixin_sign_in_record:
+    path: /weixin/course/{courseId}/sign_in/record
+    defaults: { _controller: CustomBundle:Weixin/SignIn:record }
+
+weixin_student_sign_in_status:
+    path: /weixin/lesson/{lessonId}/time/{time}/student/sign_in/status
+    defaults: { _controller: CustomBundle:Weixin/SignIn:studentSignInStatus }
+
+weixin_student_sign_in:
+    path: /weixin/lesson/{lessonId}/time/{time}/student/sign_in
+    defaults: { _controller: CustomBundle:Weixin/SignIn:studentSignIn }
+
+weixin_student_sign_in_success:
+    path: /weixin/lesson/{lessonId}/time/{time}/student/sign_in/success
+    defaults: { _controller: CustomBundle:Weixin/SignIn:studentSignInSuccess }
+
+weixin_sign_in_result:
+    path: /weixin/lesson/{lessonId}/time/{time}/result
+    defaults: { _controller: CustomBundle:Weixin/SignIn:result }
+
+weixin_sign_in_detail:
+    path: /weixin/lesson/{lessonId}/sign_in/detail
+    defaults: { _controller: CustomBundle:Weixin/SignIn:detail }
+
+weixin_sign_in_set:
+    path: /weixin/sign_in/member/{signInMemberId}/set_status
+    defaults: { _controller: CustomBundle:Weixin/SignIn:setStatus }
+
+weixin_display_wall_content:
+    path: /weixin/display_wall/content/{contentId}/show
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:contentShow }
+
+weixin_display_wall_content_like:
+    path: /weixin/display_wall/content/{contentId}/like
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:like }
+
+weixin_display_wall_content_cancel_like:
+    path: /weixin/display_wall/content/{contentId}/cancel_like
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:cancelLike }
+
+weixin_display_wall_content_post:
+    path: /weixin/display_wall/content/{contentId}/post
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:postContent }
+
+weixin_display_wall_result:
+    path: /weixin/display_wall/task/{taskId}/result
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:result }
+
+weixin_display_wall_result_remark:
+    path: /weixin/display_wall/result/{resultId}/group_way/{groupWay}/submit_way/{submitWay}/remark
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:remark }
+
+weixin_picture_download:
+    path: /weixin/picture/download
+    defaults: { _controller: CustomBundle:Weixin/Upload:pictureDownload }
+
+weixin_practice_work_result:
+    path: /weixin/practice_work/task/{taskId}/result
+    defaults: { _controller: CustomBundle:Weixin/PracticeWork:result }
+
+weixin_practice_work_upload:
+    path: /weixin/practice_work/picture/upload
+    defaults: { _controller: CustomBundle:Weixin/PracticeWork:pictureUpload }
+
+weixin_practice_work_picture_show:
+    path: /weixin/practice_work/{type}/file/{id}/show
+    defaults: { _controller: CustomBundle:Weixin/PracticeWork:pictureShow }
+
+weixin_display_wall_start:
+    path: /weixin/task/{taskId}/activity/{activityId}/display_wall/start
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:start }
+
+weixin_display_wall_end:
+    path: /weixin/task/{taskId}/activity/{activityId}/display_wall/end
+    defaults: { _controller: CustomBundle:Weixin/DisplayWall:end }
+
+
+
+weixin_race_answer_start:
+    path: /weixin/task/{taskId}/activity/{activityId}/race_answer/start
+    defaults: { _controller: CustomBundle:Weixin/RaceAnswer:start }
+
+weixin_race_answer_end:
+    path: /weixin/task/{taskId}/activity/{activityId}/race_answer/end
+    defaults: { _controller: CustomBundle:Weixin/RaceAnswer:end }
+
+weixin_race_answer_status:
+    path: /weixin/task/{taskId}/race_answer/status
+    defaults: { _controller: CustomBundle:Weixin/RaceAnswer:status }
+
+weixin_race_answer_race:
+    path: /weixin/course/{courseId}/task/{taskId}/activity/{activityId}/race_answer/race
+    defaults: { _controller: CustomBundle:Weixin/RaceAnswer:raceAnswer }
+
+weixin_race_answer_result:
+    path: /weixin/task/{taskId}/race_answer/result
+    defaults: { _controller: CustomBundle:Weixin/RaceAnswer:raceResult }
+
+weixin_race_answer_result_remark:
+    path: /weixin/course/{courseId}/result/{resultId}/race_answer/remark_result
+    defaults: { _controller: CustomBundle:Weixin/RaceAnswer:remarkResult }
+
+weixin_questionnaire_show:
+    path: /weixin/task/{taskId}/activity/{activityId}/questionnaire_show
+    defaults: { _controller: CustomBundle:Weixin/Questionnaire:show }
+
+weixin_questionnaire_finished:
+    path: /weixin/questionnaire/result/{resultId}/finish
+    defaults: { _controller: CustomBundle:Weixin/Questionnaire:finish }
+
+weixin_course_lesson_evaluation:
+    path: /weixin/course/{courseId}/lesson/{lessonId}/evaluation
+    defaults: { _controller: CustomBundle:Weixin/LessonEvaluation:evaluation }
+
+weixin_current_course_role:
+    path: /weixin/current/course/{courseId}/role
+    defaults: { _controller: CustomBundle:Weixin/Course:currentCourseRole }
+
+# lessonId 就是acivityId
+weixin_testpaper_do:
+  path: /weixin/task/{taskId}/testpaper/do
+  defaults: { _controller: CustomBundle:Weixin/Testpaper:doTestpaper }
+
+weixin_testpaper_finish:
+    path: /weixin/testpaper/result/{resultId}/finish
+    defaults: { _controller: CustomBundle:Weixin/Testpaper:finishTest }
+
+weixin_testpaper_result:
+  path: /weixin/task/{taskId}/testpaper/result
+  defaults: { _controller: CustomBundle:Weixin/Testpaper:result }
+
+weixin_testpaper_result_statis:
+  path: /weixin/task/{taskId}/testpaper/result/statis
+  defaults: { _controller: CustomBundle:Weixin/Testpaper:statis }
+
+weixin_redirect:
+    path: /weixin/redirect
+    defaults: { _controller: CustomBundle:Weixin/WeixinLogin:weixinRedirect }
+
+weixin_groups:
+    path: /weixin/groups
+    defaults: { _controller: CustomBundle:Weixin/Group:groups }
+
+weixin_my_groups:
+    path: /weixin/my/groups
+    defaults: { _controller: CustomBundle:Weixin/Group:myGroups }
+
+weixin_group_members:
+    path: /weixin/group/{groupId}/members
+    defaults: { _controller: CustomBundle:Weixin/Group:groupMembers }
+
+weixin_group_create_thread:
+    path: /weixin/group/{groupId}/create/thread
+    defaults: { _controller: CustomBundle:Weixin/Thread:createThread }
+
+weixin_group_threads:
+    path: /weixin/group/{groupId}/threads
+    defaults: { _controller: CustomBundle:Weixin/Thread:threads }
+
+weixin_group_thread_post:
+    path: /weixin/group/{groupId}/thread/{threadId}/post
+    defaults: { _controller: CustomBundle:Weixin/Thread:postThread }
+
+weixin_group_thread_posts:
+    path: /weixin/group/{groupId}/thread/{threadId}/posts
+    defaults: { _controller: CustomBundle:Weixin/Thread:posts }
+
+weixin_group_detail:
+    path: /weixin/group/{groupId}/detail
+    defaults: { _controller: CustomBundle:Weixin/Group:groupDetail}
+
+weixin_group_thread_detail:
+    path: /weixin/group/{groupId}/thread/{threadId}/detail
+    defaults: { _controller: CustomBundle:Weixin/Thread:threadDetail}
+
+custom_weixin_lesson_message_push:
+    path:  /weixin/course/{courseId}/lesson/{lessonId}/push/message
+    defaults: { _controller: CustomBundle:Weixin/CourseLesson:weixinSendMessage }
+
+weixin_group_join:
+    path: /weixin/group/{groupId}/join
+    defaults: { _controller: CustomBundle:Weixin/Group:joinGroup}
+
+weixin_random_testpaper:
+    path: /weixin/task/{taskId}/random_testpaper/result
+    defaults: { _controller: CustomBundle:Weixin/RandomTestpaper:result }
+
+weixin_random_testpaper_submit:
+    path: /weixin/task/{taskId}/random_testpaper/submit
+    defaults: { _controller: CustomBundle:Weixin/RandomTestpaper:submit }
+
+weixin_random_testpaper_redo:
+    path: /weixin/task/{taskId}/random_testpaper/redo
+    defaults: { _controller: CustomBundle:Weixin/RandomTestpaper:redo }
+
+weixin_upload_image:
+    path: /weixin/upload/image
+    defaults: { _controller: CustomBundle:Weixin/Upload:imageUpload}
+
+weixin_course_lesson_signIn_status:
+    path: /weixin/course/{courseId}/lesson/{lessonId}/signIn/status
+    defaults: { _controller: CustomBundle:Weixin/SignIn:signInStatus}
+
+weixin_practice_result:
+    path: /weixin/practice/task/{taskId}/result
+    defaults: { _controller: CustomBundle:Weixin/Practice:result }
+
+weixin_practice_result_remark:
+    path: /weixin/practice/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Weixin/Practice:remark }
+
+weixin_practice_content_show:
+    path: /weixin/practice/result/content/{contentId}/show
+    defaults: { _controller: CustomBundle:Weixin/Practice:contentShow }
+
+weixin_practice_content_like:
+    path: /weixin/practice/content/{contentId}/like
+    defaults: { _controller: CustomBundle:Weixin/Practice:like }
+
+weixin_practice_content_cancel_like:
+    path: /weixin/practice/content/{contentId}/cancel_like
+    defaults: { _controller: CustomBundle:Weixin/Practice:cancelLike }
+
+weixin_practice_content_post:
+    path: /weixin/practice/content/{contentId}/post
+    defaults: { _controller: CustomBundle:Weixin/Practice:postContent }

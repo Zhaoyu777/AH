@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="cz-analysis-block text-center">
+      <div>
+        全校平均出勤率
+        <div class="cz-online-num">
+          {{ (attendRate * 100)|number_format(1, '.') }}%
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="cz-analysis-block text-center">
+      <div>
+        老师平均备课率
+        <div class="cz-online-num">{{ (prepareCourseRate * 100)|number_format(1, '.') }}%</div>
+      </div>
+    </div>
+  </div>
+
+  {#<div class="col-md-4">
+    <div class="cz-analysis-block text-center">
+      <div>
+        老师平均平台使用率
+        <div class="cz-online-num">{{ platformRate }}</div>
+      </div>
+    </div>
+  </div>#}
+
+  <div class="col-md-4">
+    <div class="cz-analysis-block text-center">
+      <div>
+        平台资源总量
+        <div class="cz-online-num">{{ fileCount }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="cz-analysis-block text-center">
+      <div>
+        全校平均教学目标达成度
+        <div class="cz-online-num">{{ (universityTeachingAimFinishedRate * 100)|number_format(1, '.') }}%</div>
+      </div>
+    </div>
+  </div>
+</div>

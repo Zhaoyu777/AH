@@ -1,0 +1,22 @@
+{% if not role|default(null) == 'teacher' %}
+
+<div class="testpaper-question testpaper-question-fill js-testpaper-question {% if setting('magic.testpaper_watermark') %}js-testpaper-watermark{% endif %}" data-watermark-url="{{ path('cloud_testpaper_watermark') }}" id="question{{ question.id }}">
+  <div class="testpaper-question-body">
+    {% include 'question/part/question-stem.html.twig' %}
+  </div>
+
+  <div class="testpaper-question-footer clearfix">
+    <div class="testpaper-question-result">
+      <ul>
+        {% for index, answer in question.answer %}
+          <li>
+            {{'填空(%index%)： 正确答案'|trans({'%index%': index+1})}} <strong class="color-success">{{ answer|join(' 或 '|trans) }}</strong>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% include 'question/statis/show-analysis.html.twig' with {showAnalysis:1} %}
+</div>
+
+{% endif %}

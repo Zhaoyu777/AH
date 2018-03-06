@@ -1,0 +1,21 @@
+{% extends 'activity/content-layout.html.twig' %}
+{% block head_scripts %}
+  {{ parent() }}
+  <base target="_blank">
+{% endblock %}
+
+{% do script(['libs/perfect-scrollbar.js','app/js/activity/text/index.js']) %}
+{% set enableCopy  = setting('course.copy_enabled') %}
+{% block body %}
+  <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+       id="text-activity" data-finish-time="{{ text.finishDetail }}"
+       data-disable-copy="{{ enableCopy }}">
+    <div class="text-activity-content">
+      <div class="activity-name" style="font-size: 34px">
+        {{ activity.content|raw }}
+      </div>
+    </div>
+  </div>
+
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}

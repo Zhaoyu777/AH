@@ -1,0 +1,12 @@
+parameters:
+    stageActivityType:
+        before:
+            内容展示: ['ppt','video','text','doc','audio']
+            教学互动: ['questionnaire','download', 'practiceWork']
+        in:
+            内容展示: ['ppt','video','doc','text','audio']
+            教学互动: ['rollcall','oneSentence','raceAnswer','displayWall','brainStorm','questionnaire','testpaper','interval', 'practiceWork']
+            实训: ['practice']
+        after:
+            内容展示: ['ppt','video','doc','text','audio']
+            教学互动: ['homework', 'practiceWork', 'randomTestpaper','download','questionnaire']

@@ -1,0 +1,16 @@
+<div class="raceAnswer-stu-info pull-left inline-block mrm mbm text-center js-called-stu-info">
+  <div class="color-primary stu-rank">
+    <div class="rank-num text-24 js-stu-rank"></div>
+  </div>
+  <img class="avatar-lg mbl js-stu-avatar" src="" alt="">
+  <p class="color-orange text-24 js-stu-turename"></p>
+  <p class="gray-dark text-18 mbl js-stu-number"></p>
+  {% if is_course_teacher(activity.fromCourseId) %}
+    {% if lesson.status == 'teaching' %}
+      <a class="btn cz-link-primary cz-btn-md text-bold js-grade-btn" href="javascript:;" data-id=""
+         data-target="#modal" data-toggle="modal" data-url="">评分</a>
+    {% endif %}
+    <span class="js-score-show text-24 color-primary"></span>
+  {% endif %}
+  <span class="js-score-show color-primary text-24 score-show mrm" hidden>+ 分</span>
+</div>

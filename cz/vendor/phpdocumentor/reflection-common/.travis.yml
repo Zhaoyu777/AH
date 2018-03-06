@@ -1,0 +1,54 @@
+language: php
+php:
+  - 5.3.3
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+<<<<<<< HEAD:vendor/phpdocumentor/reflection-common/.travis.yml
+  - 7.0
+  - 7.1
+=======
+>>>>>>> master:vendor/phpdocumentor/reflection-docblock/.travis.yml
+  - hhvm
+  - hhvm-nightly
+
+matrix:
+<<<<<<< HEAD:vendor/phpdocumentor/reflection-common/.travis.yml
+  allow_failures:
+    - php:
+      - hhvm
+      - nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+=======
+    allow_failures:
+        - php: hhvm
+        - php: hhvm-nightly
+>>>>>>> master:vendor/phpdocumentor/reflection-docblock/.travis.yml
+
+script:
+ - vendor/bin/phpunit
+
+before_script:
+<<<<<<< HEAD:vendor/phpdocumentor/reflection-common/.travis.yml
+ - composer install --no-interaction
+
+after_script:
+  - if [ $TRAVIS_PHP_VERSION = '5.6' ]; then wget https://scrutinizer-ci.com/ocular.phar; php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+=======
+ - sudo apt-get -qq update > /dev/null
+ - phpenv rehash > /dev/null
+ - composer selfupdate --quiet
+ - composer install --no-interaction --prefer-source --dev
+ - vendor/bin/phpunit
+ - composer update --no-interaction --prefer-source --dev
+>>>>>>> master:vendor/phpdocumentor/reflection-docblock/.travis.yml
+
+notifications:
+  irc: "irc.freenode.org#phpdocumentor"
+  email:
+    - me@mikevanriel.com
+    - ashnazg@php.net

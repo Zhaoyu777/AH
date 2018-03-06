@@ -1,0 +1,57 @@
+{% extends 'task-manage/modal-layout.html.twig' %}
+
+{% do script(['libs/jquery-validation.js','libs/iframe-resizer.js','custombundle/js/task-manage/create/index.js']) %}
+
+{% block task_create_type %}
+  <div id="task-create-type" class="hidden" data-editor-mode="{{ mode }}"
+    {% if mode == 'edit' %}
+    data-editor-type="{{ currentType }}"
+    data-editor-step2-url="{{ path('course_manage_task_fields', {courseId: course.id, mode: 'edit', id: task.id, stage: stage}) }}"
+    data-save-url="{{ path('custom_task_edit', {courseId: course.id, id: task.id }) }}"
+  {% elseif mode == 'create' %}
+    data-save-url="{{ path('custom_task_create', {lessonId: lesson.id}) }}"
+    {% endif %}>
+    <form class="form-horizontal" id="step1-form">
+      {% for type, data in custom_activity_metas(stage) %}
+        <p class="task-create-type-title text-18 mt20">
+          {{ type }}：
+        </p>
+        <ul class="form-group task-create-type-list ">
+          {% for type, meta in data %}
+            {% if type|activity_visible(courseSet, course) %}
+              <li
+                class="col-xs-3 task-create-type-item js-course-tasks-item {% if task.type|default(null) ==  type %} active {% endif %}"
+                data-role="activityType" data-type="{{ type }}"
+                data-content-url="{{ path('course_manage_task_fields',{courseId:course.id, mode: 'create', type: type, stage: stage}) }}">
+                <a href="javascript:;" {% if mode=='edit' %} disabled {% endif %}>
+                  <i class="{{ meta.icon }}"></i>
+                  {{ meta.name }}
+                </a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endfor %}
+      <div class="col-xs-12">
+        <label for="mediaType" class="hidden">分类</label>
+        <input name="mediaType" id="mediaType" class="type-hidden">
+        <input class="js-hidden-data" type="hidden" name="mode" value="{{ taskMode|default('') }}">
+        <input class="js-hidden-data" type="hidden" name="categoryId" value="{{ categoryId|default(null) }}">
+        <input class="js-hidden-data" type="hidden" name="chapterId" value="{{ chapterId|default(0) }}">
+        <input class="js-hidden-data" type="hidden" name="chapter_id" value="{{ chapter_id|default(null) }}">
+        <input class="js-hidden-data" type="hidden" name="stage" value="{{ stage|default(null) }}">
+        <input class="js-hidden-data" type="hidden" name="fromCourseId" value='{{ course.id }}'>
+        <input class="js-hidden-data" type="hidden" name="fromCourseId" value='{{ course.id }}'>
+        <input class="js-hidden-data" type="hidden" name="courseSetType" id="courseSetType"
+               value="{{ courseSet.type }}">
+        <input type="hidden" id="courseExpiryMode" value="{{ course.expiryMode }}">
+      </div>
+    </form>
+  </div>
+
+  <div class="js-add-modal-content cz-teaching-add-modal" hidden>
+    <div class="modal-backdrop in"></div>
+    {% include 'activity/teaching-modal.html.twig' with {teachingAims:teachingAims|default(), connAimIds:connAimIds|default()} %}
+  </div>
+{% endblock %}
+

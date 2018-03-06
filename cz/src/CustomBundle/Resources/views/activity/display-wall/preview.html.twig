@@ -1,0 +1,36 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% block content %}
+  <div class="iframe-parent-content-new iframe-parent-full ps-container" id="display-wall-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          <button class="cz-btn cz-btn-orange js-rend-call">开始回答</button>
+        </div>
+        <div class="activity-results">
+          <div class="activity-name js-activity-name">
+            {{ activity.content|raw }}
+            <p class="activity-group-way">
+              {% if (displayWall.submitWay == 'group') and (displayWall.groupWay !=  'none') %}
+                按组提交结果
+              {% elseif (displayWall.submitWay == 'person') and (displayWall.groupWay !=  'none') %}
+                组内按个人提交
+              {% else %}
+                按个人提交
+              {% endif %}
+            </p>
+          </div>
+          <div class="cz-activity-content js-cz-activity-content">
+            <div class="wall-container" id="display-wall-production">
+              <div class="js-activity-animate activity-animate">
+                <img src="/static-dist/custombundle/img/display-wall.png" alt="活动图">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% set rollcallResult = data('RollcallResult', {taskId:chapter['task'].id}) %}
+<div class="pbs class-report-body__list">
+  <i class="cz-icon cz-icon-tiaocha class-report-body_icon"></i>
+  <span class="class-report-body_name">任务{{ taskIndex }}：{{ chapter['task'].activity.title }}</span>
+  {% set taskIndex = taskIndex + 1 %}
+</div>
+<div class="class-report_result">
+  {% if rollcallResult %}
+    <!-- <span class="pull-left">我的回答：</span> -->
+    <!-- <div class="class-report_answer"> -->
+      <div class="color-primary mtm">积分 +{{ rollcallResult.score|default(0) }}</div>
+    <!-- </div> -->
+  {% endif %}
+</div>

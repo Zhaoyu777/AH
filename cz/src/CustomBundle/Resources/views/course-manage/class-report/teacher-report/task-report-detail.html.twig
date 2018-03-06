@@ -1,0 +1,24 @@
+{% set type = chapter['task'].activity.mediaType %}
+{% set meta = activity_meta(type) %}
+
+{% if type == 'displayWall' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/display-wall.html.twig' %}
+{% elseif type == 'rollcall' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/rollcall.html.twig' %}
+{% elseif type == 'raceAnswer' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/race-answer.html.twig' %}
+{% elseif type == 'testpaper' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/testpaper.html.twig' %}
+{% elseif type == 'questionnaire' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/questionnaire.html.twig' %}
+{% elseif type == 'brainStorm' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/brain-storm.html.twig' %}
+{% elseif type == 'oneSentence' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/one-sentence.html.twig' %}
+{% elseif type == 'randomTestpaper' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/random-testpaper.html.twig' %}
+{% elseif type == 'practice' %}
+  {% include 'course-manage/class-report/teacher-report/Activity/practice.html.twig' %}
+{% else %}
+  {% include 'course-manage/class-report/teacher-report/Activity/normal.html.twig' %}
+{% endif %}

@@ -1,0 +1,22 @@
+{% import "macro.html.twig" as web_macro %}
+{% do script(['app/js/courseset-manage/header/index.js']) %}
+
+{% set memberCount = data('CourseMemberCount', {courseId:course.id}) %}
+
+<div class="es-section course-manage-header clearfix">
+    <img class="picture" src="{{ filepath(courseSet.cover.middle|default(null), 'course.png') }}" />
+  <h1 class="title">
+    {{ courseSet.title |sub_text(30)}}
+    <span class="cz-label-primary text-sm vertical-middle">
+        {% if courseSet.courseNo %}
+          校级课程
+        {% else %}
+          自定义课程
+        {% endif %}
+    </span>
+  </h1>
+  <div class="text-sm color-gray">
+    {{ term.title|default() }} | {{ course.title }}  | 班级人数：{{ memberCount }}
+  </div>
+</div>
+{% include 'seajs_loader_compatible.html.twig' with {topxiawebbundle: true} %}

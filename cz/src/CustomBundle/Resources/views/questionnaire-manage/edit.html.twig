@@ -1,0 +1,68 @@
+{% extends 'courseset-manage/instant-layout.html.twig' %}
+{% import 'macro.html.twig' as web_macro %}
+
+{% block title %}
+{% if questionnaire|default() %}
+  {{ '编辑调查问卷'|trans }}
+{% else %}
+  {{'创建调查问卷'|trans}}
+{% endif %}
+ - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'questionnaire' %}
+
+{% do script(['libs/jquery-validation.js', 'custombundle/js/questionnaire-manage/create/index.js']) %}
+
+{% block main %}
+
+<div class="panel panel-default panel-col test-creator">
+  <div class="panel-heading clearfix">
+    {% if questionnaire|default() %}
+      {{ '编辑调查问卷'|trans }}
+    {% else %}
+      {{'创建调查问卷'|trans}}
+    {% endif %}
+  </div>
+
+  <div class="panel-body">
+  <ol class="breadcrumb">
+    <li><a href="{{ path('course_set_manage_questionnaire',{id:courseSet.id}) }}">{{'调查问卷管理'|trans}}</a></li>
+    <li class="active">
+      {% if questionnaire|default() %}
+        {{ '编辑调查问卷'|trans }}
+      {% else %}
+        {{ '创建调查问卷'|trans }}
+      {% endif %}
+    </li>
+  </ol>
+
+  {% if questionnaire|default() %}
+    {% set url = path('course_set_manage_questionnaire_update',{id:questionnaire.id}) %}
+  {% else %}
+    {% set url = path('course_set_manage_questionnaire_create',{id:courseSet.id}) %}
+  {% endif %}
+
+    <form id="questionnaire-form" class="form-horizontal" method="post" action="{{ url }}">
+      {% include 'questionnaire-manage/edit-base-info.html.twig'%}
+
+      <div class="form-group mbm">
+        <div class="col-md-8 col-md-offset-2 controls">
+          <button type="submit" class="btn btn-primary" data-loading-text="{{'正在保存'|trans}}...">
+            {% if questionnaire|default() %}
+              {{'保存'|trans}}
+            {% else %}
+              {{'保存，下一步'|trans}}
+            {% endif %}
+          </button>
+          <a href="{{ path('course_set_manage_questionnaire',{id:courseSet.id}) }}" class="btn btn-link  ">{{'返回'|trans}}</a>
+        </div>
+      </div>
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    </form>
+
+  </div>
+</div>
+{% endblock %}
+
+
+

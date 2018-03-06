@@ -1,0 +1,153 @@
+<div class="ranking-list-section">
+  <img class="img-responsive ranking-list-section__title" src="/static-dist/custombundle/img/databoard/page1/rank/rank_title.png" srcset="/static-dist/custombundle/img/databoard/page1/rank/rank_title@2x.png">
+  <div class="ranking-list-section__block clearfix">
+    <div class="ranking-list-section__item_small pull-left">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/rank/school_use.png" srcset="/static-dist/custombundle/img/databoard/page1/rank/school_use@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          {% for platformUse in rankings.platformUses %}
+            <div class="pbs">
+              {% if loop.index == 1 %}
+                <span class="ranking-list-section__rank first">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ platformUse.collegeName }}</span>
+                <span class="ranking-list-section__num first text-md">{{ platformUse.data }}%</span>
+              {% elseif loop.index == 2 %}
+                <span class="ranking-list-section__rank second">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ platformUse.collegeName }}</span>
+                <span class="ranking-list-section__num second text-md">{{ platformUse.data }}%</span>
+              {% elseif loop.index == 3 %}
+                <span class="ranking-list-section__rank third">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ platformUse.collegeName }}</span>
+                <span class="ranking-list-section__num third text-md">{{ platformUse.data }}%</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="ranking-list-section__item_large pull-left">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/rank/activity_join.png" srcset="/static-dist/custombundle/img/databoard/page1/rank/activity_join@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          {% for activityJoinRate in rankings.activityJoinRates %}
+            <div class="pbs">
+              {% if loop.index == 1 %}
+                <span class="ranking-list-section__rank first">{{ loop.index }}</span>
+                <span class="data-columns-block__title ranking-list-section__name">{{ activityJoinRate.activityName }}</span>
+                <span class="ranking-list-section__num first text-md">{{ activityJoinRate.data }}%</span>
+              {% elseif loop.index == 2 %}
+                <span class="ranking-list-section__rank second">{{ loop.index }}</span>
+                <span class="data-columns-block__title ranking-list-section__name">{{ activityJoinRate.activityName }}</span>
+                <span class="ranking-list-section__num second text-md">{{ activityJoinRate.data }}%</span>
+              {% elseif loop.index == 3 %}
+                <span class="ranking-list-section__rank third">{{ loop.index }}</span>
+                <span class="data-columns-block__title ranking-list-section__name">{{ activityJoinRate.activityName }}</span>
+                <span class="ranking-list-section__num third text-md">{{ activityJoinRate.data }}%</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="ranking-list-section__item_small pull-left">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/rank/school_source.png" srcset="/static-dist/custombundle/img/databoard/page1/rank/school_source@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          {% for resourcesCount in rankings.resourcesCounts %}
+            <div class="pbs">
+              {% if loop.index == 1 %}
+                <span class="ranking-list-section__rank first">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ resourcesCount.collegeName }}</span>
+                <span class="ranking-list-section__num first text-md">{{ resourcesCount.data }}</span>
+              {% elseif loop.index == 2 %}
+                <span class="ranking-list-section__rank second">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ resourcesCount.collegeName }}</span>
+                <span class="ranking-list-section__num second text-md">{{ resourcesCount.data }}</span>
+              {% elseif loop.index == 3 %}
+                <span class="ranking-list-section__rank third">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ resourcesCount.collegeName }}</span>
+                <span class="ranking-list-section__num third text-md">{{ resourcesCount.data }}</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="ranking-list-section__item_small pull-left">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/rank/school_work.png" srcset="/static-dist/custombundle/img/databoard/page1/rank/school_work@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          {% for attendRate in rankings.attendRates %}
+            <div class="pbs">
+              {% if loop.index == 1 %}
+                <span class="ranking-list-section__rank first">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ attendRate.collegeName }}</span>
+                <span class="ranking-list-section__num first text-md">{{ attendRate.data }}%</span>
+              {% elseif loop.index == 2 %}
+                <span class="ranking-list-section__rank second">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ attendRate.collegeName }}</span>
+                <span class="ranking-list-section__num second text-md">{{ attendRate.data }}%</span>
+              {% elseif loop.index == 3 %}
+                <span class="ranking-list-section__rank third">{{ loop.index }}</span>
+                <span class="data-columns-block__title">{{ attendRate.collegeName }}</span>
+                <span class="ranking-list-section__num third text-md">{{ attendRate.data }}%</span>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attend-list-section">
+  <img class="img-responsive attend-list-section__title" src="/static-dist/custombundle/img/databoard/page1/attend/attend.png" srcset="/static-dist/custombundle/img/databoard/page1/attend/attend@2x.png">
+  <div class="attend-list-section__block clearfix">
+    <div class="pull-left attend-list-section__item_small">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/attend/attend_danger.png" srcset="/static-dist/custombundle/img/databoard/page1/attend/attend_danger@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__red pbm">
+          {% for studentAttendWarning in studentAttendWarnings %}
+            <div class="">
+              <span class="data-columns-block__title attend-list-section__name">{{ studentAttendWarning.studentName }}</span>
+              <span class="data-columns-block__unit text-md {% if studentAttendWarning.status == '已处理' %}handled{% endif %}">{{ studentAttendWarning.status }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="pull-left attend-list-section__item_large">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/attend/activity_join.png" srcset="/static-dist/custombundle/img/databoard/page1/attend/activity_join@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__red pbm">
+          {% for activityJoinWarning in activityJoinWarnings %}
+            <div class="">
+              <span class="data-columns-block__title activity-join-section_name">{{ activityJoinWarning.activityName }}</span>
+              <span class="data-columns-block__unit danger-color{{loop.index + 1}} text-md">{{ activityJoinWarning.data }}%</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="pull-left attend-list-section__item_large">
+      <div class="data-columns clearfix">
+        <div class="data-columns-label data-columns-label__chart">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/attend/attend_trend.png" srcset="/static-dist/custombundle/img/databoard/page1/attend/attend_trend@2x.png">
+        </div>
+        <div id="attend-trend-chart" style="width: 380px;height: 200px;margin:0 auto"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+@import '../mixins.less';
+
+.course-item {
+  padding: 0.625rem;
+  border-radius: 0.3125rem;
+  background: #fff;
+  margin-bottom: 0.5625rem;
+  .course-item__title {
+    margin-top: 0.6875rem;
+    margin-bottom: 0.875rem;
+    font-size: 1.0625rem;
+    color: #313131;
+    .text-overflow;
+  }
+  .course-item__class {
+    font-size: 0.875rem;
+    color: #919191;
+    .text-overflow;
+  }
+  .course-item__thumb {
+    position: relative;
+    width: 7.125rem;
+    margin-right: 0.625rem;
+    img {
+      width: 7.125rem;
+      height: auto;
+      display: block;
+    }
+  }
+  .course-item__state {
+    position: absolute;
+    top: 0.625rem;
+    left: 0.625rem;
+  }
+  .course-item__task-number {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+  }
+}

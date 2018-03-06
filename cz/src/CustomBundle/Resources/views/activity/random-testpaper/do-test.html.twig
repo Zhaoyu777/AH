@@ -1,0 +1,31 @@
+{% set questionTypeDict = getQuestionTypes() %}
+{% set types = questions|keys %}
+<form id='teacherCheckForm' autocomplete="off">
+  {% for type in types|default([]) if questions[type]|default(null) %}
+    <div class="panel panel-default js-testpaper-question-block" id="testpaper-questions-{{ type }}">
+      <div class="panel-heading">
+        <strong class="">{{ questionTypeDict[type] }}</strong>
+        <small class="color-gray">
+          {{'testpaper.answer.question_score_total_tips'|trans({'%number%': questions[type]|length,'%score%': (questions[type][0].score*questions[type]|length)})}}
+        </small>
+      </div>
+      <div class="panel-body">
+        {% for question in questions[type]|default(null) %}
+          {% if question.isDeleted|default(null) %}
+            {% include 'question/part/question-delete.html.twig' with {showScore:1,question:question}%}
+          {% else %}
+            {% set questionTemplate = getQuestionTypeTemplate(question.type,'do') %}
+            {% if questionTemplate %}
+              {% include questionTemplate %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      {{ '试卷无题目'|trans }}
+    </div>
+  {% endfor %}
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>

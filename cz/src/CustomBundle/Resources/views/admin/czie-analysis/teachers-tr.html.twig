@@ -1,0 +1,41 @@
+{% import "macro.html.twig" as web_macro %}
+
+<table id="teacher-table" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th width="15%">姓名</th>
+      <th width="15%">工号</th>
+      <th width="15%">二级学院</th>
+      <th width="20%">最近登录</th>
+      <th width="35%">操作</th>
+    </tr>
+  </thead>
+  <tbody id="teacher-search-tbody">
+    <p class="text-muted">
+      <span class="mrl">{{ 'admin.user.manage.fields.user_total_num_label'|trans }}<strong class="inflow-num">{{ userCount }}</strong></span>
+    </p>
+    {% for user in users %}
+      <tr>
+        <td>{{ user.truename }}</td>
+        <td>{{ user.number }}</td>
+        <td>{{ orgs[user.orgId].name|default('--') }}</td>
+        <td>
+          {% if user.loginTime %}
+            {{ user.loginTime|date('Y-m-d H:i:s') }}
+          {% else %}
+            --
+          {% endif %}
+        </td>
+        <td>
+          <span class="col-md-3" style="padding-left: 0px;">
+            <a href="javascript:;" data-url="{{ path('admin_data_analysis_teacher_courses', {userId:user.id}) }}" data-target="#modal" data-toggle="modal">在教课程({{ courseCounts[user.id].count|default(0) }})</a>
+          </span>
+          <span class="col-md-6">
+            <a href="javascript:;" data-url="{{ path('admin_data_analysis_teacher_detail', {userId:user.id}) }}" data-target="#modal" data-toggle="modal">教学统计</a>
+          </span>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{{ web_macro.ajax_paginator(paginator) }}

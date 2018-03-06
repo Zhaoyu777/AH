@@ -1,0 +1,109 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% do script(['custombundle/js/activity/group-remark/index.js']) %}
+
+{% set modal_class= "" %}
+
+{% block title %}
+  {{ group.title }}&nbsp;答题结果
+{% endblock %}
+
+{% block body %}
+  <form class="form-horizontal js-brain-remark-form" id="grade-modal-form"
+        action="{{ path('brain_storm_group_remark',{taskId: taskId, groupId:group.id}) }}" method="post">
+    {% for result in results %}
+      <div class="clearfix">
+        <i class="es-icon es-icon-dot color-primary text-lg pull-left mts"></i>
+        <div class="one-sentence-list">
+          <span class="gray-darker text-lg mrm name">
+            {{ users[result.userId].truename }}
+            <input type="hidden" name='id[]' value="{{ result.id }}">
+          </span>
+          <span>
+            {{ result.createdTime|date('Y/m/d') }}
+          </span>
+          {% if result.score|default() %}
+            <span class="js-score-show color-primary pl10">  + {{ result.score }}分</span>
+          {% else %}
+            <a class="mlm underline color-primary js-brain-remark-btn" href="javascript:;">评分</a>
+          {% endif %}
+          <p class="gray-dark mt10 pl20">{{ result.content }}</p>
+          {% if result.socre|default(0) <= 0 %}
+            <div class="remark-group mt10" hidden>
+              <div class="form-group mbm">
+                <label for="evaluate" class="col-sm-3 control-label">评价（可多选）：</label>
+                <div class="col-sm-9">
+                  <div class="evaluate-select">
+                    <a class="evaluate-info pts js-evaluate-info" href="javascript:;">
+                      <span>积极</span>
+                      <i class="js-select-icon select-icon cz-icon cz-icon-sanjiaogouxuan" hidden></i>
+                      <input type="hidden" name='remark[]'>
+                    </a>
+                  </div>
+                  <div class="evaluate-select">
+                    <a class="evaluate-info pts js-evaluate-info" href="javascript:;">
+                      <span>认真努力</span>
+                      <i class="js-select-icon select-icon cz-icon cz-icon-sanjiaogouxuan" hidden></i>
+                      <input type="hidden" name='remark[]'>
+
+                    </a>
+                  </div>
+                  <div class="evaluate-select">
+                    <a class="evaluate-info pts js-evaluate-info" href="javascript:;">
+                      <span>回答得好</span>
+                      <i class="js-select-icon select-icon cz-icon cz-icon-sanjiaogouxuan" hidden></i>
+                      <input type="hidden" name='remark[]'>
+
+                    </a>
+                  </div>
+                  <div class="evaluate-select">
+                    <a class="evaluate-info pts js-evaluate-info" href="javascript:;">
+                      <span>帮助他人</span>
+                      <i class="js-select-icon select-icon cz-icon cz-icon-sanjiaogouxuan" hidden></i>
+                      <input type="hidden" name='remark[]'>
+
+                    </a>
+                  </div>
+                  <div class="evaluate-select">
+                    <a class="evaluate-info pts js-evaluate-info" href="javascript:;">
+                      <span>专注</span>
+                      <i class="js-select-icon select-icon cz-icon cz-icon-sanjiaogouxuan" hidden></i>
+                      <input type="hidden" name='remark[]'>
+
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group mbm">
+                <label for="inputPassword3" class="col-sm-3 control-label">评分：</label>
+                <div class="col-sm-9">
+                  <div class="evaluate-select">
+                    <a class="evaluate-info js-evaluate-grade pts" href="javascript:;">
+                      <span data-score="1">+ 1分</span>
+                    </a>
+                  </div>
+                  <div class="evaluate-select">
+                    <a class="evaluate-info js-evaluate-grade pts" href="javascript:;">
+                      <span data-score="2">+ 2分</span>
+                    </a>
+                  </div>
+                  <div class="evaluate-select">
+                    <a class="evaluate-info js-evaluate-grade pts" href="javascript:;">
+                      <span data-score="3">+ 3分</span>
+                    </a>
+                  </div>
+                  <input type="hidden" name='score[]'>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+        </div>
+      </div>
+    {% endfor %}
+  </form>
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+  <button type="button" class="btn btn-primary" id="group-submit-btn" data-loading-text="{{ '正在评价'|trans }}">确定</button>
+{% endblock %}

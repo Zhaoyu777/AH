@@ -1,0 +1,16 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "modal-lg" %}
+
+{% block title %}
+
+{% endblock %}
+{% block body %}
+  课程签到码：{{ code }}
+  <a href="{{ path('custom_end_sign_in', {signInId:signIn.id}) }}">结束签到</a>
+  <a href="{{ path('custom_cancel_sign_in', {signInId:signIn.id}) }}">取消签到</a>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

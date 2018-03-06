@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    {{'答题卡'|trans}}
+    <a class="pull-right link-medium" href="javascript:;" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover"></a>
+  </div>
+  <div class="panel-body">
+    <div class="js-panel-card panel-card">
+      {% for question in questions|default(null) %}
+        {% include 'activity/questionnaire/paper-card-choice.html.twig' with {question:question,seq:question.seq} %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="panel-footer text-right">
+    {% if result.id|default(0) > 0 %}
+      <button class="btn btn-primary do-test" id="finishPaper" data-toggle="modal" data-target="#testpaper-finished-dialog">{{'马上交卷'|trans}}</button>
+    {% else %}
+      <button class="btn btn-primary" disabled="disabled">{{'马上交卷'|trans}}</button>
+    {% endif %}
+  </div>
+</div>

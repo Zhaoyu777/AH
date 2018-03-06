@@ -1,0 +1,246 @@
+.data-body {
+  position: relative;
+  height: 100%;
+  background-color: #00182E !important;
+  .popover {
+    min-width: auto;
+    background: rgba(8,60,87,1);
+    border-color: rgba(8,60,87,1);
+    .popover-content {
+      color: #fff;
+      .popover-num {
+        text-align: center;
+        color: #FFC841;
+        font-size: 20px;
+        font-weight: 500;
+      }
+    }
+    &.top > .arrow {
+      border-top-color: rgba(8,60,87,1);
+        &:after {
+        border-top-color: rgba(8,60,87,1);
+      }
+    }
+  }
+}
+
+// 按钮样式
+.data-btn {
+  position: relative;
+  border: 2px solid rgba(94,203,255,.4);
+  background: rgba(94,203,255,.2);
+  color: #fff;
+  font-weight: 500;
+  .es-transition;
+  &:before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: url('@{img-src}/databoard/home/btn/primary_left.png') no-repeat center center;
+    background: -webkit-image-set(url('@{img-src}/databoard/home/btn/primary_left.png') 1x, url('@{img-src}/databoard/home/btn/primary_left@2x.png') 2x) no-repeat center center;
+    width: 11px;
+    height: 11px;
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    background: url('@{img-src}/databoard/home/btn/primary_right.png') no-repeat center center;
+    background: -webkit-image-set(url('@{img-src}/databoard/home/btn/primary_right.png') 1x, url('@{img-src}/databoard/home/btn/primary_right@2x.png') 2x) no-repeat center center;
+    width: 11px;
+    height: 11px;
+  }
+  &:hover, &:focus, &.active {
+    .es-transition;
+    color: rgba(255,200,65,1);
+    border-color: rgba(255,200,65,0.4);
+    background-color: rgba(255,200,65,.2);
+    &:before {
+      content: '';
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      background: url('@{img-src}/databoard/home/btn/focus_left.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/home/btn/focus_left.png') 1x, url('@{img-src}/databoard/home/btn/focus_left@2x.png') 2x) no-repeat center center;
+      width: 11px;
+      height: 11px;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      right: -2px;
+      bottom: -2px;
+      background: url('@{img-src}/databoard/home/btn/focus_right.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/home/btn/focus_right.png') 1x, url('@{img-src}/databoard/home/btn/focus_right@2x.png') 2x) no-repeat center center;
+      width: 11px;
+      height: 11px;
+    }
+  }
+  &.data-btn__white {
+    border: 2px solid rgba(255,255,255,.4);
+    background: rgba(255,255,255,.2);
+    &:before {
+      background: url('@{img-src}/databoard/page2/btn/1.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/1.png') 1x, url('@{img-src}/databoard/page2/btn/1@2x.png') 2x) no-repeat center center;
+    }
+    &:after {
+      background: url('@{img-src}/databoard/page2/btn/2.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/2.png') 1x, url('@{img-src}/databoard/page2/btn/2@2x.png') 2x) no-repeat center center;
+    }
+    &.data-btn-focus__green {
+      &:hover, &:focus, &.active {
+        border: 2px solid rgba(170,225,63,.4);
+        background: rgba(170,225,63,.2);
+        color: rgba(170,225,63,1);
+        &:before {
+          background: url('@{img-src}/databoard/page2/btn/3.png') no-repeat center center;
+          background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/3.png') 1x, url('@{img-src}/databoard/page2/btn/3@2x.png') 2x) no-repeat center center;
+        }
+        &:after {
+          background: url('@{img-src}/databoard/page2/btn/4.png') no-repeat center center;
+          background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/4.png') 1x, url('@{img-src}/databoard/page2/btn/4@2x.png') 2x) no-repeat center center;
+        }
+      }
+    }
+    &.data-btn-focus__red {
+      &:hover, &:focus, &.active {
+        border: 2px solid rgba(255,91,121,.4);
+        background: rgba(255,91,121,.2);
+        color: rgba(255,91,121,1);
+        &:before {
+          background: url('@{img-src}/databoard/page2/btn/5.png') no-repeat center center;
+          background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/5.png') 1x, url('@{img-src}/databoard/page2/btn/5@2x.png') 2x) no-repeat center center;
+        }
+        &:after {
+          background: url('@{img-src}/databoard/page2/btn/6.png') no-repeat center center;
+          background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/6.png') 1x, url('@{img-src}/databoard/page2/btn/6@2x.png') 2x) no-repeat center center;
+        }
+      }
+    }
+  }
+  &.data-btn__green {
+    border: 2px solid rgba(170,225,63,.4);
+    background: rgba(170,225,63,.2);
+    color: rgba(170,225,63,1);
+    &:before {
+      background: url('@{img-src}/databoard/page2/btn/3.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/3.png') 1x, url('@{img-src}/databoard/page2/btn/3@2x.png') 2x) no-repeat center center;
+    }
+    &:after {
+      background: url('@{img-src}/databoard/page2/btn/4.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/4.png') 1x, url('@{img-src}/databoard/page2/btn/4@2x.png') 2x) no-repeat center center;
+    }
+  }
+  &.data-btn__red {
+    border: 2px solid rgba(255,91,121,.4);
+    background: rgba(255,91,121,.2);
+    color: rgba(255,91,121,1);
+    &:before {
+      background: url('@{img-src}/databoard/page2/btn/5.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/5.png') 1x, url('@{img-src}/databoard/page2/btn/5@2x.png') 2x) no-repeat center center;
+    }
+    &:after {
+      background: url('@{img-src}/databoard/page2/btn/6.png') no-repeat center center;
+      background: -webkit-image-set(url('@{img-src}/databoard/page2/btn/6.png') 1x, url('@{img-src}/databoard/page2/btn/6@2x.png') 2x) no-repeat center center;
+    }
+  }
+}
+
+//数据列表块样式
+.data-columns {
+  position: relative;
+  .data-columns-label {
+    position: absolute;
+    top: -38px;
+    left: -32px;
+    &__circle {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      // -webkit-animation: moveCircle 800ms infinite linear;
+      // -moz-animation: moveCircle 800ms infinite linear;
+      // animation: moveCircle 800ms infinite linear;
+    }
+    img {
+      height: 42px;
+    }
+  }
+  .data-columns-block {
+    padding: 10px 12px 6px 12px;
+    font-size: 24px;
+    margin-right: 1px;
+    float: left;
+    &__title {
+      font-size: 14px;
+      color: #fff;
+      // padding-bottom: 3px;
+    }
+    &__unit {
+      font-size: 18px;
+      color: #fff;
+    }
+    &__green {
+      background: rgba(170,225,63,.2);
+      color: rgba(170,225,63,1);
+    }
+    &__red {
+      background: rgba(255,67,67,.3);
+      color: rgba(255,67,67,1);
+    }
+    &__blue {
+      background: rgba(42,204,255,.2);
+      color: rgba(42,204,255,1);
+    }
+    &__yellow {
+      background: rgba(255,200,65,.2);
+      color: rgba(255,200,65,1);
+    }
+  }
+  &:before {
+    content: '';
+  }
+}
+
+// 内页侧边栏
+.data-sidebar {
+  position: fixed;
+  top: 50%;
+  margin-top: -300px;
+  left: 0;
+  width: 140px;
+  padding: 15px 20px;
+  background: rgba(94,203,255,0.20);
+  border: 1px solid #5ECBFF;
+  border-radius: 5px;
+  z-index: 10;
+}
+
+// 圆圈转动
+@-webkit-keyframes moveCircle {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+  }
+}
+
+@-moz-keyframes moveCircle {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes moveCircle {
+  0% {
+    transform:rotate(0deg);
+  }
+  100% {
+    transform:rotate(360deg);
+  }
+}

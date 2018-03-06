@@ -1,0 +1,32 @@
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+{% extends 'prepare-course-manage/layout.html.twig' %}
+
+{% block title %}{{ '班级列表'|trans }} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'course-list' %}
+
+{% block main %}
+
+<div class="panel panel-default prepare-panel" role="my-teaching-course-sets">
+    <div class="panel-heading">
+      {{ '班级列表'|trans }}
+    </div>
+    <table class="table table-lg" id="course-table">
+      <tbody>
+        {% for course in courses %}
+          <tr>
+            <td class="gray-darker" width="40%">{{ course.title |sub_text(30)}}</td>
+            <td><span class="text-sm">{{ memberCounts[course.id].count|default(0) }}人</span></td>
+            <td><div class="intro"><span class="text-sm">{{ course.summary }}</span></div></td>
+            <td><span class="text-sm">{{ courseLessonCounts[course.id].count }}个课次</span></td>
+            <td>
+              <div class="color-gray">
+                <a class="link-primary text-sm" href="{{ path('custom_course_lesson_list', {courseId:course.id, termCode:termCode}) }}">班级管理</a>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+{% endblock %}

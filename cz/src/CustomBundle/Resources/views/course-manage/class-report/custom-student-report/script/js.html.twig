@@ -1,0 +1,114 @@
+{% include 'course-manage/class-report/custom-student-report/script/common.html.twig' %}
+<script type="text/javascript" >
+var loadeObj = {};
+
+initJssdk();
+InitSwiper();
+
+function InitSwiper() {
+  var swiper = new Swiper('.swiper-container', {
+    direction:'vertical',
+    loop:false,
+    mousewheelControl: true,
+    onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+      loadHtml(swiper,0,function() {
+        swiperAnimateCache(swiper); //隐藏动画元素 
+        swiperAnimate(swiper); //初始化完成开始动画
+      });
+    }, 
+    onSlideChangeEnd: function(swiper,b){ 
+      var index = swiper.activeIndex;
+      
+      if((index + 1) === $('.swiper-slide').length) {
+        $('#arrow').hide();
+      }else {
+         $('#arrow').show();
+      }
+      loadHtml(swiper,index,function() {
+        swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+      });
+    } 
+  })
+  $('#arrow').on('click',function(){
+    swiper.slideNext();
+  })
+}
+
+function initJssdk() {
+  var img  = document.location.toString().split("//")[0] +'//'+document.domain+ $('#share-img').attr('src')  ;
+  var wx_share_title = $('title').data('title'); // 分享标题
+  var wx_share_desc = $('[name="description"]').attr('content');// 分享描述
+  var wx_share_imgUrl = img; // 分享图标
+  var wx_share_link = window.location.href; // 分享链接
+  console.log(wx_share_imgUrl);
+  console.log(wx_share_link);
+  
+  $.get('/weixin/jssdk', {url:wx_share_link}, (response) => {
+    console.log(response);
+    wx.config({
+      appId: response.appId,
+      timestamp: response.timestamp,
+      nonceStr: response.nonceStr,
+      signature: response.signature,
+      jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone']
+    });
+    wx.ready(function(){
+      wx.onMenuShareTimeline({
+        title: wx_share_title,
+        link: wx_share_link,
+        imgUrl: wx_share_imgUrl,
+      });
+      wx.onMenuShareAppMessage({
+        title: wx_share_title,
+        desc: wx_share_desc,
+        link: wx_share_link,
+        imgUrl: wx_share_imgUrl,
+        type: 'link',
+        dataUrl: '',
+      });
+      wx.onMenuShareQQ({
+        title: wx_share_title,
+        desc: wx_share_desc,
+        link: wx_share_link,
+        imgUrl: wx_share_imgUrl,
+      });
+      wx.onMenuShareQZone({
+        title: wx_share_title,
+        desc: wx_share_desc,
+        link: wx_share_link,
+        imgUrl: wx_share_imgUrl,
+      });
+    });
+    wx.error(function(err){
+      console.log(err);
+    })
+  })
+}
+
+function loadHtml(swiper,index,callback) {
+  var $element =$(swiper.slides[index]) ;
+  var $circleChart = $element.find('.circle-chart');
+ 
+  if(!loadeObj[index] && $element.data('url')) {
+    loadeObj[index] = index + 1;
+    $.get($element.data('url'), (html) => {
+      $element.html(html);
+      $circleChart = $element.find('.circle-chart');
+      callback();
+      var size = ($circleChart.data('size')==='small') ? 84 : 100;
+      var value = $circleChart.data('finish')/$circleChart.data('total');
+      value = (value == 0) ? NaN : value;
+      $circleChart.circleChart({
+          size: size,
+          value: value * 100,
+          color: "#FFC000 ",
+          widthRatio: 0.5,
+          backgroundColor: "#fff",
+      });
+    })
+  }else {
+    callback();
+    $circleChart.circleChart({"redraw":"true"});
+  }
+}
+</script>

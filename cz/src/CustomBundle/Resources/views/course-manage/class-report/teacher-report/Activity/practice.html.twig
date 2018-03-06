@@ -1,0 +1,34 @@
+{% set results = data('PracticeResult', {activityId:chapter['task'].activity.id}) %}
+{% set resultCount = data('StudentTaskResultCount', {taskId:chapter['task'].id}) %}
+{% set progress = resultCount/studentCount * 100 %}
+<div class="pbs">
+  <i class="{{ meta.icon }} class-report-body_icon"></i>
+  任务{{ taskIndex }}：{{ chapter['task'].activity.title }}
+  <span class="pll color-primary">{{ resultCount }}</span><span class="gray-medium">/{{ studentCount }}份</span>
+</div>
+<div class="class-report_result">
+  <div class="progress report_progress">
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">
+    </div>
+  </div>
+  <span class="progress-precent">{{progress|number_format(2, '.')}}%</span>
+
+  <div class="clearfix">
+    {% for result in results %}
+      <div class="report-stu-info">
+        <span class="wall-img-mask" href="javascript:;">
+          <div class="wall-img-container">
+            <img class="wall-img inline-block" src="{{ filepath(result['content'].uri) }}" alt="" style="width:160px;height:90px;">
+          </div>
+          <div class="mask"></div>
+          <div class="zan-answer">
+            <i class="cz-icon cz-icon-favorite mrs"></i>{{ result['content'].likeNum }}
+            <i class="mlm cz-icon cz-icon-question_answer mrs"></i>{{ result['content'].postNum }}
+          </div>
+        </span>
+        <div class="color-dark mtm">{{ result['content'].truename }}</div>
+      </div>
+    {% endfor %}
+  </div>
+  <a class="link-primary inline-block" href="javascript:;" data-url="{{ path('instant_course_teacher_class_report_task_show', {courseId:courseId,lessonId:lessonId,taskId:chapter['task'].id}) }}" data-target="#modal" data-toggle="modal">查看全部结果</a>
+</div>

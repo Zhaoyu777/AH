@@ -1,0 +1,204 @@
+{% extends 'my/layout.html.twig' %}
+{% set side_nav = 'my-teached-statistics' %}
+
+{% block title %}
+  {{ '我的教学统计'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block main %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span>我的教学统计</span> | 
+      <span>当前学期：{{ termCode.title }}</span>
+    </div>
+    <div class="panel-body">
+      <div>
+        <div class="col-md-6 statistics-box">
+          <div class="prepare-course-rate">
+            <span class="rate">
+              {% if statistics.courseLessonRate|default() %}
+                {{ statistics.courseLessonRate|default(0) * 100 }}%
+              {% else %}
+                --%
+              {% endif %}
+            </span>
+            <div class="title-percent-box">
+              <p class="title">
+                课程备课率
+                <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                      data-trigger="hover" data-placement="top" data-content="已备课课程 ÷ 总课程">
+                </span>
+              </p>
+              <p class="exceed-percent">
+              {% if statistics.courseLessonRate|default() %}
+                {{ ranking(percentage.courseLessonRate) }}
+              {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 statistics-box">
+          <div class="prepare-course-rate">
+            <span class="rate">
+              {% if statistics.lessonRate|default() %}
+                {{ statistics.lessonRate|default(0) * 100 }}%
+              {% else %}
+                --%
+              {% endif %}
+            </span>
+            <div class="title-percent-box">
+              <p class="title">
+                课次备课率
+                <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                      data-trigger="hover" data-placement="top" data-content="已备课课次 ÷ 总课次">
+                </span>
+              </p>
+              <p class="exceed-percent">
+              {% if statistics.lessonRate|default() %}
+                {{ ranking(percentage.lessonRate) }}
+              {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <p class="num">{{ statistics.loginDays|default(0) }}天</p>
+            <p class="title">平台登录天数</p>
+            <p class="exceed-percent">
+              {{ ranking(percentage.loginDays) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <p class="num">{{ statistics.homeworkNum|default(0) }}次</p>
+            <p class="title">
+             作业布置次数
+              <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                    data-trigger="hover" data-placement="top" data-content="题目作业、实践作业的使用次数">
+              </span>
+            </p>
+            <p class="exceed-percent">
+              {{ ranking(percentage.homeworkNum) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <p class="num">{{ statistics.analysisNum|default(0) }}份</p>
+            <p class="title">
+              课堂报告份数
+              <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                    data-trigger="hover" data-placement="top" data-content="课后课堂报告">
+              </span>
+            </p>
+            <p class="exceed-percent">
+              {{ ranking(percentage.analysisNum) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <p class="num">{{ statistics.resourcesNum|default(0) }}个</p>
+            <p class="title">个人资源总数</p>
+            <p class="exceed-percent">
+              {{ ranking(percentage.resourcesNum) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <p class="num">{{ statistics.resourcesIncreaseNum|default(0) }}个</p>
+            <p class="title">
+              资源同比增长数
+              <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                    data-trigger="hover" data-placement="top" data-content="上学期资源数 - 本学期资源数">
+              </span>
+            </p>
+            <p class="exceed-percent">
+              {{ ranking(percentage.resourcesIncreaseNum) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <p class="num">{{ statistics.resourcesQuoteNum|default(0) }}次</p>
+            <p class="title">
+              资源被引用数
+              <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                    data-trigger="hover" data-placement="top" data-content="使用资源次数">
+              </span>
+            </p>
+            <p class="exceed-percent">
+              {{ ranking(percentage.resourcesQuoteNum) }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <span class="num">
+              {% if statistics.analysisNum|default() != 0 %}
+                {{ statistics.studentAttendRate|default(0) * 100 }}%
+              {% else %}
+                --%
+              {% endif %}
+            </span>
+            <p class="title">
+              学生出勤率
+              <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                    data-trigger="hover" data-placement="top" data-content="课次学生出勤率和 ÷ 已完成课次数">
+              </span>
+            </p>
+            <p class="exceed-percent">
+              {% if statistics.analysisNum|default() != 0 %}
+                {{ ranking(percentage.studentAttendRate) }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <span class="num">
+              {% if statistics.analysisNum|default() != 0 %}
+                {{ statistics.taskOuterCompletionRate|default(0) * 100 }}%
+              {% else %}
+                --%
+              {% endif %}
+            </span>
+            <p class="title">课前课后任务完成率</p>
+            <p class="exceed-percent">
+              {% if statistics.analysisNum|default() != 0 %}
+                {{ ranking(percentage.taskOuterCompletionRate) }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-6 statistics-box">
+          <div class="statistics-item">
+            <span class="num">
+              {% if statistics.analysisNum|default() != 0 %}
+                {{ statistics.taskInCompletionRate|default(0) * 100 }}%
+              {% else %}
+                --%
+              {% endif %}
+            </span>
+            <p class="title">
+            课堂活动参与率
+            <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+                  data-trigger="hover" data-placement="top" data-content="一句话问答、头脑风暴、展示墙、调查、考试、练一练">
+            </span>
+            </p>
+            <p class="exceed-percent">
+              {% if statistics.analysisNum|default() != 0 %}
+                {{ ranking(percentage.taskInCompletionRate) }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

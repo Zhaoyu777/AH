@@ -1,0 +1,55 @@
+{% if signIns[0] %}
+  <div class="row">
+    <div class="col-md-2">
+      <div class="pvm">应到： {{ lesson.memberCount }}人</div>
+    </div>
+    <div class="col-md-2">
+      <div class="pvm">实到： {{ signInAnalysis.attend }}人</div>
+    </div>
+    <div class="col-md-2">
+      <div class="pvm">缺勤： {{ signInAnalysis.absent }}人</div>
+    </div>
+    <div class="col-md-2">
+      <div class="pvm">迟到： {{ signInAnalysis.late }}人</div>
+    </div>
+    <div class="col-md-2">
+      <div class="pvm">早退： {{ signInAnalysis.early }}人</div>
+    </div>
+    <div class="col-md-2">
+      <div class="pvm">请假： {{ signInAnalysis.leave }}人</div>
+    </div>
+  </div>
+  <div class="row">
+    {% for time in 0..1 %}
+      <div class="col-md-6">
+        <div class="class-report-body phm">
+          <div class="text-lg gray-darker text-center pbm">第{% if time == 0 %}一{% else %}二{% endif %}次签到</div>
+          {% if signIns[time].attendList|default() %}
+            <table class="table table-noborder">
+              <tbody>
+                {% for member in signIns[time].attendList %}
+                  <tr>
+                    <td>{{ users[member.userId].truename }}</td>
+                    <td>{{ users[member.userId].number }}</td>
+                    <td class="text-right">{{ member.updatedTime|date('Y-m-d H:i:s') }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="text-center">
+              <a class="btn btn-lg more-btn" href="javascript:;" data-url="{{ path('instant_course_teacher_class_report_sign_in_detail', {courseId:courseId, lessonId:lesson.id, time:time+1}) }}" data-target="#modal" data-toggle="modal">查看更多</a>
+            </div>
+          {% else %}
+            <div class="empty">
+              未发起此次签到或无人签到。
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty">
+    未发起签到
+  </div>
+{% endif %}

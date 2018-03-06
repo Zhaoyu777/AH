@@ -1,0 +1,20 @@
+<div class="text-center pbl">
+  {% if evaluation %}
+    <div class="pvl">
+      <span class="mrl">我的评分</span>
+      {% for index in 0..5 %}
+        {% if evaluation.score > index %}
+          <i class="es-icon es-icon-star color-warning text-xlg"></i>
+        {% elseif index > evaluation.score and index < evaluation.score + 1 %}
+          <i class="es-icon es-icon-starhalf color-warning text-xlg"></i>
+        {% elseif evaluation.score < index %}
+          <i class="es-icon es-icon-staroutline color-warning text-xlg"></i>
+        {% endif %}
+      {% endfor %}
+      <span class="phm"><span class="color-warning">{{ evaluation.score }}</span> 分</span>
+      <span class="color-primary">{{ evaluation.remark }}</span>
+    </div>
+  {% else %}
+    <div class="empty">还未评分</div>
+  {% endif %}
+</div>

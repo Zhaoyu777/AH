@@ -1,0 +1,42 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class= "modal-reset" %}
+{% set hide_footer = true %}
+
+{% block title %}
+&nbsp;
+{% endblock %}
+{% block body %}
+  <img class="wall-img center-block" src="{{ filepath(content.uri) }}" alt="" >
+  <div class="stu-info clearfix mvl">
+    <div class="pull-left">
+      <img class="avatar-sm inline-block" src="{{ users[content.userId].avatar }}" alt="">
+      <span class="gray-darker text-lg mls">{{ profiles[content.userId].truename|default(users[content.userId].nickname) }}</span>
+    </div>
+    <div class="pull-right color-gray">
+      <i class="cz-icon cz-icon-favorite mrs"></i>{{ content.likeNum }}<i class="mll cz-icon cz-icon-question_answer mrs"></i>{{ content.postNum }}
+    </div>
+  </div>
+  <div class="comment-content">
+    <div class="ptl pbm text-lg">评论</div>
+    {% for post in posts %}
+      <div class="comment-list">
+        <img class="avatar-sm inline-block pull-left" src="{{ users[post.userId].avatar }}" alt="" />
+        <div class="comment-info clearfix">
+          <div class="comment-massage pull-left">
+            <div class="mbs text-lg">
+              <span class="color-primary">{{ profiles[post.userId].truename|default(users[post.userId].nickname) }}</span>
+              {% if post.parentId %}
+                <span class="mhs color-gray">回复</span>
+                <span class="color-primary">{{ profiles[post.parentId].truename|default(users[post.userId].nickname) }}</span>
+              {% endif %}
+            </div>
+            <div class="text-lg">{{ post.content }}</div>
+          </div>
+          <div class="pull-right color-gray">{{ post.createdTime|date('Y-m-d H:i:s') }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+

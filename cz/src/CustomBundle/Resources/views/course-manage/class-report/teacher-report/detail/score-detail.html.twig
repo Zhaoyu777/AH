@@ -1,0 +1,35 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class= "modal-lg sign-modal" %}
+
+{% block title %}
+  积分详情
+{% endblock %}
+
+{% block body %}
+  <table class="table table-noborder table-hover">
+    <thead>
+      <tr>
+        <th>学生</th>
+        <th>互动行为</th>
+        <th>积分</th>
+        <th>积分获得时间</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for score in scores %}
+        <tr>
+          <td>{{ users[score.userId].truename }}</td>
+          <td>{{ score.remark }}</td>
+          <td>{{ score.score }}</td>
+          <td>{{ score.createdTime|date('Y/m/d H:i:s') }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {{ web_macro.paginator(paginator) }}
+{% endblock %}
+
+{% block footer %}
+  <a class="btn btn-primary" data-dismiss="modal" href="">关闭</a>
+{% endblock %}

@@ -1,0 +1,182 @@
+<style>
+html {
+  font-size : 16px;
+}
+@media only screen and (min-width: 375px){
+  html {
+    font-size: 20px !important;
+  }
+}
+@media only screen and (min-width: 414px){
+  html {
+    font-size: 23px !important;
+  }
+}
+@media only screen and (min-width: 480px){
+  html {
+    font-size: 28px !important;
+  }
+}
+@media only screen and (min-width: 700px){
+  html {
+    font-size: 32px !important;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+
+{#  swiper #}
+.swiper-container{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+.swiper-container .swiper-slide{
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
+.swiper-container .swiper-slide img {
+  position: static;
+  width: auto;
+  left: auto;
+}
+
+.color-green {
+  color: #5CD86B;
+}
+.color-yellow {
+  color: #FFC000;
+}
+
+{#  page #}
+.page-bule {
+  background-image: linear-gradient(-180deg, #63AAE8 0%, #3BBEF6 100%);
+}
+.page-orange {
+  background-image: linear-gradient(-180deg, #F36761 0%, #FF9761 100%);
+}
+.page-yellow {
+  background-image: linear-gradient(-180deg, #FFCC1E 0%, #FFA832 100%);
+  box-shadow: 13px 6px 23px 0 rgba(213,17,0,0.19);
+}
+.page-green {
+  background-image: linear-gradient(-180deg, #55E272 0%, #5EEAA0 100%);
+}
+
+{#  encourage #}
+.encourage-well {
+  position: relative;
+  padding-right: 51px;
+}
+.encourage-well.encourage-well--lg {
+  padding-right: 66px;
+}
+.encourage-well__info{
+  padding: 0.7rem 1rem;
+  font-size: 0.9rem;
+  background: #FFC000;
+  box-shadow: 0 20px 23px 0 rgba(245,66,55,0.43);
+  border-radius: 6px 32px 6px 32px;
+  color: #fff;
+}
+.encourage-well.encourage-well--lg .encourage-well__info {
+  padding: 1rem 1rem;
+}
+
+.encourage-well__info.encourage-well__info--red {
+  background: #FF5F53;
+  box-shadow: -8px 9px 14px 0 #FF9400;
+  border-radius: 5.65px 30.16px 5.65px 30.16px;
+}
+.swiper-container .swiper-slide .encourage-well__img {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -23px;
+}
+.swiper-container .swiper-slide 
+.encourage-well.encourage-well--lg .encourage-well__img {
+  margin-top: -33px;
+}
+
+.encourage-well_number {
+  font-size: 1.5rem;
+  margin: 0 0.25rem;
+  display: inline-block;
+  line-height: 1;
+  margin-top: -12px;
+}
+
+.loading {
+  position: absolute;
+  display: inline-block;
+  left: 50%;
+  top: 40%;
+  margin-left: -20px;
+}
+
+.loading span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 12px;
+  height: 12px;
+  margin: 0  2px;
+  background: #fff;
+  border-radius: 50%;
+  -webkit-animation: loading 0.5s infinite alternate;
+  animation: loading 0.5s infinite alternate;
+}
+.loading span:nth-of-type(2) {
+  background: #fff;
+  opacity: 0.5;
+    -webkit-animation: loading2 0.5s infinite alternate;
+  animation: loading2 0.5s infinite alternate;
+}
+@keyframes loading2 {
+  0% {
+    opacity: 1;
+    transform:scale(1.2);
+  }
+  100% {
+      opacity: 0.5;
+  }
+}
+@keyframes loading {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+    transform:scale(1.2);
+  }
+}
+@keyframes mymove
+{
+  from {bottom:5px;}
+  to {bottom:10px;}
+}
+@-webkit-keyframes mymove
+{
+  from {bottom:5px;}
+  to {bottom:15px;}
+}
+.arrow{
+  position: absolute;
+  z-index: 1000;
+  width: 40px;
+  bottom: 5px;
+  left: 0;
+  opacity: 1;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  animation: mymove 1s infinite;
+  -webkit-animation: mymove 1s infinite;
+}
+</style>

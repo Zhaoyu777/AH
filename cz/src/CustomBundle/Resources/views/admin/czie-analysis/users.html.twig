@@ -1,0 +1,34 @@
+{% import "macro.html.twig" as macro %}
+共{{ userCount }}个{% if role == 'teacher' %}老师{% else %}学生{% endif %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>姓名</th>
+      <th>二级学院</th>
+      <th>最近登录</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+      <tr>
+        <td>{{ user.truename }}</td>
+        <td>{{ orgs[user.orgId].name|default() }}</td>
+        <td>
+          {% if user.loginTime %}
+            {{ user.loginTime|date('Y-m-d H:i:s') }}
+          {% endif %}
+        </td>
+        <td>
+          {% if role == 'teacher' %}
+            <a>在教课程({{ courseCounts[user.id].count|default(0) }})</a>
+            <a>教学统计</a>
+          {% else %}
+            在学课程({{ courseCounts[user.id].count|default(0) }})
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{{ macro.ajax_paginator(paginator) }}

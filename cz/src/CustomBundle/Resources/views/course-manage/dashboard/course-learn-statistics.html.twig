@@ -1,0 +1,108 @@
+{% extends 'course-manage/custom-dashboard/layout.html.twig' %}
+{% do script(['libs/echarts.js', 'custombundle/js/course-manage/dashboard/course-statistics/index.js']) %}
+{% set submenu = 'course_learn' %}
+
+{% block dashboard %}
+  <div class="circle-chart-box">
+    <div class="circle-box">
+      <div class="circle js-circle-0">
+        <span></span>
+      </div>
+      <p class="title">
+        平均出勤率
+        <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="该课程所有已下课的课次的出勤率的平均值">
+        </span>
+      </p>
+    </div>
+    <div class="chart js-chart-0">
+
+    </div>
+  </div>
+
+  <div class="circle-chart-box">
+    <div class="circle-box">
+      <div class="circle js-circle-1">
+        <span></span>
+      </div>
+      <p class="title">
+        课堂互动参与率
+        <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="课堂互动参与率
+        该课程所有已下课的课次的互动参与率的平均值。互动参与率：调查、测验、一句话问答、展示墙、头脑风暴这些活动，每个活动都有参与率，
+        参与率＝提交结果的人数/班级人数（而不是出勤人数）。某课次的所有课堂活动的参与率的平均值，即为该课次的课堂参与率。
+        如果某课次没有上述5类活动中的任何一个活动，则该课次的参与率为0">
+        </span>
+      </p>
+    </div>
+    <div class="chart js-chart-1">
+
+    </div>
+  </div>
+  <div class="circle-chart-box">
+    <div class="circle-box">
+      <div class="circle js-circle-3">
+        <span></span>
+      </div>
+      <p class="title">
+        课前活动完成率
+        <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="类似课堂互动参与率，为该课程所有已下课的课次的课前活动的
+              平均完成率。如果某课次未布置任何课前活动，则该课次的课前活动完成率为0">
+        </span>
+      </p>
+    </div>
+    <div class="chart js-chart-3">
+
+    </div>
+  </div>
+  <div class="circle-chart-box">
+    <div class="circle-box">
+      <div class="circle js-circle-2">
+        <span></span>
+      </div>
+      <p class="title">
+        课后活动完成率
+        <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="类似课前活动完成率">
+        </span>
+      </p>
+    </div>
+    <div class="chart js-chart-2">
+
+    </div>
+  </div>
+  <div class="circle-chart-box">
+    <div class="circle-box">
+      <div class="circle js-circle-4">
+        <span></span>
+      </div>
+      <p class="title">
+        课程平均满意度
+        <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="该课程所有已下课的课次的满意度的平均值">
+        </span>
+      </p>
+    </div>
+    <div class="chart js-chart-4">
+
+    </div>
+  </div>
+  <div class="circle-chart-box">
+    <div class="circle-box">
+      <div class="circle js-circle-5">
+        <span></span>
+      </div>
+      <p class="title">
+        发放总积分
+        <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="该课程所有已下课的课次发放积分的总和">
+        </span>
+      </p>
+    </div>
+    <div class="chart js-chart-5">
+
+    </div>
+  </div>
+  <input type="hidden" id="statisticsData" data-url="{{ path('teacher_course_multianalysis_data',{courseId: course.id }) }}"/>
+{% endblock %}

@@ -1,0 +1,244 @@
+{% extends 'layout.html.twig' %}
+{% do script(['libs/jquery-sortable.js','custombundle/js/courseset-manage/tasks/index.js']) %}
+
+{% block title %}{{ '备课'|trans }} - {{ parent() }}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix">
+      <img class="fl" src="{{ filepath(courseSet.cover.middle|default(null), 'course.png') }}" alt="" width="106">
+      <div class="fl ml10">
+        <div class="gray-darker text-18"><b>课次{{ lesson.number }}  {{ lesson.title }}</b></div>
+        <div class="gray-dark text-14">{{ course.title|sub_text(30) }}</div>
+      </div>
+      <div class="fr mt10">
+        <a class="btn-noborder" href="javascript:;" data-url="{{ path('import_course_lesson_index', {lessonId:lesson.id}) }}" data-toggle="modal" data-target="#modal">
+          <i class="cz-icon cz-icon-btn_leadin"></i>
+          导入课次教案
+        </a>
+        <span class="phs gray-medium">|</span>
+        <a class="btn-noborder" href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{ path('course_share', {courseId:course.id}) }}">
+          <i class="cz-icon cz-icon-fenxiang"></i>
+          分享教案
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default" role="my-teaching-course-sets">
+    <div class="panel-heading clearfix">
+      <b class="pull-left gray-darker text-22">教案信息</b>
+      <div class="pull-right">
+        <a href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{ path('custom_lesson_edit', {lessonId:lesson.id}) }}" class="btn btn-primary" data-backdrop="static">编辑教案信息</a>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row mbm">
+        <div class="col-md-2 gray-dark text-right">课次标题:</div>
+        <div class="col-md-9">
+            {% if lesson.title|default() %}
+                <span class="gray-darker">{{ lesson.title }}</span>
+            {% else %}
+              <span class="color-gray">(未编辑)</span>
+            {% endif %}
+        </div>
+      </div>
+      <div class="row mbm">
+        <div class="col-md-2 gray-dark text-right">教学目的:</div>
+        <div class="col-md-9">
+            {% if lesson.teachAim|default() %}
+                <span class="gray-darker">{{ lesson.teachAim|raw }}</span>
+              {% else %}
+                <span class="color-gray">(未编辑)</span>
+            {% endif %}
+        </div>
+      </div>
+      <div class="js-prepare-course-content" hidden>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">能力目标:</div>
+          <div class="col-md-9">
+            {% for abilityAim in teachingAims.abilityAim|default() %}
+              <p class="gray-darker">{{ abilityAim.content|raw  }}</p>
+            {% else %}
+              <p class="color-gray">(未编辑)</p>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">知识目标:</div>
+          <div class="col-md-9">
+            {% for knowledgeAim in teachingAims.knowledgeAim|default() %}
+              <p class="gray-darker">{{ knowledgeAim.content|raw  }}</p>
+            {% else %}
+              <p class="color-gray">(未编辑)</p>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">素质目标:</div>
+          <div class="col-md-9">
+            {% for qualityAim in teachingAims.qualityAim|default() %}
+              <p class="gray-darker">{{ qualityAim.content|raw  }}</p>
+            {% else %}
+              <p class="color-gray">(未编辑)</p>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">任务与案例:</div>
+          <div class="col-md-9">
+              {% if lesson.tasksCase|default() %}
+                  <span class="gray-darker">
+                    {{ lesson.tasksCase|raw  }}
+                  </span>
+                {% else %}
+                  <span class="color-gray">(未编辑)</span>
+              {% endif %}
+          </div>
+        </div>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">重点难点与解决方案:</div>
+          <div class="col-md-9">
+              {% if lesson.difficult|default() %}
+                  <span class="gray-darker">
+                    {{ lesson.difficult|raw  }}
+                  </span>
+                {% else %}
+                  <span class="color-gray">(未编辑)</span>
+              {% endif %}
+          </div>
+        </div>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">参考资料:</div>
+          <div class="col-md-9">
+              {% if lesson.referenceMaterial|default() %}
+                  <span class="gray-darker">
+                    {{ lesson.referenceMaterial|raw  }}
+                  </span>
+                {% else %}
+                  <span class="color-gray">(未编辑)</span>
+              {% endif %}
+          </div>
+        </div>
+        <div class="row mbm">
+          <div class="col-md-2 gray-dark text-right">课后体会:</div>
+          <div class="col-md-9">
+              {% if lesson.afterKnow|default() %}
+                  <span class="gray-darker">
+                    {{ lesson.afterKnow|raw  }}
+                  </span>
+                {% else %}
+                  <span class="color-gray">(未编辑)</span>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="text-center mbm">
+        <a href="javascript:;" class="btn-noborder color-primary js-toggle-btn">
+          展开
+          <span class="cz-icon cz-icon-btn_unfold"></span>
+        </a>
+        <a href="javascript:'" class="btn-noborder hidden color-primary js-toggle-btn">
+          收起
+          <span class="cz-icon cz-icon-btn_Packup"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="task-list-header">
+        <b class="text-22 gray-darker">教学活动</b>
+      </div>
+      <ul class="task-manage-list sortable-list js-sortable-list cz-task-manage-list" id="sortable-list-course1" data-sort-url="{{ path('instant_course_lesson_tasks_sort', {courseId:course.id, lessonId:lesson.id}) }}">
+        <li class="bg-primary-dark task-manage-item js-task-manage-item task-manage-chapter clearfix phm" style="cursor:default;">
+          <div class="item-content">
+            <b class="text-16 gray-darker ">课前</b>
+            <span class="plm color-gray">{% if not items['before']|default() %}未添加教学活动{% endif %}</span>
+          </div>
+          <div class="item-actions">
+            {% if items['before']|default() %}
+              <a href="javascript:;" data-type="task"
+                class='js-message-push btn color-primary' data-url="{{ path('custom_weixin_lesson_message_push', {lessonId:lesson.id, courseId:course.id, type:'before'}) }}">
+                <span class="cz-icon cz-icon-btn_push mrm"></span>推送提醒
+              </a>
+              <span class="ph7 gray-medium">|</span>
+            {% endif %}
+            <a class="btn color-primary" href="javascript:;" data-toggle="modal" data-target="#modal" {% if lesson.status|default() == 'created' %} data-url="{{ path('custom_task_create', {lessonId:lesson.id, stage:'before'}) }}" {% else %} data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %} data-backdrop="static" data-keyboard="false"><i class="cz-icon cz-icon-add mrs"></i>添加活动</a>
+          </div>
+        </li>
+        {% for key, item in items['before'] %}
+          {% include 'prepare-course-manage/lesson-manage/task-list-item.html.twig' with {task:item} %}
+        {% endfor %}
+      </ul>
+
+      <ul class="task-manage-list sortable-list js-sortable-list cz-task-manage-list" id="sortable-list-course2" data-sort-url="{{ path('instant_course_lesson_tasks_sort', {courseId:course.id, lessonId:lesson.id}) }}">
+        <li class="bg-primary-dark task-manage-item js-task-manage-item task-manage-chapter clearfix phm" style="cursor:default;">
+          <div class="item-content">
+            <b class="text-16 gray-darker">课堂</b>
+            <span class="plm color-gray">{% if not items['in']|default() %}未添加教学活动{% endif %}</span>
+          </div>
+          <div class="item-actions">
+            <a href="javascript:;" class="btn color-primary" data-toggle="modal" data-target="#modal" {% if lesson.status|default() == 'created' %} data-url="{{ path('custom_lesson_chapter_create', {lessonId:lesson.id}) }}" {% else %} data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %}><i class="cz-icon cz-icon-add mrs"></i>添加教学环节</a>
+            <span class="ph7 gray-medium">|</span>
+            <a class="btn color-primary" href="javascript:;" data-toggle="modal" data-target="#modal" {% if lesson.status|default() == 'created' %} data-url="{{ path('custom_task_create', {lessonId:lesson.id, stage:'in'}) }}" {% else %} data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %} data-backdrop="static" data-keyboard="false"><i class="cz-icon cz-icon-add mrs"></i>添加活动</a>
+          </div>
+        </li>
+        {% for key, item in items['in'] %}
+          {% if item['type'] == 'chapter' %}
+            <li class=" task-manage-item drag task-manage-unit clearfix js-task-manage-item phm" id="chapter-{{ item.id }}">
+              <div class="item-content text-16 color-primary">
+                {{ chapters[item.id].title }}
+              </div>
+              <div class="item-actions">
+                <a class="btn gray-dark" href="javascript:;" data-toggle="modal" data-target="#modal" {% if lesson.status|default() == 'created' %} data-url="{{ path('custom_task_create', {lessonId:lesson.id, chapterId:chapters[item.id].id, stage:'in'}) }}" {% else %} data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %} data-backdrop="static" data-keyboard="false">添加活动</a>
+                <span class="ph7 gray-medium">|</span>
+                <a class="btn gray-dark" href="javascript:;" data-toggle="modal" data-target="#modal" {% if lesson.status|default() == 'created' %} data-url="{{ path('custom_lesson_chapter_edit', {chapterId:chapters[item.id].id}) }}" {% else %} data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %}>编辑</a>
+                <span class="ph7 gray-medium">|</span>
+                <a href="javascript:;" {% if lesson.status|default() == 'created' %} class="js-lesson-cancel btn gray-dark" data-url="{{ path('custom_chapter_delete', {chapterId:chapters[item.id].id}) }}" {% else %} class="btn gray-dark" data-toggle="modal" data-target="#modal" data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %}>
+                删除</a>
+              </div>
+            </li>
+          {% else %}
+            {% include 'prepare-course-manage/lesson-manage/task-list-item.html.twig' with {task:item} %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <ul class="task-manage-list sortable-list js-sortable-list cz-task-manage-list" id="sortable-list-course3" data-sort-url="{{ path('instant_course_lesson_tasks_sort', {courseId:course.id, lessonId:lesson.id}) }}">
+        <li class="bg-primary-dark task-manage-item js-task-manage-item task-manage-chapter clearfix phm " style="cursor:default;">
+          <div class="item-content">
+            <b class="text-16 gray-darker">课后</b>
+            <span class="plm color-gray">{% if not items['after']|default() %}未添加教学活动{% endif %}</span>
+          </div>
+          <div class="item-actions">
+            {% if lesson.status == 'teached' %}
+              <a href="javascript:;" data-type="task"
+                class='js-message-push btn color-primary {% if not items['after']|default() %} hidden {% endif %}' data-url="{{ path('custom_weixin_lesson_message_push', {lessonId:lesson.id, courseId:course.id, type:'after'}) }}">
+                <span class="cz-icon cz-icon-btn_push mrm"></span>推送提醒
+              </a>
+              <span class="ph7 gray-medium">|</span>
+            {% endif %}
+            <a class="btn color-primary" href="javascript:;" data-toggle="modal" data-target="#modal" {% if lesson.status|default() == 'created' %} data-url="{{ path('custom_task_create', {lessonId:lesson.id, stage:'after'}) }}" {% else %} data-url="{{ path('custom_lesson_edit_hint', {status:lesson.status}) }}" {% endif %} data-backdrop="static" data-keyboard="false"><i class="cz-icon cz-icon-add mrs"></i>添加活动</a>
+          </div>
+        </li>
+        {% for key, item in items['after'] %}
+          {% include 'prepare-course-manage/lesson-manage/task-list-item.html.twig' with {task:item} %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <a href="javascritp:;" class='btn btn-primary btn-md js-close-page'>关闭本页</a>
+  </div>
+</div>
+
+<div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
+<div id="modal" class="modal"></div>
+<div id="attachment-modal" class="modal"></div>
+{% endblock %}
+

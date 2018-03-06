@@ -1,0 +1,36 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% do script(['custombundle/js/task/contents/index.js']) %}
+
+{% set modal_class = 'cd-modal-dialog end-class-modal' %}
+
+{% block modal_header %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+      <i class="cd-icon cd-icon-close text-24"></i>
+    </button>
+    <h4 class="modal-title">
+      <span class="opacity-0">1</span>
+    </h4>
+  </div>
+{% endblock %}
+
+{% block body %}
+  <p class="end-class-tip gray-darker text-18 text-center">确定结束本课程?</p>
+{% endblock %}
+
+{% block footer %}
+  <div class="end-class-footer clearfix">
+    <a href="javascript:;" class="cancel-class js-cancel-course-btn color-primary fl"
+      data-url="{{ path('custom_lesson_cancel', {courseId: lesson.courseId, lessonId: lesson.id}) }}" 
+      data-lesson-url="{{ path('custom_course_lesson_list', {courseId: lesson.courseId}) }}">
+      撤销上课
+    </a>
+    <button class="kt-btn kt-btn-primary fr js-stop-course-btn" 
+      data-url="{{ path('custom_lesson_end', {courseId: lesson.courseId, lessonId: lesson.id}) }}" 
+      data-lesson-url="{{ path('custom_after_class_show', {courseId: lesson.courseId, lessonId: lesson.id}) }}">
+      确定
+    </button>
+    <button class="kt-btn kt-btn-default mr15 fr" data-dismiss="modal">取消</button>
+  </div>
+{% endblock %}

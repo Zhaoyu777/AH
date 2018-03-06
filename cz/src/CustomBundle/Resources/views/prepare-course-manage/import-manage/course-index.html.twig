@@ -1,0 +1,44 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "" %}
+{# {% set modalSize = 'large' %} #}
+{% do script(['libs/jquery-validation.js','custombundle/js/courseset-manage/course-import/index.js']) %}
+{% block title %}
+  {{'从已有教案导入'|trans}}
+{% endblock %}
+{% block body %}
+
+<div class="form-horizontal">
+  <div class="form-group mbl">
+    <label class="col-sm-2 control-label"><span class="color-danger">*</span>选择教案</label>
+    <div class="col-sm-7">
+      <label class="radio-inline">
+        <input type="radio" name="coursePlanRadio" data-url="{{ path('prepare_import_courses') }}" checked="true"/> 我的教案
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="coursePlanRadio" data-url="{{ path('prepare_import_course_shares') }}" /> 其它老师分享给我的
+      </label>
+    </div>
+  </div>
+  <div class="form-group mbl">
+    <label class="col-sm-2 control-label"><span class="color-danger">*</span>课程</label>
+    <div class="col-sm-6">
+      <select class="form-control" id="select-courses">
+        {% for course in courses|default() %}
+          <option value="{{ course['id'] }}" >{{ course['count'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="col-sm-offset-2 col-sm-9">
+    <div class="alert alert-info mtl">这里导入的是整门课的教案，包括每个课次的教案内容，但不包括授课教师名单、学生名单、学习互动记录。</div>
+  </div>
+  <input type="hidden" class="js-course-id" value="{{ course.id }}">
+  <input type="hidden" class="lesson-ids" value="{{ path('import_course_warn') }}">
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  <button class="btn btn-fat btn-primary js-btn-import-course" data-url="{{ path('import_course') }}" data-loading-text="导入中...">{{'确定'|trans}}</button>
+  <button class="btn btn-fat btn-default" data-dismiss="modal">{{'取消'|trans}}</button>
+{% endblock %}

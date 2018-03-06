@@ -1,0 +1,62 @@
+//添加学员
+.cz-select-list {
+  list-style: none;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  max-height: 200px;
+  overflow: auto;
+  li {
+    padding:10px;
+    &.active,&:active {
+      background: #f1f1f1;
+    }
+  }
+}
+
+//学生名单列表
+.cz-course-student-list {
+  .cz-table-list-head {
+    background-color: #f5f5f5;
+    color: @gray;
+    cursor: pointer;
+    border-bottom: 1px solid #fff;
+    .list-fold {
+      color: @gray;
+      font-size: 12px;
+    }
+    &:hover {
+      .list-fold .delate-list-btn {
+        display: inline-block;
+        .es-transition();
+      }
+    }
+  }
+  .group-leader {
+    .group-leader-label {
+      display: inline-block;
+      color: @brand-primary;
+      font-size: 12px;
+      padding: 2px 10px;
+      margin-left: 15px;
+      border: 1px solid @brand-primary;
+      border-radius: 2px;
+    }
+  }
+}
+
+#student-list {
+  margin-bottom: 0;
+}
+
+//模糊匹配组件样式
+.select-input-container {
+  position: relative;
+  .es-icon {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    font-size: 24px;
+    color: @gray;
+  }
+}
+

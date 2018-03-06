@@ -1,0 +1,36 @@
+{% set questionTypesDict = getQuestionTypes() %}
+
+<!-- <div class="media testpaper-result">
+  <div class="testpaper-result-total">
+    <div class="well">
+      <small class="color-gray">平均</small>
+      <div class="testpaper-result-total-score">
+        80
+        <small>{{'分'|trans}}</small>
+      </div>
+      <small class="color-gray">{{'总分%score%分'|trans({'%score%':paper.score})}}</small>
+    </div>
+  </div>
+  <div class="media-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-condensed testpaper-result-table">
+        <thead>
+          <th></th>
+          {% for type in questionTypes|default([]) %}
+            <th>{{ questionTypesDict[type] }} <small class="color-gray">(2{{'道'|trans}})</small></th>
+          {% endfor %}
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{'答对'|trans}}</td>
+            {% for type in questionTypes|default([]) %}
+              <td><span class="color-success">12<small>{{'道'|trans}}</small></span>
+              </td>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+ -->

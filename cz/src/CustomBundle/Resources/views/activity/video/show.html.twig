@@ -1,0 +1,40 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% do script(['app/js/activity/video/index.js']) %}
+
+{% block body %}
+
+  {% if video.mediaSource|default('self') == 'self' %}
+    {% if video.file|default(null) %}
+      <div class="iframe-parent-content t1 iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+           id="video-content"
+           data-role="lesson-content"
+           data-watch-url="{{ path('course_acitvity_watch',{courseId: activity.fromCourseId, id: activity.id}) }}"
+           data-id="{{ activity.id }}">
+        {#  如果用户上次观看过视频，需要请求上次的视频时长 作为参数 starttime= xxx #}
+        {{ render(controller('AppBundle:Player:show', {id: video.mediaId})) }}
+      </div>
+    {% else %}
+      <div class="iframe-parent-content t2 iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+           id="video-content" data-role="lesson-content">
+        {% include 'activity/file-not-found.html.twig' with {type:'video'} %}
+      </div>
+    {% endif %}
+  {% elseif video.mediaSource|default('self') == 'iframe' %}
+    <div class="iframe-parent-content t3 iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+         id="task-preview-iframe">
+      <iframe src="{{ video.mediaUri }}" style="height:100%; width:100%; border:0; overflow: hidden"
+              scrolling="no"></iframe>
+    </div>
+  {% else %}
+    <div class="dashboard-body">
+      <div class="iframe-parent-content t4 iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+           id="video-content" data-role="lesson-content"
+           data-media-source="{{ video.mediaSource }}">
+        <div id="swf-player" data-url="{{ video.mediaUri }}"></div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}

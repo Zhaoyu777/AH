@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-4">
+    <ul class="list-unstyled class-report_info">
+      <li class="color-primary"><span class="text-lg">{{ user.truename }}</span><span class="mll">班级： {{ course['title'] }}</span></li>
+      <li>课程： {{ courseSet['title']|sub_text(18) }}</li>
+      <li>教师： {{ masterTeacher }}（主带）{% if assistantTeachers %}／{{ assistantTeachers }}（辅带）{% endif %}</li>
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <ul class="list-unstyled class-report_info">
+      <li class="hidden-xs"></li>
+      <li>课次：<span class="mrm">{{ lesson.number }}</span>{{ lesson['title']|default('课次'~lesson['number'])|sub_text(18) }}</li>
+      <li>学期： {{term['title']}}</li>
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <ul class="list-unstyled class-report_info">
+      <li class="hidden-xs"></li>
+      <li class="hidden-xs"></li>
+      <li>上课时间： {{ lesson.startTime|date('Y-n-d') }}</li>
+    </ul>
+  </div>
+</div>

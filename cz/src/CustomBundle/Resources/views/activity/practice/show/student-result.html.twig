@@ -1,0 +1,108 @@
+<div class="cz-activity-content ml-15 mr-15 js-cz-activity-content">
+  <div class="wall-container text-0" id="student-photo-list">
+    {% for result in results[0]|default() %}
+      {% if result.content %}
+        <div class="wall-stu-info js-wall-stu-info js-result-{{ result.id }}">
+          <div class="wall-img-mask js-wall-img-mask">
+            <div class="wall-img-container js-detail-show">
+              <img class="wall-img inline-block cursor-pointer js-wall-image"
+                   src="{{ result['content'].thumb }}"
+                   data-target="#modal" data-toggle="modal"
+                   data-url="{{ path('practice_content_show', { contentId:result['content'].id}) }}">
+              <div
+                class="color-primary img-score js-score-parent {% if not result.score|default() %} hidden {% endif %}">
+                <div id="{{ result.id }}" class="js-score-show score-num">+{{ result.score }}</div>
+              </div>
+            </div>
+            <div class="info-box js-info-box">
+              <div class="base-info clearfix">
+                <div class="js-stu-truename stu-truename text-overflow gray-darker text-20 fl">{{ result.truename }}</div>
+                <div class="zan-area">
+                  <i class="js-zan-like cz-icon cz-icon-praise-hover mrs cursor-pointer zan-like text-16 cursor-pointer
+                     {% if result.isStar == 0 %} hidden {% endif %}"
+                     data-url="{{ path('practice_content_cancel_like',{contentId: result['content'].id}) }}"
+                     data-result-id="{{ result.id }}"></i>
+                  <i class="js-cancel-like cz-icon cz-icon-praise mrs cursor-pointer cancel-like text-16 cursor-pointer
+                     {% if result.isStar == 1 %} hidden {% endif %}"
+                     data-url="{{ path('practice_content_like',{contentId: result['content'].id}) }}"
+                     data-result-id="{{ result.id }}"></i>
+                  <span class="like-num gray-darker text-18 js-wall-like-num cursor-pointer">{{ result['content'].likeNum }}</span>
+                  <span class="cursor-pointer js-wall-post">
+                    <i class="cz-icon cz-icon-question_answer text-16 ml15 mrs"></i>
+                    <span class="gray-darker text-18 js-wall-post-num">{{ result['content'].postNum }}</span>
+                  </span>
+                </div>
+              </div>
+              {% if role == 'teacher' %}
+                <div class="base-save-material student-save-material {% if result.isCollected == 0 %}active{% endif %}">
+                    <div class="js-save-photo-box
+                       {% if result.isCollected == 1 %}opacity-5 cursor-not-allowed{% else %}js-save-photo{% endif %}"
+                       data-content-id="{{ result['content'].id }}">
+                      <i class="cz-icon cz-icon-preservation text-20 vertical-middle"></i>
+                      <span class="js-save-photo-tip">
+                        {% if result.isCollected == 1 %}
+                          已保存
+                        {% else %}
+                          保存为教学资料
+                        {% endif %}
+                      </span>
+                    </div>
+                  <div class="score-btn-box">
+                    {% if app.user.isTeacher() and result.id|default() and not result.score %}
+                      {% if lesson.status == 'teaching' %}
+                        <button class="btn cz-link-primary cz-btn-md text-bold score-btn js-grade-btn"
+                           data-target="#modal" data-toggle="modal"
+                           data-url="{{ path('practice_result_remark',{resultId: result.id}) }}">评分</button>
+                      {% else %}
+                        <button class="btn btn-default cz-btn-md text-bold disabled">评分</button>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<div class="js-stu-result-copy" hidden>
+  <div class="wall-stu-info js-wall-stu-info">
+    <div class="wall-img-mask js-wall-img-mask">
+      <div class="wall-img-container js-detail-show">
+        <img src="" class="wall-img inline-block cursor-pointer js-wall-image" data-target="#modal" data-toggle="modal" />
+        <div class="color-primary img-score js-score-parent hidden">
+          <div class="js-score-show score-num"></div>
+        </div>
+      </div>
+      <div class="info-box js-info-box">
+        <div class="base-info clearfix">
+          <div class="js-stu-truename stu-truename text-overflow gray-darker text-20 fl"></div>
+          <div class="zan-area">
+            <i class="js-zan-like cz-icon cz-icon-praise-hover mrs cursor-pointer zan-like text-16 cursor-pointer hidden"></i>
+            <i class="js-cancel-like cz-icon cz-icon-praise mrs cursor-pointer cancel-like text-16 cursor-pointer"></i>
+            <span class="like-unm gray-darker text-18 js-wall-like-num cursor-pointer"></span>
+            <span class="cursor-pointer js-wall-post">
+              <i class="cz-icon cz-icon-question_answer text-16 ml15 mrs"></i>
+              <span class="gray-darker text-18 js-wall-post-num"></span>
+            </span>
+          </div>
+        </div>
+        <div class="base-save-material active student-save-material">
+          <div class="js-save-photo-box js-save-photo">
+            <i class="cz-icon cz-icon-preservation text-20 vertical-middle"></i>
+            <span class="js-save-photo-tip">保存为教学资料</span>
+          </div>
+          <div class="score-btn-box">
+            <a class="btn cz-link-primary cz-btn-md text-bold score-btn js-grade-btn" href="javascript:;"
+               data-target="#modal" data-toggle="modal">
+              评分
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

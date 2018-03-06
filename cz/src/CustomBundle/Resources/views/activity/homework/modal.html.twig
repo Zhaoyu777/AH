@@ -1,0 +1,158 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js','libs/jquery-sortable.js','custombundle/js/activity-manage/homework/index.js'], 300) %}
+
+{% block body %}
+  <div class="tab-content" id="iframe-content">
+    <div class="tab-pane js-course-tasks-pane active js-step2-view">
+      <form class="form-horizontal" id="step2-form" >
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="title" class="control-label-required">{{ '标题名称'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <input id="title" class="form-control" type="text" name="title" value="{{ activity.title|default('') }}" >
+          </div>
+        </div>
+        <form id="step2-form" class="form-horizontal homework-activity-form" method="post">
+          {% if stage == 'in' %}
+            <div class="form-group">
+              <div class="col-sm-2 control-label">
+              <label for="duration">{{ '参考时长'|trans }}</label>
+              </div>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input id="duration" class="form-control" type="text" name="duration" value="{{ activity.duration|default('') }}" >
+                  <div class="input-group-addon">分钟</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-2 control-label">
+              <label for="about">{{ '教学说明'|trans }}</label>
+              </div>
+              <div class="col-sm-10">
+                <textarea id="about" class="form-control" rows="3" name="about">{{ activity.about|default('') }}</textarea>
+              </div>
+            </div>
+          {% endif %}
+          <div class="form-group">
+            <div class="col-sm-2 control-label"><label for="homework-about-field" class="control-label-required">作业说明</label></div>
+            <div class="col-sm-10 controls">
+              <textarea name="description" rows="10" id="homework-about-field" class="form-control" data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}" data-image-download-url="{{ path('editor_download', {token:upload_token('course')}) }}">{{ activity.description|default('') }}</textarea>
+            </div>
+          </div>
+
+          {% if not activity|default(null) %}
+            <div class="form-group">
+              <div class="col-sm-2 control-label"><label for="homework-about-field" class="control-label-required">选择题目</label></div>
+              <div class="col-sm-8">
+                <a id="picker_homework_items" data-url="{{ path('course_set_manage_homework_question_picker',{id:courseSetId,targetType:'homework'}) }}" class="btn btn-info btn-sm" data-role="pick-item"　><i class="es-icon es-icon-anonymous-iconfont"></i>
+                选择题目
+                </a>
+                <span class="homework-help-word">点此 <a class="js-source-manage-link" data-url="{{ path('course_set_manage_question', {id:courseSetId}) }}" target="_blank" href="javascript:;">管理题目</a></span>
+                <input type="hidden" name="questionLength" value="{% if questions|default(null) %} questionItems.lenght {% endif %}">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-10 col-sm-offset-2">
+                <table class="table" id="question-table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th><input type="checkbox" data-role="batch-select"></th>
+                      <th width="10%">题号</th>
+                      <th width="25%">题干</th>
+                      <th width="15%">类型</th>
+                      <th width="10%">难度</th>
+                      <th width="25%">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="question-table-tbody" >
+                  {% if questions|default(null) %}
+                    {% for key,questionItem in questionItems %}
+                      {% set questionId = questionItem.questionId %}
+                      {% set question = questions[questionId] %}
+                      {% include 'WebBundle:QuestionManage:question-tr.html.twig'%}
+                    {% endfor %}
+                  {% endif %}
+                  </tbody>
+                </table>
+                <div class="mbl">
+                  <label class="checkbox-inline"><input type="checkbox" data-role="batch-select"> 全选</label>
+                  <button type="button" class="btn btn-default btn-sm mlm" data-role="batch-delete-btn"  data-name="题目">删除</button>
+                </div>
+                <span class="color-danger js-help-redmine"></span>
+                <p class="js-subjective-remask" data-type="homework">
+                </p>
+                <p class="help-block color-warning">{{'提示：保存后题目将不能再添加或移除。'|trans}}</p>
+              </div>
+            </div>
+
+          {% endif %}
+          {% if courseSetType == 'instant' %}
+            <div class="form-group">
+              <div class="col-sm-2 control-label">
+              <label for="about">{{ '实现教学目标'|trans }}</label>
+              </div>
+              <div class="col-sm-10">
+                <div class="js-teaching-added-content teaching-added-content">
+                  {% for activityConnAim in activityConnAims|default() %}
+                    <p data-id="{{ activityConnAim.id }}"><span class="gray-darker">{{ activityConnAim.type }}: </span>{{ activityConnAim.content }}<i class="es-icon es-icon-close01 selected-delete-icon pull-right" style="margin-right:-20px"></i></p>
+                  {% endfor %}
+                </div>
+                <div class="btn btn-primary js-add-modal-btn">
+                  <i class="es-icon es-icon-add"></i>添加设置
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </form>
+
+      </form>
+    </div>
+    <div class="tab-pane js-course-tasks-pane js-step3-view">
+      <form class="form-horizontal" id="step3-form" >
+        {% if stage %}
+          <div class="form-group" id="condition-group">
+            <div class="col-sm-2 control-label">
+              <label for="condition-select">积分规则</label>
+            </div>
+            <div class="col-sm-4 form-control-static">
+              <input type="radio" name="score" {% if stage == 'in' %}disabled{% endif %} {% if activity.score|default() == 1 %}checked{% endif %} value="1"> 可获得 1 分
+              <input type="radio" name="score" {% if stage == 'in' %}disabled{% endif %} {% if not activity.score|default() %}checked{% endif %} value="0"> 不能获得积分
+            </div>
+          </div>
+        {% endif %}
+        <div class="row form-group">
+          <div class="col-sm-2 control-label">
+            <label for="condition-select">{{ '完成条件'|trans }}</label>
+          </div>
+          <div class="col-xs-4 form-control-static">
+            提交作业
+            <select class="form-control hidden" id="condition-select" name="finishCondition">
+              {{ select_options({'submit':'提交作业'|trans}, activity.finishCondition['type']|default('score')) }}
+            </select>
+            <input type="hidden" name="finishScore" value="{{ activity.finishCondition['score']|default('0') }}" />
+            <input type="hidden" name="mediaType" value="homework" />
+
+          </div>
+        </div>
+
+        {% if not stage %}
+          {% set task = data('TaskByActivity', {courseId: activity.fromCourseId|default(0), activityId: activity.id|default(0)}) %}
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2 radios">
+              <label>
+                <input type="checkbox" name="isOptional" value="1" {% if task.isOptional|default(false) %} checked {% endif %}>
+                设为选修
+              </label>
+                <span class="color-gray">学习结果将不会计入学习进度、学习统计中，并且不会影响下一任务的解锁</span>
+            </div>
+          </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+{% endblock %}

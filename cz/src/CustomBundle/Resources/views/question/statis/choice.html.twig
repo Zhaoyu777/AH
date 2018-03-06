@@ -1,0 +1,37 @@
+<div class="testpaper-question testpaper-question-choice  js-testpaper-question {% if setting('magic.testpaper_watermark') %}js-testpaper-watermark{% endif %}" data-watermark-url="{{ path('cloud_testpaper_watermark') }}" id="question{{ question.id }}">
+  {% set keys = [] %}
+  {% set keys_answer = [] %}
+  <div class="testpaper-question-body">
+  {% include 'question/part/question-stem.html.twig' %}
+
+    <ul class="testpaper-question-choices js-testpaper-question-list">
+      {% for key, choice in question.metas.choices|default() %}
+        {% set itemClass = (key in question.answer) ? 'testpaper-question-choice-right' : '' %}
+        {% set choiceIndex = (65+key)|chr %}
+
+        <li class="{{ itemClass }}">
+          <span class="testpaper-question-choice-index">
+            {{ choiceIndex }}.
+          </span>
+          <span class="col-sm-9">
+            {{ choice|bbCode2Html|raw }}
+          </span>
+          <span class="testpaper-label-warning">
+            {{ statis[question.id][key].percent|number_format(2, '.') }}&nbsp%
+          </span>
+          <span>{{ statis[question.id][key].num }}人次选</span>
+        </li>
+        {% if key in question.answer %}
+          {% set keys = keys|merge([choiceIndex]) %}
+        {% endif  %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="testpaper-question-footer clearfix">
+    <div class="testpaper-question-result">
+      {{'正确答案是'|trans}} <strong class="color-success">{{ keys|join(',') }}</strong>
+    </div>
+  </div>
+  {% include 'question/statis/show-analysis.html.twig' with {showAnalysis:1} %}
+</div>

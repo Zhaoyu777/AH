@@ -1,0 +1,21 @@
+{% extends 'old-bootstrap-modal-layout.html.twig' %}
+
+{% block title %}
+  在教课程列表
+{% endblock %}
+{% block body %}
+  {% for course in courses %}
+    <ul>
+      <li>
+        <span>{{ courseSets[course.courseSetId].title|sub_text(20) }}</span>
+        <a class="pull-right mrl" href="{{ path('teacher_course_multianalysis',{courseId:course.id}) }}" target="_blank">课程数据</a>
+      </li>
+    </ul>
+  {% else %}
+    <div class="empty">无在教课程</div>
+  {% endfor %}
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

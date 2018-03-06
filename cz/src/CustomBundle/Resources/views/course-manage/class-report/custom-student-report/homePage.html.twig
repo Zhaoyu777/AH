@@ -1,0 +1,18 @@
+<div class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="1s" swiper-animate-delay="0">
+	<img class="person-img" src="{{ filepath(user.smallAvatar,'avatar.png') }}" alt="">
+	<div class="person-name">{{ user.truename }}</div>
+
+</div>
+
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
+	<div class="course-info">
+		<div class="course-info__title text-overflow" id="course-info-title" data-title="{{ courseSet.title|default("") }}">
+		{{ courseSet.title|default("") }}
+		</div>
+		<div class="course-info__number" id="course-info-number" data-title="{{ lesson.number}}">课次{{ lesson.number }}</div>
+		{% if lesson.title|default("") %}
+			<div class="course-info__lesson text-overflow" id="course-info-lesson" data-title=":{{ lesson.title}}">{{ lesson.title }} </div>
+		{% endif %}
+	</div>
+	<div class="time">{{ lesson.updatedTime|date('Y-m-d')|default("") }}</div>
+</div>

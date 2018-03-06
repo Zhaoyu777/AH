@@ -1,0 +1,114 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+{% do script(['custombundle/js/activity-manage/display-wall/index.js'], 300) %}
+
+{% block body %}
+  <div class="tab-content" id="iframe-content">
+    <div class="tab-pane js-course-tasks-pane active js-step2-view">
+      <form class="form-horizontal" id="step2-form" >
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="title" class="control-label-required">{{ '标题名称'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <input id="title" class="form-control" type="text" name="title" value="{{ activity.title|default('作品展示') }}" >
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="content" class="control-label-required">{{ '作业内容'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <input id="content" class="form-control" type="text" name="content" value="{{ activity.content|default('') }}" >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="groupWay" class="control-label-required">{{ '如何分组'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <label class="radio-inline">
+              <input class="js-none-btn" type="radio" name="groupWay" value="none" {% if displayWall.groupWay|default('none') == 'none' %}checked="checked"{% endif %}> 不分组
+            </label>
+            <label class="radio-inline">
+              <input class="js-group-btn" type="radio" name="groupWay" value="fixed" {% if displayWall.groupWay|default() == 'fixed' %}checked="checked"{% endif %}> 固定分组
+            </label>
+            <label class="radio-inline">
+              <input class="js-random-btn" type="radio" name="groupWay" value="random" {% if displayWall.groupWay|default() == 'random' %}checked="checked"{% endif %}> 随机分组
+            </label>
+            <span class="js-random-number" style="display:inline-block;">
+              <select class="form-control inline-block input-sm" name="groupNumber" style="width: 102px;margin-left:10px;padding: 0 5px;">
+                {% for number in 1..5 %}
+                  <option value="{{ number }}" {% if number == displayWall.groupNumber|default() %}selected{% endif %}>分为{{ number }}组</option>
+                {% endfor %}
+              </select>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group js-submit-way" {% if displayWall.groupWay|default('none') == 'none' %}style="display: none;"{% endif %}>
+          <div class="col-sm-2 control-label">
+          <label for="submitWay" class="control-label-required">{{ '如何提交结果'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <label class="radio-inline">
+              <input type="radio" name="submitWay" {% if displayWall.submitWay|default('group') == 'group' %}checked="checked"{% endif %} value="group"> 按分组提交
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="submitWay" {% if displayWall.submitWay|default() == 'person' %}checked="checked"{% endif %} value="person"> 各自提交
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="duration">{{ '参考时长'|trans }}</label>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <input id="duration" class="form-control" type="text" name="duration" value="{{ activity.duration|default('') }}" >
+              <div class="input-group-addon">分钟</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="about">{{ '教学说明'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <textarea id="about" class="form-control" rows="3" name="about">{{ activity.about|default('') }}</textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="about">{{ '实现教学目标'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <div class="js-teaching-added-content teaching-added-content">
+              {% for activityConnAim in activityConnAims|default() %}
+                <p data-id="{{ activityConnAim.id }}"><span class="gray-darker">{{ activityConnAim.type }}: </span>{{ activityConnAim.content }}<i class="es-icon es-icon-close01 selected-delete-icon pull-right" style="margin-right:-20px"></i></p>
+              {% endfor %}
+            </div>
+            <div class="btn btn-primary js-add-modal-btn">
+              <i class="es-icon es-icon-add"></i>添加设置
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="tab-pane js-course-tasks-pane js-step3-view">
+      <form class="form-horizontal" id="step3-form" >
+        <div class="form-group" id="condition-group">
+          <div class="col-sm-2 control-label">
+            <label for="condition-select">积分规则</label>
+          </div>
+          <div class="col-sm-4 form-control-static">
+            学生回答完问题后，由老师给分数
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

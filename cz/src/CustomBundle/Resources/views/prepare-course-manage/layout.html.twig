@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{'课程管理'|trans}} - {{ parent() }}{% endblock %}
+{% set use_webapck_loader = true %}
+
+{% do script(['app/js/courseset-manage/index.js']) %}
+
+{% block content %}
+  <ol class="breadcrumb breadcrumb-o mts">
+    <li><a href="{{ path('homepage') }}">{{ 'homepage'|trans }}</a></li>
+    <li><a href="{{ path('my') }}">我的教学</a></li>
+    {% if side_nav == 'teacher-list' %}
+      <li>授课老师</li>
+    {% elseif side_nav == 'student-list' %}
+      <li>学生名单</li>
+    {% elseif side_nav == 'testpaper-check' %}
+      <li>试卷批阅</li>
+    {% elseif side_nav == 'homework-check' %}
+      <li>作业批阅</li>
+    {% elseif side_nav == 'dashboard' %}
+      <li>学习数据</li>
+    {% elseif side_nav == 'course-list' and lesson|default() %}
+      <li><a href="{{ path('custom_course_lesson_list', {courseId:course.id} )}}">课次列表</a></li>
+      <li>课次{{lesson.number}}</li>
+    {% elseif side_nav == 'course-list' %}
+      <li>课次教案</li>
+    {% endif %}
+
+  </ol>
+  {{ render(controller('CustomBundle:Course/CourseManage:header', {course: course|default(null), manage: true, courseSet: courseSet|default(null), termCode: termCode|default(null)})) }}
+
+  {% if course.courseSetId|default() %}
+    {% set courseSetId = course.courseSetId %}
+  {% else %}
+    {% set courseSetId = courseSet.id %}
+  {% endif %}
+  <div class="row">
+    <div class="col-md-3">
+      {{ render(controller('CustomBundle:Course/CourseManage:sidebar', {sideNav: side_nav|default(null), courseId:course.id, courseSetId:courseSetId, termCode: termCode|default(null)})) }}
+    </div>
+    <div class="col-md-9">
+      {% block main %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}

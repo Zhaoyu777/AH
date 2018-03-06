@@ -1,0 +1,24 @@
+<ul class="nav nav-tabs mbl">
+  <li class="{% if tab_nav == 'course-list' %}active{% endif %}">
+    <a href="{{ path('custom_course_lesson_list', {courseId:course.id, termCode:termCode} )}}">{{'课次列表'|trans}}
+    </a>
+  </li>
+  {% set teacherCount = data('CourseMemberCount', {courseId:course.id, role:'teacher'}) %}
+  <li class="{% if tab_nav == 'teacher-list' %}active{% endif %}">
+    <a href="{{ path('custom_course_manage_course_teachers', {courseId:course.id, termCode:termCode}) }}">{{'授课教师（'~teacherCount~'）'|trans}}
+    </a>
+  </li>
+  {% set studentCount = data('CourseMemberCount', {courseId:course.id, role:'student'}) %}
+  <li class="{% if tab_nav == 'student-list' %}active{% endif %}">
+    <a href="{{ path('custom_course_manage_course_students', {courseId:course.id, termCode:termCode}) }}">{{'学生名单（'~studentCount~'）'|trans}}
+    </a>
+  </li>
+  <li class="">
+    <a href="">{{'批阅'|trans}}
+    </a>
+  </li>
+  <li class="">
+    <a href="">{{'学习数据'|trans}}
+    </a>
+  </li>
+</ul>

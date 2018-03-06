@@ -1,0 +1,75 @@
+admin_sync_data:
+    name: 数据同步
+    group: 2
+    parent: admin_system
+    children:
+        admin_sync_data_manage:
+            name: 数据同步
+            disable: true
+            router_name: admin_sync_data
+
+admin_approval_manage:
+    parent: admin_user
+    visable: false
+    name: admin.user.approval_menu
+    children:
+        admin_approval_approvals:
+            name: admin.user.approval.basic_tab
+            router_params:
+                approvalStatus: approving
+            disable: true
+            children:
+                admin_approval_cancel:
+                    name: admin.user.approval.basic_tab.cancel_btn
+                    router_params:
+                        id: (user.id)
+                    class: 'btn cancel-approval'
+                    mode: none
+                    group: groupButton
+
+admin_data_board:
+    name: 数据看板
+    parent: admin
+    visable: false
+    children:
+        admin_children:
+            name: 数据看板-模拟数据1
+            disable: true
+            children:
+                admin_data_analysis_manage_test:
+                    name: 数据统计-模拟数据2
+                    router_name: admin_data_analysis_students
+                    disable: true
+
+admin_instant_course_manage:
+    name: 课堂教学课程
+    after: admin_course_manage
+    parent: admin_course
+    children:
+        admin_instant_course_show:
+            name: 课堂教学课程
+            router_name: admin_instant_course_manage
+
+admin_setting_warning:
+    name: 预警设置
+    parent: admin_system
+    children:
+        admin_setting_warning_settings:
+            name: 预警设置
+            disable: true
+            router_name: admin_setting_warning
+# 一个完整的permission配置如下：
+# admin_user_manage:
+#   name: 用户管理
+#   children:               //可选
+#   mode:                   //可选 none, modal, capsules（只有在tabs可用）
+#   group:                  //可选 内置: topBtn, capsule, 也可以自定义
+#   router_name: admin_user //可选
+#   router_params:          //可选
+#   blank:                  //可选
+#   visable:                //可选
+#   icon:                   //可选
+#   data:                   //可选
+#   before:                 //可选 菜单出现位置在同级的某个菜单之前
+#   after:                  //可选 菜单出现位置在同级的某个菜单之后
+#   disable:                //角色管理分配权限默认开启不用选中

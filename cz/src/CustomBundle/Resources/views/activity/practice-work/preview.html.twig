@@ -1,0 +1,12 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% block body %}
+  <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}">
+    <div class="text-activity-content practice-work-activity-content">
+      <div class="title mb30">{{ activity.content|raw }}</div>
+    </div>
+  </div>
+  {% include 'activity/content-footer.html.twig'  %}
+{% endblock %}

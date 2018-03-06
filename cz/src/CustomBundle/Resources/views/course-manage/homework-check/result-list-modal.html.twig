@@ -1,0 +1,102 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "modal-practice-work" %}
+
+{% do script(['libs/jquery-validation.js', 'custombundle/js/course-manage/homework-check/modal/index.js']) %}
+
+{% block title %}
+  {% if practiceWorkResult.status == 'finished' %}
+    查看结果
+  {% else %}
+    批阅
+  {% endif %}
+{% endblock %}
+
+{% set storage = file.storage|default() %}
+
+{% block body %}
+  {% if file.type == 'image' and storage|default() != 'cloud' %}
+    <div class="practice-work-img-content">
+      <img src="{{file.url}}" />
+    </div>
+  {% elseif file.type in ['ppt', 'document', 'image'] and storage == 'cloud' %}
+    {% if file.type in ['ppt', 'document'] and file.processStatus != "ok" %}
+      <div class="alert alert-warning">
+        {{'admin.cloud_file.preview.failed_tips'|trans}}
+      </div>
+    {% else %}
+      <div id="material-preview-player"
+          style="height:500px;overflow:hidden;"
+          data-url="{{path('custom_practice_work_result_file_player', {practiceWorkResultId: practiceWorkResult.id, fileId: file.id})}}"
+      ></div>
+    {% endif %}
+  {% else %}
+    <div class="alert alert-warning">
+      {{'admin.cloud_file.preview.failed_tips'|trans}}
+    </div>
+
+  {% endif %}
+  
+  {% include 'seajs_loader_compatible.html.twig' with {topxiawebbundle: true} %}
+
+  <form id="js-teacher-review" class="form-horizontal" method="post" action ="{{ path('custom_practice_work_result_teacher_review', {practiceWorkResultId: practiceWorkResult.id}) }}">
+
+    <div class="row form-group">
+      <div class="col-md-2 control-label">
+        <label for="appraisal">文件</label>
+      </div>
+      <div class="col-sm-10 controls form-control-static">
+        {{file.filename}}
+        {% if file.type != 'image' %}
+          {% if practiceWorkResult.origin == 'pc' %}
+            {% set routingUrl = path('custom_course_manage_practice_homework_download', {fileId:file.id}) %}
+          {% else %}
+            {% set routingUrl = path('custom_download_practice_work_result_image', {fileId:file.id}) %}
+          {% endif %}
+          <a href="{{ routingUrl }}" class="link-primary" target="_blank">下载</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-2 control-label">
+        <label for="appraisal">评价</label>
+      </div>
+      {% if practiceWorkResult.status == 'finished' %}
+      <div class="col-md-7 controls form-control-static">
+        {% set appraisal = {'1':'优秀', '2':'良好', '3':'一般', '4':'合格', '5':'不合格'} %}
+        {{appraisal[practiceWorkResult.appraisal]}}
+      </div>
+      {% else %}
+        <div class="col-sm-10 controls radios">
+          {{ radios('appraisal', {'1':'优秀（90-100分）', '2':'良好（80-90分）', '3':'一般（70-80分）', '4':'合格（60-70分）', '5':'不合格（60分以下）'}, practiceWork.fileType|default('2')) }}
+        </div>
+          
+      {% endif %}
+    </div>
+
+    <div class="row form-group">
+      <div class="col-md-2 control-label">
+        <label for="comment">评语</label>
+      </div>
+      <div class="col-md-7 controls form-control-static">
+      {% if practiceWorkResult.status == 'finished' %}
+        {{ practiceWorkResult.comment }}
+      {% else %}
+        <input id="comment" class="form-control" type="text" name="comment" value="">
+      {% endif %}
+      </div>
+    </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+</form>
+{% endblock %}
+
+{% block footer %}
+{% if practiceWorkResult.status != 'finished' %}
+  <button id="js-teacher-review-save" type="button" class="btn btn-primary pull-right" data-loading-text="正在保存...">保存</button>
+  <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+{% else %}
+  <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">关闭</button>
+{% endif %}
+{% endblock %}

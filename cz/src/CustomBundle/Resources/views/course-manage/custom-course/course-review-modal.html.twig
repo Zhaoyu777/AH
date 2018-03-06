@@ -1,0 +1,20 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "" %}
+
+{% block title %}
+  微信端预览
+{% endblock %}
+{% block body %}
+<div class="weixin-iframe">
+  <div class="weixin-iframe-mask"></div>
+  <iframe src="{{ src }}"
+    style="width:375px;height:667px;border:1px solid #ddd;margin:0 auto;display:block"
+    allowfullscreen webkitallowfullscreen>
+  </iframe>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

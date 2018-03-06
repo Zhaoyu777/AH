@@ -1,0 +1,71 @@
+{% block side %}
+  {% set menuType = 'course' %}
+
+  <div class="sidenav locked">
+    <ul class="list-group">
+      <li class="list-group-heading">课程资源</li>
+      <li class="list-group-item test2 {% if side_nav == "base" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_base', {id: courseSetId}) }}">
+          {{ '基本信息'|trans }}
+        </a>
+      </li>
+
+      <!-- <li class="list-group-item {% if side_nav == "detail" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_detail', {id:courseSetId, termCode:termCode}) }}">
+          {{ '详细信息'|trans }}
+        </a>
+      </li> -->
+
+      <li class="list-group-item {% if side_nav == "cover" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_cover', {id:courseSetId, termCode:termCode}) }}">
+          {{ '封面图片'|trans }}
+        </a>
+      </li>
+      <!-- <hr class="mv5 mh10 bg-border-color"/> -->
+      <li class="list-group-item {% if side_nav == "files" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_files', {id: courseSetId}) }}">
+          {{ '课程文件'|trans }}
+        </a>
+      </li>
+
+      <li class="list-group-item {% if side_nav == "testpaper" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_testpaper', {id:courseSetId, termCode:termCode}) }}">
+          {{ '试卷管理'|trans }}
+        </a>
+      </li>
+
+      <li class="list-group-item {% if side_nav == "question" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_question', {id:courseSetId, termCode:termCode}) }}">
+          {{ '题目管理'|trans }}
+        </a>
+      </li>
+
+{#    {% if is_plugin_installed('QuestionPlus') %}
+        <li class="list-group-item {% if side_nav == "question_plus" %}active{% endif %}">
+          <a href="{{ path('course_question_plumber', {courseSetId:courseSetId, type:'import'}) }}">
+           {{ '题目导入/导出'|trans }}
+          </a>
+        </li>
+      {% endif %}#}
+      <li class="list-group-item {% if side_nav == "questionnaire" %}active{% endif %}">
+        <a href="{{ path('course_set_manage_questionnaire', {id:courseSetId}) }}">
+          {{ '调查问卷管理'|trans }}
+        </a>
+      </li>
+      <li class="list-group-item {% if side_nav == "teacher_scores" %}active{% endif %}">
+        <a href="{{ path('custom_courseSet_teacher_score_show', {courseSetId:courseSetId}) }}">
+          {{ '教师积分'|trans }}
+        </a>
+      </li>
+    </ul>
+     <ul class="list-group">
+      <li class="list-group-heading">课程班级</li>
+      <li class="list-group-item {% if side_nav == "course_list" %}active{% endif %}">
+        <a href="{{ path('instant_course_set_courses', {courseSetId:courseSetId}) }}">
+          班级列表({{ courseCount }})
+        </a>
+      </li>
+  </ul>
+  </div>
+
+{% endblock %}

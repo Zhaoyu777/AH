@@ -1,0 +1,5 @@
+example/tmp/*
+!example/tmp/.gitkeep
+vendor
+.DS_Store
+.sonar

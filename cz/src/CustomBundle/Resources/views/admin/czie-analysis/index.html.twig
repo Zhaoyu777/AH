@@ -1,0 +1,179 @@
+{% extends 'admin/layout.html.twig' %}
+{% set orgs = data('CzieOrgs', {}) %}
+
+{% block title %}数据统计{% endblock %}
+
+{% set script_controller = 'data/index' %}
+
+{% block content %}
+  <div class="cz-data-head">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="cz-data-title">
+            实时在线人数
+        </div>
+        <div class="col-md-6">
+          <div class="cz-block-bg cz-left-border-blue cz-online-block">
+            <img class="cz-online-img" src="/static-dist/custombundle/img/student.png" alt="">
+            <div class="online-right">
+              学生
+              <div class="cz-online-num">{{ studentOnlineCount }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="cz-block-bg cz-left-border-green cz-online-block">
+          <img class="cz-online-img" src="/static-dist/custombundle/img/teacher.png" alt="">
+          <div class="online-right">
+            老师
+            <div class="cz-online-num">{{ teacherOnlineCount }}</div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cz-data-title">
+        实时上课状态
+        </div>
+        <div class="cz-block-bg cz-teach-list cz-online-block">
+          <ul class="list-unstyled color-gray">
+            {% for record in records %}
+              <li class="pbm">
+                <i class="es-icon es-icon-dot color-primary mrs"></i>
+                {{ users[record['userId']]['truename'] }}开始课程
+                <a target="_blank" href="{{ path('custom_course_lesson_list', {courseId:record['data']['courseId']}) }}">《{{ record.courseSetTitle }}》</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="czie-nav-btn-tab cz-nav-btn-tab">
+    <ul class="nav nav-tabs czie-nav-tab" role="tablist" id="navlist">
+      <li role="presentation" id="summary" class="{% if app.request.query.get('orgCode') == '1.' %}active{% endif %}">
+        <a href="{{ path('admin_data_analysis_manage', {orgCode:'1.'}) }}">
+        全部
+        </a>
+      </li>
+      {% for org in orgs %}
+        <li role="presentation" id="summary" class="{% if app.request.query.get('orgCode') == org.orgCode %}active{% endif %}">
+          <a href="{{ path('admin_data_analysis_manage', {orgCode:org.orgCode}) }}">
+            {{ org.name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="cz-data-title">
+        开课数据统计
+      </div>
+      <div class="cz-block-bg cz-course-block">
+        <div class="pvm">
+          <img class="cz-online-img cz-online-course-img" src="/static-dist/custombundle/img/course.png" alt="">
+          <div class="online-right">
+            开课
+            <div class="cz-online-num">{{ currentTermPrepareCourseCount }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="cz-data-title">
+        课堂报告数据
+      </div>
+      <div class="col-md-4 cz-block-bg cz-course-block">
+        <div class="cz-course-report">
+          当日课堂报告
+          <div class="cz-online-num">{{ classReportCounts.day }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 cz-block-bg cz-course-block">
+        <div class="cz-course-report">
+          本周课堂报告
+          <div class="cz-online-num">{{ classReportCounts.week }}</div>
+        </div>
+      </div>
+      <div class="col-md-4 cz-block-bg cz-course-block">
+        <div class="cz-course-report">
+          本月课堂报告
+          <div class="cz-online-num">{{ classReportCounts.month }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="cz-data-title">
+        新增教学资源
+      </div>
+      <div class="cz-block-bg text-center js-panel">
+        <form class="form-inline ptl" action="" method="get" id="resource-form" role="form">
+          <div class="btn-group cz-data-nav-tabs" role="group">
+            <a class="btn btn-default btn-sm btn-primary cz-js-switch-button" id="btn-day" type="button" href="#day" data-toggle="tab" currentDayStart="{{ dataInfo.today }}" currentDayEnd="{{ dataInfo.today }}" data-url="">当日</a>
+            <a class="btn btn-default btn-sm cz-js-switch-button" id="btn-week" type="button" href="#week" data-toggle="tab" currentWeekStart="{{ dataInfo.currentWeekStart }}" currentWeekEnd="{{ dataInfo.currentWeekEnd }}" data-url="">本周</a>
+            <a class="btn btn-default btn-sm cz-js-switch-button" id="btn-month" type="button" href="#month" data-toggle="tab" currentMonthStart="{{ dataInfo.currentMonthStart }}" currentMonthEnd="{{ dataInfo.currentMonthEnd }}" data-url="">本月</a>
+          </div>
+
+          <div class="form-group mll">
+            <label>{{ '查询日期'|trans }}</label>
+            <input type="text" class="form-control analysis-input mls input-sm" name="startTime" value="{{ dataInfo.today }}" id="resourceStartDate">
+          </div>
+
+          <div class="form-group mls">
+            -
+            <input type="text" class="form-control analysis-input mls input-sm" name="endTime" value="{{ dataInfo.today }}"
+            id="resourceEndDate">
+          </div>
+          <a href="javascript:;" class="btn btn-primary btn-sm" id="btn-search">{{ '查询'|trans }}</a>
+        </form>
+
+          <div id="study-source-statistic" style="width: 400px;height: 300px;margin:0 auto" data-url="{{ path('admin_data_analysis_manage_file_statistic', {orgCode:app.request.query.get('orgCode')|default('1.')}) }}"></div>
+
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="cz-data-title">
+        教案共享次数
+      </div>
+      <div class="cz-block-bg text-center">
+        <form class="form-inline ptl" action="{{ path('admin_course_share_count') }}" method="get" id="share-form" role="form">
+          <div class="btn-group cz-data-nav-tabs" role="group">
+            <a class="btn btn-default btn-sm btn-primary cz-js-switch-button" id="btn-share-day" type="button" href="javascript:;" currentDayStart="{{ dataInfo.today }}" currentDayEnd="{{ dataInfo.today }}">当日</a>
+            <a class="btn btn-default btn-sm cz-js-switch-button" id="btn-share-week" type="button" href="javascript:;" currentWeekStart="{{ dataInfo.currentWeekStart }}" currentWeekEnd="{{ dataInfo.currentWeekEnd }}">本周</a>
+            <a class="btn btn-default btn-sm cz-js-switch-button" id="btn-share-month" type="button" href="javascript:;" currentMonthStart="{{ dataInfo.currentMonthStart }}" currentMonthEnd="{{ dataInfo.currentMonthEnd }}">本月</a>
+          </div>
+
+          <div class="form-group mll">
+            <label>{{ '查询日期'|trans }}</label>
+            <input type="text" class="form-control analysis-input mls input-sm" name="startShareTime" value="{{ dataInfo.today }}" id="shareStartDate">
+          </div>
+
+          <div class="form-group mls">
+          -
+            <input type="text" class="form-control analysis-input mls input-sm" name="endShareTime" value="{{ dataInfo.today }}"
+            id="shareEndDate">
+          </div>
+
+          <a class="btn btn-primary btn-sm" href="#share-search" data-toggle="tab" id="btn-share-search">{{ '查询'|trans }}</a>
+        </form>
+        <div class="tab-content">
+          <div class="cz-share-panel">
+            <div class="cz-share-circle">
+              <div id="share-num" class="share-num">...</div>共享次
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if app.request.get('orgCode', '1.') == '1.' %}
+    {{ render(controller('CustomBundle:Admin/Analysis:overViewStatistic', {requeset: app.request})) }}
+  {% endif %}
+{% endblock %}

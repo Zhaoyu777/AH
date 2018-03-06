@@ -1,0 +1,28 @@
+{% for groupId in groupIds %}
+  {% for result in results[groupId]|default() %}
+    <div class="{% if isGrouped %}one-sentence-group{% endif %} ptm pbl">
+      {% if isGrouped %}
+        <div class="text-xlg gray-darker mbm">第{{loop.index}}组：</div>
+        <div class="gray-dark mbl">
+          应答：<span class="color-primary">12</span>人，已答<span class="color-primary">3</span>人
+        </div>
+      {% endif %}
+      <div class="row">
+        <div class="col-md-3">
+          <i class="es-icon es-icon-dot color-primary text-lg pull-left mtm"></i>
+          <!-- 这里需要头像 -->
+          <img class="avatar-sm inline-block mrm" src="{{ filepath(users[result.userId].largeAvatar, 'avatar.png') }}" alt="">
+          <span class="gray-darker text-lg mrm name">
+            {{users[result.userId].truename}}
+          </span>
+          <span class="color-gray">{{users[result.userId].number}}</span>
+        </div>
+        <div class="col-md-9 mrl-25">
+          <div class="one-sentence-content">{{result.content}}</div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    暂无提交
+  {% endfor %}
+{% endfor %}

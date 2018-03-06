@@ -1,0 +1,129 @@
+{% extends 'prepare-course-manage/layout.html.twig' %}
+{% block title %}{{'学员名单'|trans}}{% endblock %}
+{% do script(['custombundle/js/courseset-manage/custom-select/index.js','libs/jquery-sortable.js','app/js/course-manage/index.js']) %}
+
+{% set side_nav = 'student-list' %}
+{% set studentCount = data('CourseMemberCount', {courseId:course.id, role:'student'}) %}
+
+{% block main %}
+<style type="text/css">
+    .bg-source-color{background:#FFF;}
+
+    .bg-sign-color{background:yellow;color:red;}
+</style>
+  <div class="panel panel-default" role="course-manage-student-index">
+    <div class="panel-heading" title="{{ course.title }}">
+      {{ course.title |sub_text(40)}}
+      <span class="plm color-primary text-md">共<span class="js-course-student-num">{{studentCount}}</span>人</span>
+    </div>
+    <div class="panel-body">
+      {#{% include 'prepare-course-manage/course-tab.html.twig' %}#}
+      <div class="form-inline clearfix">
+        <div class="form-group pull-left">
+          <input id="js-search" class="form-control" type="text" placeholder="输入学员姓名">
+            <button id="js-search-btn" class="btn btn-primary">搜索</button>
+        </div>
+        <div class="pull-right">
+          <a class="btn btn-primary" id="student-add-btn" data-toggle="modal" data-target="#modal" data-url="{{ path('custom_course_manage_student_create', {courseId:course.id}) }}" href="javascript:;"><i class="glyphicon glyphicon-plus"></i> {{'添加学员'|trans}}</a>
+          <a class="btn btn-primary mlm" data-toggle="modal" data-target="#modal" data-url="{{ path('importer_index', {type: 'course-member', courseId:course.id}) }}"><i class="glyphicon glyphicon-import"></i> {{ '批量导入'|trans }}</a>
+          <a class="btn btn-primary mlm" href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{ path('custom_course_student_group_create', {courseId:course.id}) }}"><i class="glyphicon glyphicon-plus"></i> 添加分组</a>
+        </div>
+      </div>
+
+      <table class="table table-noborder cz-sortable-list">
+        <thead>
+          <tr>
+            <th width="35%">姓名</th>
+            <th width="25%">学号</th>
+            <th width="10%">积分</th>
+            <th width="20%">加入时间</th>
+            <th width="10%">操作</th>
+          </tr>
+        </thead>
+      </table>
+      {% for group in groups %}
+        {% if not group.type %}
+          <table class="table table-noborder cz-sortable-list cz-course-student-list" data-sort-url="{{ path('instant_course_students_sort', {courseId:course.id}) }}">
+            <tbody class="table-sort-tbody">
+              <tr class="js-table-list-head cz-table-list-head drop" id="group-{{group.id}}">
+                <td colspan="5" class="clearfix">
+                  <div class="pull-left">
+                    {{ group.title }}
+                  </div>
+                  <div class="list-fold pull-right">
+                    <a class="link-gray js-delate-list" href="javascript:;" data-url="{{ path('custom_group_delete', {groupId:group.id}) }}">
+                    <i class="  es-icon es-icon-delete mrs"></i>删除分组</a>
+                    <i class="js-toggle-icon es-icon es-icon-keyboardarrowup color-primary mll"></i>
+                    <i class="js-toggle-icon es-icon es-icon-keyboardarrowdown color-primary mll" hidden></i>
+                  </div>
+                </td>
+              </tr>
+            {% for member in group['members'] %}
+              <tr id="{% if group.id|default() %}member-{{member.courseMemberId}}{% else %}member-{{member.id}}
+                  {% endif %}" class="drag">
+                <td width="35%">
+                  <div class="js-search-content">{{ member.truename|default(member.nickname) }}</div>
+                  {% if member.from == 'add' %}<span class="color-gray">（手动添加）</span>{% endif %}
+                  <span class="group-leader-label" hidden>组长</span>
+                </td>
+                <td width="25%">{{ member.number }}</td>
+                <td width="10%">{{ scores[member.userId].scores|default(0) }}</td>
+                <td width="20%">{{ member.createdTime|date('Y-m-d') }}</td>
+                <td width="10%">
+                  <a class="link-primary mls js-delate-single" href="javascript:;" data-url="{{ path('instant_course_set_manage_course_students_remove', {courseSetId:courseSet.id, courseId:course.id, userId:member.userId}) }}">移除</a>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        {% endif %}
+      {% endfor %}
+      {% set group = groups[defaultGroup.id] %}
+      {% if group['members'] %}
+        <table class="table table-noborder cz-sortable-list cz-course-student-list js-default-group" data-sort-url="{{ path('instant_course_students_sort', {courseId:course.id}) }}">
+        <tbody class="table-sort-tbody">
+          <tr class="js-table-list-head cz-table-list-head drop" id="group-{{group.id}}">
+            <td colspan="5" class="clearfix">
+              <div class="pull-left">
+                {{ group.title }}
+              </div>
+              <div class="list-fold pull-right">
+                {% if not group.type %}
+                  <a class="link-gray js-delate-list" href="javascript:;" data-url="{{ path('custom_group_delete', {groupId:group.id}) }}">
+                  <i class="  es-icon es-icon-delete mrs"></i>删除分组</a>
+                {% endif %}
+                <i class="js-toggle-icon es-icon es-icon-keyboardarrowup color-primary mll"></i>
+                <i class="js-toggle-icon es-icon es-icon-keyboardarrowdown color-primary mll" hidden></i>
+              </div>
+            </td>
+          </tr>
+          {% for member in group['members'] %}
+            <tr id="{% if group.id|default() %}member-{{member.courseMemberId}}{% else %}member-{{member.id}}
+                {% endif %}" class="drag">
+              <td width="35%">
+                <div class="js-search-content">{{ member.truename|default(member.nickname) }}</div>
+                {% if member.from == 'add' %}<span class="color-gray">（手动添加）</span>{% endif %}
+                <span class="group-leader-label" hidden>组长</span>
+              </td>
+              <td width="25%">{{ member.number }}</td>
+              <td width="10%">{{ scores[member.userId].scores|default(0) }}</td>
+              <td width="20%">
+                {{ member.createdTime|date('Y-m-d') }}
+              </td>
+              <td width="10%">
+                <a class="link-primary mls js-delate-single" href="javascript:;" data-url="{{ path('instant_course_set_manage_course_students_remove', {courseSetId:courseSet.id, courseId:course.id, userId:member.userId}) }}">移除</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        </table>
+      {% endif %}
+      {#
+      <div class="text-center mtl">
+        <a class="btn btn-primary" href="">校验学生名单</a>
+        <p class="color-gray mtm">校验完成，跟教务系统相比较，多<span class="color-danger phs">1</span>人，请注意核对。</p>
+      </div>
+      #}
+    </div>
+  </div>
+{% endblock %}

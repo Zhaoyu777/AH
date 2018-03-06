@@ -1,0 +1,50 @@
+{% extends 'task/plugin/base.html.twig' %}
+
+{% block content %}
+{# <div class="course-task-title mb30">
+     课次{{ lesson.number }}：{{ lesson.title }}
+</div> #}
+<div class="course-sign-title text-center">
+  <b class="js-sign-status sign-status text-16">
+    签到结果
+  </b>
+  <span class="fr close-btn text-bold hover-color-primary js-close-btn">×</span>
+</div>
+<ul class="stu-sign-show list-unstyled">
+  {# <h3 class="mb30">我的签到:</h3> #}
+  {% if records and records|length >0 %}
+    {% for record in records %}
+      {% if record.status == 'attend' %}
+      <li class="mb20">
+        <i class="es-icon es-icon-done color-success pull-left" style="font-size:18px"></i>
+        <div class="gray-dark mbm ml30">{{ record.createdTime|date('Y-m-d H:i:s') }}<div class="mts">{{ record.address|default('无签到位置信息') }}</div></div>
+      </li>
+      {% elseif record.status == 'absent' %}
+      <li class="mb20">
+        <i class="es-icon es-icon-done color-success pull-left" style="font-size:18px"></i>
+        <div class="gray-dark mbm ml30">{{ record.createdTime|date('Y-m-d H:i:s') }}<div class="mts">缺勤</div></div>
+      </li>
+      {% elseif record.status == 'late' %}
+      <li class="mb20">
+        <i class="es-icon es-icon-done color-success pull-left" style="font-size:18px"></i>
+        <div class="gray-dark mbm ml30">{{ record.createdTime|date('Y-m-d H:i:s') }}<div class="mts">迟到</div></div>
+      </li>
+      {% elseif record.status == 'early' %}
+      <li class="mb20">
+        <i class="es-icon es-icon-done color-success pull-left" style="font-size:18px"></i>
+        <div class="gray-dark mbm ml30">{{ record.createdTime|date('Y-m-d H:i:s') }}<div class="mts">早退</div></div>
+      </li>
+      {% elseif record.status == 'leave' %}
+      <li class="mb20">
+        <i class="es-icon es-icon-done color-success pull-left" style="font-size:18px"></i>
+        <div class="gray-dark mbm ml30">{{ record.createdTime|date('Y-m-d H:i:s') }}<div class="mts">请假</div></div>
+      </li>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p class="pt20 text-center gray-dark text-24">
+      暂无签到信息
+    </p>
+  {% endif %}
+</ul>
+{% endblock %}

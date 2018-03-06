@@ -1,0 +1,254 @@
+.czie-nav-tab {
+  position: relative;
+  margin-bottom: 25px;
+  border-color: #f5f5f5;
+}
+.czie-nav-tab .highlight {
+  position: absolute;
+  bottom: -1px;
+}
+@media (max-width: 767px) {
+  .czie-nav-tab .highlight {
+    display: none;
+  }
+}
+.czie-nav-tab > li {
+  margin-bottom: 0;
+}
+.czie-nav-tab > li > a {
+  border: none;
+  margin-right: 0;
+  color: #313131;
+  font-size: 16px;
+  font-weight: 500;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  padding: 5px 15px 15px;
+}
+@media (max-width: 1199px) {
+  .czie-nav-tab > li > a {
+    padding: 5px 10px 10px;
+    font-size: 14px;
+  }
+}
+@media (max-width: 767px) {
+  .czie-nav-tab > li > a {
+    padding: 8px;
+  }
+}
+.czie-nav-tab > li > a:hover,
+.czie-nav-tab > li > a:focus {
+  background: none;
+}
+.czie-nav-tab > li > a small {
+  color: #919191;
+}
+.czie-nav-tab > li.active > a,
+.czie-nav-tab > li:hover > a {
+  border: none;
+  background: none;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+@media (max-width: 767px) {
+  .czie-nav-tab > li.active > a,
+  .czie-nav-tab > li:hover > a {
+    border: none;
+  }
+}
+.czie-nav-tab > li.active > a .badge,
+.czie-nav-tab > li:hover > a .badge {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.czie-nav-tab .badge {
+  margin-left: 5px;
+  background-color: #919191;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+.czie-nav-btn-tab {
+  position: relative;
+  padding-right: 80px;
+  border-bottom: 1px solid #f5f5f5;
+  margin-bottom: 20px;
+}
+@media (max-width: 767px) {
+  .czie-nav-btn-tab {
+    padding-right: 0;
+  }
+}
+.czie-nav-btn-tab .czie-nav-tab {
+  border: none;
+  margin-bottom: 0;
+}
+.czie-nav-btn-tab .btnbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.czie-nav-tab .highlight {
+  border-bottom: 2px solid #4591ec;
+}
+.czie-nav-tab > li.active > a,
+.czie-nav-tab > li:hover > a {
+  color: #4591ec;
+}
+
+.cz-nav-btn-tab {
+  margin-top: 60px;
+}
+
+.cz-data-title {
+  font-size: 18px;
+  padding: 20px 0;
+  color: #4591ec;
+}
+
+.cz-block-bg {
+  background-color: #fafafa;
+}
+
+.cz-online-block {
+  height: 120px;
+  padding-top: 35px;
+}
+
+.cz-course-block {
+  height: 150px;
+  padding-top: 35px;
+}
+
+.cz-block-bg.cz-left-border-blue {
+  border-left: 2px solid #4591ec;
+}
+
+.cz-block-bg.cz-left-border-green {
+  border-left: 2px solid #13BDA9;
+}
+
+.cz-teach-list {
+  padding: 20px 10px 10px 10px;
+  overflow: auto;
+  li {
+    padding: 8px 0;
+  }
+}
+
+.cz-online-img {
+  float: left;
+  padding: 5px  75px;
+}
+
+.cz-online-course-img {
+  padding: 5px  45px;
+}
+
+.cz-online-num {
+  font-size: 26px;
+  color: #313131;
+}
+
+.cz-course-report {
+  text-align: center;
+  padding: 10px 0;
+  border-right: 1px solid #ddd;
+}
+
+.cz-share-circle {
+  vertical-align: middle;
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 55px;
+  color: #919191;
+  border: 1px solid #4591ec;
+  margin: 0 auto;
+}
+
+.cz-share-circle .share-num {
+  font-size: 30px;
+  line-height: 1;
+  color: #4591ec;
+}
+
+.cz-share-panel {
+  height: 300px;
+  padding-top: 60px;
+}
+
+.cz-analysis-block {
+  margin: 20px 0;
+  background-color: #fafafa;
+  padding: 30px;
+}
+// .cz-share-circle:before {
+//   width: 170px;
+//   height: 170px;
+//   border-radius: 50%;
+//   border: 1px solid red;
+// }
+.statistics-box {
+  padding: 10px 15px;
+}
+
+.prepare-course-rate {
+  height: 120px;
+  text-align: center;
+  border: solid 1px #efefef;
+}
+
+.prepare-course-rate .rate {
+  display: inline-block;
+  height: 120px;
+  margin-right: 20px;
+  line-height: 120px;
+  font-size: 28px;
+  color: #313131;
+  vertical-align: middle;
+}
+
+.prepare-course-rate .title-percent-box {
+  position: relative;
+  top: 15px;
+  display: inline-block;
+  text-align: left;
+}
+
+.statistics-item {
+  height: 168px;
+  padding: 28px 0 0 60px;
+  border: solid 1px #efefef;
+}
+
+.statistics-item .num {
+  font-size: 28px;
+  color: #313131;
+}
+
+.exceed-percent {
+  font-size: 14px;
+  color: #919191;
+}
+
+.exceed-percent .win-percent-num {
+  color: #4CAF6B;
+}
+
+.exceed-percent .lose-little-percent-num {
+  color: #FFA84E;
+}
+
+.exceed-percent .lose-many-percent-num {
+  color: #DB0B0B;
+}
+

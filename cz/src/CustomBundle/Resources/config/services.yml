@@ -1,0 +1,31 @@
+imports:
+    - { resource: event_subscribers.yml }
+    - { resource: parameters.yml }
+    - { resource: twig_extension.yml }
+
+services:
+    extension.custom:
+        class: CustomBundle\Extension\CustomExtension
+        calls:
+            - [setBiz, ['@biz']]
+        tags:
+            - { name: extension }
+
+    kernel.listener.exception_listener:
+        class: CustomBundle\Listener\ExceptionListener
+        arguments:    ['@service_container']
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority:255 }
+
+    kernel.listener.user_login_token_listener:
+        class: CustomBundle\Listener\UserLoginTokenListener
+        arguments:    ['@service_container']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onGetUserLoginListener}
+
+    question.custom.extension:
+        class: CustomBundle\Extension\QuestionExtension
+        calls:
+            - [setBiz, ['@biz']]
+        tags:
+            - { name: extension, priority: 10  }

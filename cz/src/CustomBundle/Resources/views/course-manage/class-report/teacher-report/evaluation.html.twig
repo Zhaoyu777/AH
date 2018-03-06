@@ -1,0 +1,15 @@
+<div class="text-center pbl">
+  <div class="pvl">
+    {% for index in 1..5 %}
+      {% if score >= index %}
+        <i class="es-icon es-icon-star color-warning text-xlg"></i>
+      {% elseif index > score and index < score + 1 %}
+        <i class="es-icon es-icon-starhalf color-warning text-xlg"></i>
+      {% elseif score < index %}
+        <i class="es-icon es-icon-staroutline color-warning text-xlg"></i>
+      {% endif %}
+    {% endfor %}
+    <span class="phm"><span class="color-warning">{{ score|number_format(2, '.') }}</span> 分</span>
+    共 <span class="color-primary">{{ count }}</span> 人评价
+  </div>
+</div>

@@ -1,0 +1,9 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% block content %}
+  <div class="start-class-mask color-white">
+      <span>调查问卷已删除</span>
+  </div>
+  <input id="js-socket-params" type="hidden" name=""
+         value="{{ path('instant_course_lesson_push_params', {courseId: lesson.courseId,lessonId: lesson.id}) }}">
+{% endblock %}

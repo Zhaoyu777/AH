@@ -1,0 +1,15 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% block title %}{{'操作提示'|trans}}{% endblock %}
+
+{% block body %}
+  {% if status|default() == 'teaching' %}
+    <span class="mlm text-sm">本课次正在上课中，无法操作！</span>
+  {% elseif status|default() == 'teached' %}
+    <span class="mlm text-sm">本课次已完课，无法操作！</span>
+  {% endif %}
+{% endblock %}
+
+{% block footer %}
+  <button class="btn btn-primary" data-dismiss="modal">{{'确定'|trans}}</button>
+{% endblock %}

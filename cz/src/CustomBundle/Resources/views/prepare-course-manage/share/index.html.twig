@@ -1,0 +1,55 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "" %}
+{# {% set modalSize = 'large' %} #}
+{% do script(['libs/jquery-validation.js','custombundle/js/courseset-manage/course-share/index.js']) %}
+{% block title %}
+  {{'分享本教案给...'|trans}}
+{% endblock %}
+{% block body %}
+
+<form id="teachers-form" class="form-horizontal" method="post" action="{{ path('instant_course_share_teachers_match', {courseId: course.id}) }}" onkeydown="if(event.keyCode==13){return false;}">
+  <div class="col-md-2">
+    <label class="control-label">分享给</label>
+  </div>
+
+  <div class="col-md-8 controls">
+    <div class="form-group" id="teachers-form-group">
+      <div class="js-input-container select-input-container">
+        <input type="text" class="js-input-search form-control" data-query-url="{{ path('instant_course_share_teachers_match', {courseId: course.id}) }}" placeholder="请输入姓名，工号查询" />
+        <a href="javascript:;" class="es-icon es-icon-search"></a>
+        <div class="cz-select-list" hidden>
+          <table class="table table-noborder" id="student-list">
+
+          </table>
+        </div>
+      </div>
+      <table class="js-selected-students table table-noborder mtl">
+        {% for courseShare in courseShares|default() %}
+          <tr>
+            <td  class="stu-name" style="padding:8px;width:25%">{{ users[courseShare.toUserId].truename }} </td>
+            <td> 教师 </td>
+            <td>{{ users[courseShare.toUserId].number }} </td>
+            <td><a href="javascript:;"><i data-url="{{ path('instant_course_share_delete', {shareId:courseShare.id}) }}" class="pull-right es-icon es-icon-close01"></i></a></td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+  <input type="hidden" id="js-create-url" data-url="{{ path('instant_course_share_create', {courseId: course.id}) }}">
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-8 controls">
+    </div>
+  </div>
+</form>
+
+<div class="form-group">
+教案中的课件资料将会一同分享给其它老师，但是只会在其它老师导入教案时有效。如果想要在分享后可任意使用，请在教学资料库中设置分享。
+<div>
+{% endblock %}
+
+{% block footer %}
+  <span class="color-danger prl js-help-block" hidden>请选择至少一名学员</span>
+  <button class="btn btn-fat btn-primary" data-dismiss="modal">{{'关闭'|trans}}</button>
+{% endblock %}

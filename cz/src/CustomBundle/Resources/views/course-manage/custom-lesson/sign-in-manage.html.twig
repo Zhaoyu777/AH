@@ -1,0 +1,109 @@
+{% extends 'task/plugin/base.html.twig' %}
+
+{% if not preview %}
+  {% do script(['custombundle/js/task/sign/index.js']) %}
+{% endif %}
+
+{% block content %}
+  {% set signStatus = signIn.status|default() %}
+  {% set signTime = signIn.time|default('0') %}
+  <input type="hidden" value="{{ signStatus }}">
+  <div class="course-sign-title text-center">
+    <b class="js-sign-status sign-status text-bold text-16">
+      {% if signStatus == 'start' %}
+        签到中...
+      {% elseif signStatus == 'end' %}
+        查看签到结果
+      {% else %}
+        签到
+      {% endif %}
+    </b>
+    <i class="fr close-btn text-bold hover-color-primary js-close-btn es-icon es-icon-close01"></i>
+  </div>
+
+  {% if not preview %}
+    <div class="custom_current_time" data-current-time="{{ 'now'|date('U') }}"></div>
+    <div id="js-sign-status" data-status="{{ signStatus }}"></div>
+    <input type="hidden" name="signInId" value="{{ signIn.id|default() }}">
+    {# 1 #}
+    <div class="text-center mb20 sign-before js-sign-before" {% if signStatus == 'start' %}hidden{% endif %}>
+      <img class="sign-in-icon js-sign-icon" src="/static-dist/custombundle/img/signIn-1.png"
+           srcset="/static-dist/custombundle/img/signIn-2.png" />
+      <a class="btn btn-primary btn-md start-sign-btn js-start-sign-btn js-start-sign-1
+       {% if signIn %} hidden {% endif %}" href="javascript:;"
+         data-url="{{ path('custom_start_sign_in', {lessonId:lesson.id, time:1}) }}">
+        发起签到（1）
+      </a>
+
+      <a class="btn btn-primary btn-md start-sign-btn js-start-sign-btn js-start-sign-2
+       {% if not (signTime == 1 and signStatus == 'end') %} hidden {% endif %}" href="javascript:;"
+         data-url="{{ path('custom_start_sign_in', {lessonId:lesson.id, time:2}) }}">
+        发起签到（2）
+      </a>
+      <ul class="sign-result-list list-unstyled mb10 mt30 js-sign-result">
+        <li class="clearfix js-result-1 gray-darker hover-color-primary {% if not signIn %}hidden{% endif %}" data-url="{{ path('custom_sign_in_result', {lessonId:lesson.id,time:1}) }}"
+            data-target="#modal" data-toggle="modal">
+          第一次签到结果 >>
+        </li>
+        <li class="clearfix js-result-2 gray-darker hover-color-primary {% if not (signTime == '2') %}hidden{% endif %}" data-url="{{ path('custom_sign_in_result', {lessonId:lesson.id,time:2}) }}"
+            data-target="#modal" data-toggle="modal" >
+          第二次签到结果 >>
+        </li>
+      </ul>
+    </div>
+    {# 2 #}
+    <div class="sign-in js-sign-in" {% if not signIn or signStatus == 'end' %}hidden{% endif %}
+         data-url="{{ path('custom_sign_in_attend_member_count') }}">
+      <div class="js-store-start-time" data-start-sign="{{ signIn.createdTime|default() }}"></div>
+      <div class="signed-num-box text-center">
+        已到人数
+        <p class="signed-num js-signed-num black-dark">
+          {{ attendCount|default(0) }}
+        </p>
+      </div>
+      <div class="black-dark clearfix">
+        <div class="fl un-sign-box">
+          <p class="mb7">未到人数</p>
+          <b class="un-sign-num text-32 js-un-sign-num"></b>
+        </div>
+        <div class="fl pl20 all-student-box">
+          <p class="mb7">全部人数</p>
+          <b class="text-32 js-all-num">{{ count|default(0) }}</b>
+        </div>
+      </div>
+      <div class="sign-rest-time gray-medium mbm hidden">
+        还剩
+        <span class="color-danger">
+          <span class="js-sign-rest-minutes">45</span>分
+          <span class="js-sign-rest-seconds">00</span>秒
+        </span>
+      </div>
+    </div>
+    {# 3 #}
+    <div class="js-sign-in" {% if not signIn or signStatus == 'end' %}hidden{% endif %}>
+      <ul class="sign-result-list list-unstyled mb10 mt10 js-sign-result">
+        <li class="clearfix js-sign-detail-1 gray-darker hover-color-primary {% if signTime == '2' %}hidden{% endif %}" data-url="{{ path('custom_sign_in_result', {lessonId:lesson.id,time:1}) }}"
+            data-target="#modal" data-toggle="modal">
+          查看签到详情 >>
+        </li>
+        <li class="clearfix js-sign-detail-2 gray-darker hover-color-primary {% if not (signTime == '2') %}hidden{% endif %}" data-url="{{ path('custom_sign_in_result', {lessonId:lesson.id,time:2}) }}"
+            data-target="#modal" data-toggle="modal">
+          查看签到详情 >>
+        </li>
+      </ul>
+      <div class="sign-btn-box text-center">
+        <a class="btn btn-primary btn-lg sign-end-btn js-sign-end" href="javascript:;"
+           data-url="{{ path('custom_end_sign_in') }}">停止签到</a>
+        <a class="sign-cancel-btn inline-block color-gray text-14 hover-color-primary js-sign-cancel" href="javascript:;"
+           data-url="{{ path('custom_cancel_sign_in') }}">取消本次签到</a>
+        <div class="js-toggle-status hidden" data-url=""></div>
+      </div>
+    </div>
+
+  {% else %}
+    <div class="text-center course-sign-content">
+      <a class="btn btn-primary btn-md mt20" href="javascript:;">开始签到</a>
+    </div>
+  {% endif %}
+{% endblock %}
+

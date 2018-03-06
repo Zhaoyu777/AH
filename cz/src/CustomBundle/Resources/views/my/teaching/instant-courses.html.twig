@@ -1,0 +1,58 @@
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+{% extends 'my/layout.html.twig' %}
+
+{% block title %}{{ '课堂教学'|trans }} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my-teaching-instant-course' %}
+
+{% do script(['custombundle/js/courseset-manage/lesson-cancel/index.js','custombundle/js/courseset-manage/course-term-select/index.js']) %}
+
+{% block main %}
+  <div class="panel panel-default" role="my-teaching-course-sets">
+    <div class="panel-heading">
+      {{ '备课'|trans }}
+    </div>
+    <div class="panel-body">
+      <form id="term-form" data-url="{{path('my_teaching_load_instant_courses')}}" method="post">
+        <div>
+          <ul class="nav nav-tabs">
+            <li class="{% if courseType|default('school') == 'school' %}active{% endif %}">
+              <a href="{{ path('my_teaching_instant_courses', {courseType:'school'}) }}">校本课程</a>
+            </li>
+            <li class="{% if courseType|default('school') == 'custom' %}active{% endif %}">
+              <a href="{{ path('my_teaching_instant_courses', {courseType:'custom'}) }}">自定义课程</a>
+            </li>
+          </ul>
+        </div>
+        {% if customCourseCount|default(0) <= 0 and courseType|default('school') == 'custom' %}
+          <div class="no-content-box">
+            <img src="/static-dist/custombundle/img/empty-course-1.png" srcset="/static-dist/custombundle/img/empty-course-2.png 2x">
+            <p class="description color-gray mt20 mb20">自定义课程，常用于创建竞赛类、展示类的课程。只能针对一个班级进行教学。</p>
+            <a class="btn btn-primary btn-md" id="create-custom-course" href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{ path('custom_course_set_manage_create') }}">添加课程</a>
+            </a>
+          </div>
+        {% else %}
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-3">
+                <select class="form-control" name="termCode" id="termCode">
+                  {{ term_choices() }}
+                </select>
+              </div>
+              <input type="hidden" name="courseType" value="{{courseType|default('school')}}">
+              {% if courseType|default() == 'custom' %}
+                <div class="col-md-9 clearfix">
+                  <a class="btn btn-primary btn-sm pull-right" id="create-custom-course" href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{ path('custom_course_set_manage_create') }}">添加自定义课程</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div id="courses-table">
+            <div class="empty">{{ '正在载入数据，请稍等...'|trans }}</div>
+          </div>
+        </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+{% endblock %}

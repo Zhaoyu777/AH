@@ -1,0 +1,170 @@
+// 动画效果
+a.transition {
+  .es-transition;
+  &:hover {
+    .es-transition;
+  }
+}
+
+// 元素下划线
+.underline {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// 字符串截取 推荐用text-overflow
+.text-overflow(@block) {
+  display: @block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+
+tr.placeholder {
+  height: 40px;
+  background: rgba(68, 145, 236, 0.10);
+}
+
+tr.drag {
+  cursor: move;
+}
+
+tr.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 200;
+}
+
+.display-block {
+  display: block;
+}
+
+.color0 {
+  color: #000 !important;
+}
+
+.mb30 {
+  margin-bottom: 30px;
+}
+
+.ml30 {
+  margin-left: 30px;
+}
+
+.mr30 {
+  margin-right: 30px;
+}
+
+.top-line {
+  border-top: 1px solid #e1e1e1;
+}
+
+.border-radius(@radius: 4px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.content-tips {
+  padding: 16px 24px;
+  font-size: 12px;
+  color: #4591EC;
+  background: rgba(69,145,236,0.08);
+}
+
+.btn {
+  border: 0;
+}
+
+.btn.btn-md {
+  font-size: 14px;
+  padding: 9px 32px;
+}
+
+.btn-orange {
+  padding: 8px 15px;
+  font-size: 16px;
+  color: #FFA84E;
+  letter-spacing: 0;
+  border: 2px solid #FFA84E;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  &:hover, &:active, &:focus {
+    color: #FFA84E !important;
+  }
+}
+
+.bt50 {
+  bottom: 50px !important;
+}
+
+.pl110 {
+  padding-left: 110px !important;
+}
+
+.icon-signal {
+  position: relative;
+}
+
+.icon-signal:before {
+  content: "*";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  margin-right: 5px;
+  color: transparent;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  vertical-align: middle;
+}
+
+.icon-signal-green:before {
+  background-color: #89C540;
+}
+
+.icon-signal-blue:before {
+  background-color: @brand-primary;
+}
+
+.icon-signal-gray:before {
+  background-color: #e1e1e1;;
+}
+
+.btn-noborder {
+  font-size: 14px;
+  color: @gray-darker;
+  &:hover {
+    color: @brand-primary-hover;
+  }
+  .cz-icon:before {
+    color: @brand-primary;
+  }
+}
+
+.justify-cutline {
+  display: inline-block;
+  width: 1px;
+  height: 20px;
+  background-color: #c1c1c1;
+  vertical-align: middle;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

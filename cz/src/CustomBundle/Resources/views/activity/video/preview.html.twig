@@ -1,0 +1,65 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% do script(['app/js/activity/video/preview/index.js']) %}
+
+{% block body %}
+  {% if activity.ext.mediaSource|default('self') == 'self' %}
+    {% if course.type == 'instant' %}
+      <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+           id="video-content" data-role="task-content">
+        {#如果用户上次观看过视频，需要请求上次的视频时长 作为参数 starttime= xxx#}
+        {{ render(controller('AppBundle:Player:show', {id: activity.ext.mediaId, context:context})) }}
+      </div>
+      {% include 'activity/content-footer.html.twig' %}
+    {% else %}
+      <div class="task-preview-modal-content" id="task-preview-player">
+        <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+             id="video-content" data-role="task-content">
+          {#如果用户上次观看过视频，需要请求上次的视频时长 作为参数 starttime= xxx#}
+          {{ render(controller('AppBundle:Player:show', {id: activity.ext.mediaId, context:context})) }}
+        </div>
+      </div>
+    {% endif %}
+  {% elseif activity.ext.mediaSource == 'iframe' %}
+    <div id="task-preview-iframe"
+         class="iframe-parent-content t3 iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}">
+      <iframe src="{{ activity.ext.mediaUri }}" style="height:100%; width:100%; border:0px; overflow: hidden"
+              scrolling="no"></iframe>
+    </div>
+    {% include 'activity/content-footer.html.twig' %}
+  {% else %}
+    {% if course.type == 'instant' %}
+      <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+           id="video-content" data-role="task-content"
+           data-media-source="{{ activity.ext.mediaSource }}">
+        <div id="swf-player" data-url="{{ activity.ext.mediaUri }}"></div>
+      </div>
+      {% include 'activity/content-footer.html.twig' %}
+    {% else %}
+      <div class="task-preview-modal-content">
+        <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+             id="video-content" data-role="task-content"
+             data-media-source="{{ activity.ext.mediaSource }}">
+          <div id="swf-player" data-url="{{ activity.ext.mediaUri }}"></div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+  <div class="js-time-limit-dev hidden">
+    <div style="height:360px;background-color:black;" class="text-center">
+      <br><br><br><br>
+      <br><br><br><br>
+      <div style="font-size:20px;color:#fff;">
+        {{ '立刻购买本课程，即可获得全部完整学习内容。'|trans }}
+      </div>
+    </div>
+    <div class="js-buy-text">
+    <span class="text-success">
+      {{ '您可以免费试看前%tryLookLength%分钟,购买后可完整观看。'|trans({'%tryLookLength%': course.tryLookLength }) }}
+    </span>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+
+  <div class="activity-name">{{ questionnaire.title }}</div>
+    {% if is_course_teacher(activity.fromCourseId) and lessonTask.stage == 'in' and mode == 'show' %}
+      <div class="operation-btn">
+        {% if lesson.status == 'teaching' %}
+          <button class="cz-btn cz-btn-orange js-rend-call 
+            {% if taskStatus.status|default("") == 'start' or taskStatus.status|default("") == 'end' %} hidden {% endif %}" 
+            data-url="{{ path('task_start', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">开始回答</button>
+          <button class="cz-btn cz-btn-orange js-rend-call 
+            {% if not (taskStatus.status|default("") == 'start') %} hidden {% endif %}"
+            data-url="{{ path('task_end', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">停止回答</button>
+        {% endif %}
+        <button class="cz-btn cz-btn-default js-rend-stop 
+          {% if not (taskStatus.status|default("") == 'end' or lesson.status == 'teached') %} hidden {% endif %}" 
+          disabled>活动已结束</button>
+      </div>
+    {% endif %}
+    <div class="mtl">
+      <span class="gray-dark stu-num">本班共有<span class="color-primary">{{ memberNum }}</span>人，实际完成<span class="color-primary actual-num">{{ actualNum }}</span>人</span>
+    </div>
+  <hr>
+  <div class="cz-activity-content js-cz-activity-content clearfix" id="question-student">
+    {% for questionResult in questionResults %}
+      <div class="choice-options-content">
+        <div class="testpaper-question-seq">
+          {{ questionResult.seq }}.
+        </div>
+        <h4>{{ questionResult.stem|raw }}</h4>
+        {% if questionResult.type == 'essay' %}
+              <a class="btn btn-primary" data-toggle="modal" data-target="#essay-result-{{questionResult.id}}">
+                查看结果
+              </a>
+            {% block essay_result_modal %}
+            <div class="modal fade" id="essay-result-{{questionResult.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                    <h4 class="modal-title" id="myModalLabel">问答题结果展示</h4>
+                  </div>
+                  <div class="modal-body">
+                      {% for answer in questionResult.answers|default() %}
+                        <div class="ptl clearfix">
+                        {{ answer.content|raw }}
+                        </div>
+                        <div class="text-right">
+                          <span class="color-gray">——{{ answer.user }}</span>
+                        </div>
+                      {% endfor %}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endblock %}
+        {% else %}
+          {% for key, item in questionResult.items %}
+            {% set choiceIndex = (65+key)|chr %}
+              <div class="pvm clearfix position-relative">
+                <span class="option-head pull-left">{{ choiceIndex }}</span>
+                <div class="pull-left option-content">{{ item.text|raw }}</div>
+                <div class="scale-num">
+                  <span class="color-gray question-num-{{ questionResult.id }}-{{ key }}-result">{{ item.num|default(0) }}</span><span class="color-gray">人次</span>
+                  <span class="num-label-warning"><span class="question-part-{{ questionResult.id }}-{{ key }}-result">{{ item.part|default(0) }}</span>&nbsp%</span>
+                </div>
+              </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  <input type="hidden" id="taskId" value="{{ task.id }}">
+  <input type="hidden" id="race" value="{{ is_course_teacher(activity.fromCourseId) }}">

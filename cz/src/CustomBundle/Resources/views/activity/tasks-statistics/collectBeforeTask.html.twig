@@ -1,0 +1,30 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% do script(['custombundle/js/activity/task-statistics/index.js']) %}
+
+{% block body %}
+<div class="task-statistics clearfix">
+  {% for key,item  in statistics %}
+    <div class="statistics-item-box fl">
+      <div class="task-statistics-item">
+        <p class="text-20 color-fa text-bold">
+          {{ loop.index }}: {{ item.title }}
+        </p>
+        <div class="statistics-circle inline-block text-align js-statistics-circle"
+             data-count="{{ item.count }}" data-un-count="{{ item.unCount }}">
+          <div class="circle-desc text-bold">
+            <p class="rate mb5 js-rate">{{ item.rate }}%</p>
+            <p class="tip">参与率</p>
+          </div>
+        </div>
+        <p>
+          <b class="mr10 text-17 color-f0">参与人数</b>
+          <b class="text-28 color-fa vertical-sub">{{ item.count }}</b>
+          <b class="un-count-tip mr10 text-17 color-f0">未参与人数</b>
+          <b class="text-28 color-fa vertical-sub">{{ item.unCount }}</b>
+        </p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class= "modal-lg sign-modal" %}
+
+{% do script(['libs/jquery-validation.js','custombundle/js/teach-course-manage/sign-result/index.js']) %}
+
+{% block title %}
+  第{{signIn.time}}次签到结果
+{% endblock %}
+
+{% block body %}
+  <ul class="cz-sign-modal-nav nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#attend" aria-controls="attend" role="tab" data-toggle="tab">出勤 (<span id="attend-students-num">{{ members['attend']|default()|length }}</span>)</a></li>
+    <li role="presentation"><a href="#absent" aria-controls="absent" role="tab" data-toggle="tab">缺勤 (<span id="absent-students-num">{{ members['absent']|default()|length }}</span>)</a></li>
+    <li role="presentation"><a href="#leave" aria-controls="leave" role="tab" data-toggle="tab">请假 (<span id="leave-students-num">{{ members['leave']|default()|length }}</span>)</a></li>
+    <li role="presentation"><a href="#late" aria-controls="late" role="tab" data-toggle="tab">迟到 (<span id="late-students-num">{{ members['late']|default()|length }}</span>)</a></li>
+    <li role="presentation"><a href="#early" aria-controls="early" role="tab" data-toggle="tab">早退 (<span id="early-students-num">{{ members['early']|default()|length }}</span>)</a></li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="attend">
+      <div class="sign-stu-content">
+        <table class="table table-noborder table-hover" id="attend-students-table" data-url="{{ path('sign_in_result_attend', {signInId: signIn.id}) }}">
+          {% include 'course-manage/custom-lesson/sign-in-result-items/attend-students.html.twig' with {members:members['attend']|default()} %}
+        </table>
+      </div>
+      <form class="form-horizontal" action="">
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+            <label for="">
+              额外：
+            </label>
+          </div>
+          <div class="col-md-5">
+            <div class="js-input-container select-input-container">
+              <input type="text" class="js-input-search form-control" data-query-url="{{ path('sign_in_member_add_match', {signInId: signIn.id}) }}" placeholder="请输入姓名，学号，工号查询" />
+              <a href="javascript:;" class="es-icon es-icon-search"></a>
+              <div class="cz-select-list" hidden>
+                <table class="table table-noborder" id="student-list" data-url="{{ path('sign_in_add_member', {signInId:signIn.id}) }}">
+
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="absent">
+      <div class="sign-stu-content">
+        <table class="table table-noborder table-hover" id="absent-students-table" data-url="{{ path('sign_in_result_absent', {signInId: signIn.id}) }}">
+          {% include 'course-manage/custom-lesson/sign-in-result-items/absent-students.html.twig' with {members:members['absent']|default()} %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="leave">
+      <div class="sign-stu-content">
+        <table class="table table-noborder table-hover" id="leave-students-table">
+          {% include 'course-manage/custom-lesson/sign-in-result-items/leave-students.html.twig' with {members:members['leave']|default()} %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="late">
+      <div class="sign-stu-content">
+        <table class="table table-noborder table-hover" id="late-students-table">
+          {% include 'course-manage/custom-lesson/sign-in-result-items/late-students.html.twig' with {members:members['late']|default()} %}
+        </table>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="early">
+      <div class="sign-stu-content">
+        <table class="table table-noborder table-hover" id="early-students-table">
+          {% include 'course-manage/custom-lesson/sign-in-result-items/early-students.html.twig' with {members:members['early']|default()} %}
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <a class="btn btn-primary" data-dismiss="modal" href="">关闭</a>
+{% endblock %}

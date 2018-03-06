@@ -1,0 +1,26 @@
+<div class="col-md-offset-1 col-md-5">
+  <form class="form-inline ptl" action="{{ path('custom_course_share_count', {orgCode:app.request.query.get('orgCode')|default('1.')}) }}" method="get" id="data-share-form" role="form">
+    <div class="data-search-title clearfix">
+      <img class="img-responsive pull-left" src="/static-dist/custombundle/img/databoard/page2/columns/plan_share.png" srcset="/static-dist/custombundle/img/databoard/page2/columns/plan_share@2x.png">
+      <div class="mtm pull-right share-data-nav-tabs" role="group">
+        <a class="btn data-btn mlm data-btn__white data-btn-focus__red" id="btn-share-day" type="button" href="javascript:;" currentDayStart="{{ dataInfo.today }}" currentDayEnd="{{ dataInfo.today }}">当日</a>
+        <a class="btn data-btn mlm data-btn__white data-btn-focus__red" id="btn-share-week" type="button" href="javascript:;" currentWeekStart="{{ dataInfo.currentWeekStart }}" currentWeekEnd="{{ dataInfo.currentWeekEnd }}">本周</a>
+        <a class="btn data-btn mlm data-btn__white data-btn-focus__red" id="btn-share-month" type="button" href="javascript:;" currentMonthStart="{{ dataInfo.currentMonthStart }}" currentMonthEnd="{{ dataInfo.currentMonthEnd }}">本月</a>
+      </div>
+    </div>
+    <div class="data-search-block js-panel">
+      <div class="form-group">
+        <label>{{ '查询日期'|trans }}</label>
+        <input type="text" class="form-control analysis-input mls" name="startShareTime" value="{{ dataInfo.today }}" id="shareStartDate">
+         -
+        <input type="text" class="form-control analysis-input mls" name="endShareTime" value="{{ dataInfo.today }}" id="shareEndDate">
+      </div>
+      <a class="btn data-btn data-btn__white data-btn__red pull-right" href="#share-search" data-toggle="tab" id="btn-share-search">{{ '查询'|trans }}</a>
+    </div>
+  </form>
+  <div class="data-share-panel">
+    <div class="data-share-circle">
+      <div id="shareNum" class="share-num">0</div>次
+    </div>
+  </div>
+</div>

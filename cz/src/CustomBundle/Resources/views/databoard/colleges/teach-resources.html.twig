@@ -1,0 +1,22 @@
+<div class="col-md-5">
+  <form class="form-inline ptl" action="" method="get" id="data-resource-form" role="form">
+    <div class="data-search-title clearfix">
+      <img class="img-responsive pull-left" src="/static-dist/custombundle/img/databoard/page2/columns/teach_source.png" srcset="/static-dist/custombundle/img/databoard/page2/columns/teach_source@2x.png">
+      <div class="mtm pull-right data-nav-tabs" role="group">
+        <a id="btn-day" href="#day" class="btn data-btn mlm data-btn__white data-btn-focus__green" currentDayStart="{{ dataInfo.today }}" currentDayEnd="{{ dataInfo.today }}" data-url="">当日</a>
+        <a id="btn-week" class="btn data-btn mlm data-btn__white data-btn-focus__green" href="#week" data-toggle="tab" currentWeekStart="{{ dataInfo.currentWeekStart }}" currentWeekEnd="{{ dataInfo.currentWeekEnd }}" data-url="">本周</a>
+        <a id="btn-month" class="btn data-btn mlm data-btn__white data-btn-focus__green" href="#month" data-toggle="tab" currentMonthStart="{{ dataInfo.currentMonthStart }}" currentMonthEnd="{{ dataInfo.currentMonthEnd }}" data-url="">本月</a>
+      </div>
+    </div>
+    <div class="data-search-block js-panel">
+      <div class="form-group">
+        <label>{{ '查询日期'|trans }}</label>
+        <input type="text" class="form-control analysis-input mls" name="startTime" value="{{ dataInfo.today }}" id="resourceStartDate">
+         -
+        <input type="text" class="form-control analysis-input mls" name="endTime" value="{{ dataInfo.today }}" id="resourceEndDate">
+      </div>
+      <a href="javascript:;" class="btn data-btn mlm data-btn__white data-btn__green pull-right" id="btn-search">{{ '查询'|trans }}</a>
+      <div id="data-study-source-chart" class="study-source-statistic" style="width: 400px;height: 300px;margin:0 auto" data-url="{{ path('custom_data_analysis_manage_file_statistic', {orgCode:app.request.query.get('orgCode')|default('1.')}) }}"></div>
+    </div>
+  </form>
+</div>

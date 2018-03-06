@@ -1,0 +1,124 @@
+{% extends 'layout.html.twig' %}
+
+{% set bodyClass = 'data-body' %}
+
+{% do script(['libs/echarts.js', 'custombundle/js/data-board/home/index.js']) %}
+
+{% block title %}
+  {{ '数据看板'|trans }}
+{% endblock %}
+{% block body %}
+  <div class="data-left-page">
+    <div class="data-left-page__box">
+      <div class="data-left-page-title">
+        <div class="data-left-page__title">
+          <span class="text-gradient">课堂质量诊断与改进系统</span>
+        </div>
+      </div>
+      <div class="data-left-page__bg">
+        <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/bg/background.png" srcset="/static-dist/custombundle/img/databoard/home/bg/background@2x.png">
+        <a href="javascript:;" class="data-left-page__num1" data-toggle="popover" data-html="true" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[0].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num2" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[4].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num3" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[7].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num4" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[9].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num5" data-toggle="popover" data-container="body" data-placement="top" data-trigger="hover" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[5].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num6" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[10].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num7" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[1].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num8" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[2].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num9" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[6].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num10" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[3].startCourseCount }}</div></div>"></a>
+        <a href="javascript:;" class="data-left-page__num11" data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="<div>开课<div class='popover-num'>{{ collegsInfos[8].startCourseCount }}</div></div>"></a>
+      </div>
+    </div>
+  </div>
+  <div class="data-right-page">
+    <div class="data-right-page__box">
+      <div class="data-right-page__top clearfix">
+        <div class="pull-left data-columns right-data-columns">
+          <div class="data-columns-label">
+            <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/columns/active.png" srcset="/static-dist/custombundle/img/databoard/home/columns/active@2x.png">
+          </div>
+          <div class="data-columns-block data-columns-block__green">
+            <div class="data-columns-block__title">今日访问量</div>
+            <span id="js-today-pv"></span><span class="data-columns-block__unit">次</span>
+          </div>
+          <div class="data-columns-block data-columns-block__green">
+            <div class="data-columns-block__title">今日访问人数</div>
+            <span id="js-today-uv"></span><span class="data-columns-block__unit">人</span>
+          </div>
+        </div>
+        <div class="pull-left data-columns">
+          <div class="data-columns-label">
+            <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/columns/danger.png" srcset="/static-dist/custombundle/img/databoard/home/columns/danger@2x.png">
+          </div>
+          <div class="data-columns-block data-columns-block__red">
+            <div class="data-columns-block__title">出勤率预警</div>
+            {{ attendantRateWarning }}<span class="data-columns-block__unit">次</span>
+          </div>
+          <div class="data-columns-block data-columns-block__red">
+            <div class="data-columns-block__title">教学目标未达成</div>
+            {{ teachTargetWarning }}<span class="data-columns-block__unit">次</span>
+          </div>
+          <div class="data-columns-block data-columns-block__red">
+            <div class="data-columns-block__title">课堂活动参与率</div>
+            {{ activityJoinWarning }}<span class="data-columns-block__unit">次</span>
+          </div>
+        </div>
+      </div>
+      <div class="data-right-page__bottom">
+        <div class="data-columns mbl clearfix">
+          <div class="data-columns-label">
+            <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/columns/info.png" srcset="/static-dist/custombundle/img/databoard/home/columns/info@2x.png">
+          </div>
+          <div class="data-columns-block data-columns-block__blue">
+            <div class="data-columns-block__title">教师备课数</div>
+            {{ teachersPrepareLessonsCount }}
+          </div>
+          <div class="data-columns-block data-columns-block__blue">
+            <div class="data-columns-block__title">课堂报告数</div>
+            {{ teachersReportsCount }}
+          </div>
+          <div class="data-columns-block data-columns-block__blue">
+            <div class="data-columns-block__title">开课总数</div>
+            {{ teachersStartCoursesCount }}
+          </div>
+          <div class="data-columns-block data-columns-block__blue">
+            <div class="data-columns-block__title">全校出勤率</div>
+            {{ (schoolAttendsRate * 100)|number_format(1, '.') }}%
+          </div>
+          <div class="data-columns-block data-columns-block__blue">
+            <div class="data-columns-block__title">课后作业布置率</div>
+            {{ homeworkTaskSettingRate }}%
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="chart-box">
+            <div class="data-chart-title">
+              <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/chart/1.png" srcset="/static-dist/custombundle/img/databoard/home/chart/1@2x.png">
+            </div>
+            <div id="college-scale-chart" class="chart-box_data"></div>
+            <div class="data-chart-title">
+              <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/chart/3.png" srcset="/static-dist/custombundle/img/databoard/home/chart/3@2x.png">
+            </div>
+            <div id="college-target-chart" class="chart-box_data"></div>
+          </div>
+          <div class="chart-box">
+            <div class="data-chart-title">
+              <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/chart/2.png" srcset="/static-dist/custombundle/img/databoard/home/chart/2@2x.png">
+            </div>
+            <div id="course-grow-chart" class="chart-box_data"></div>
+            <div class="data-chart-title">
+              <img class="img-responsive" src="/static-dist/custombundle/img/databoard/home/chart/4.png" srcset="/static-dist/custombundle/img/databoard/home/chart/4@2x.png">
+            </div>
+            <div id="course-satisfy-chart" class="chart-box_data"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="db-enter-btn btn data-btn" href="{{path('custom_data_board_detail', {orgCode: '1.'})}}">
+    进入
+  </a>
+  <input hidden type="" name="" class="school-chart-data" data-url="{{path('custom_data_board_colleges_infos')}}">
+  <input hidden type="" name="" class="course-chart-data" data-url="{{path('custom_data_board_courses_infos')}}">
+{% endblock %}

@@ -1,0 +1,18 @@
+{% import 'macro.html.twig' as web_macro %}
+
+{% for testpaper in testpapers if testpaper %}
+  {% if targetType == 'course' or targetType == 'classroom' %}
+    {% set resultListRout = targetType|default('course') ~ '_manage_testpaper_result_list' %}
+  {% else %}
+    {% set resultListRout = 'course_manage_practice_work_result_list' %}
+  {% endif %}
+
+
+  {% include 'testpaper/manage/check-list-item.html.twig' with {testpaper:testpaper,targetResultInfo:testpaper.resultStatusNum,targetId:targetId} %}
+{% else %}
+  <div class="empty">{{'course.testpaper_check.empty'|trans}}</div>
+{% endfor %}
+
+<nav class="text-center">
+  {{ web_macro.paginator(paginator) }}
+</nav>

@@ -1,0 +1,10 @@
+{% extends 'activity/random-testpaper/random-testpaper-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+{% set showHeader = 0 %}
+{% set showTypeBar = 1 %}
+{% set isIframeBody = 1 %}
+
+{% block paper_body %}
+  {% include 'activity/random-testpaper/do-test.html.twig' %}
+{% endblock %}

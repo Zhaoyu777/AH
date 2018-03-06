@@ -1,0 +1,5 @@
+<div class="data-sidebar">
+  {% for collegeCategory in collegeCategories %}
+    <a href="{{path('custom_data_board_detail', {orgCode: collegeCategory.orgCode})}}" class="btn data-btn sidebar-btn {% if collegeCategory.orgCode == app.request.query.get('orgCode') %}active{% endif %}">{{ collegeCategory.name }}</a>    
+  {% endfor %}
+</div>

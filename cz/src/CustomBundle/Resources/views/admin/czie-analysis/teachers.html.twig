@@ -1,0 +1,49 @@
+{% extends 'admin/layout.html.twig' %}
+{% import "macro.html.twig" as macro %}
+{% set orgs = data('CzieOrgs', {role:'teacher'}) %}
+
+{% set script_controller = 'czie-analysis/index'  %}
+
+{% block title %}数据统计 | 老师{% endblock %}
+
+{% block content %}
+  <div class="">
+    <div class="page-header clearfix">
+      <h1 class="pull-left">
+        老师
+      </h1>
+
+    </div>
+    <ul class="nav nav-tabs mbm">
+      <li {% if app.request.get('orgCode', '1.') == '1.' %}class="active"{% endif %}>
+        <a href="{{ path('admin_data_analysis_teachers', {orgCode:'1.'}) }}">
+          全部
+        </a>
+      </li>
+      {% for org in orgs %}
+        <li {% if app.request.get('orgCode', '1.') == org.orgCode %}class="active"{% endif %}>
+          <a href="{{ path('admin_data_analysis_teachers', {orgCode:org.orgCode}) }}">
+            {{ org.name }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <form id="teacher-search-form" class="form-inline well well-sm" action="{{ path('admin_load_data_analysis_teachers') }}" method="get" novalidate onkeydown="if(event.keyCode==13)return false;" >
+      <div class="form-group">
+        <input type="text" id="queryField" name="queryField" class="form-control" value="{{ app.request.get('queryField') }}"
+               placeholder="输入姓名搜索">
+      </div>
+      <input type="hidden" name="orgCode" value="{{app.request.get('orgCode', '1.')}}">
+
+      <input type="button" class="btn btn-primary js-search-btn" value="搜索">
+      <input type="checkbox" name="isTeachingTeacher" class="ml10 js-teacherType-change" {% if app.request.get('isTeachingTeacher') == 'on' or (isTeachingTeacher|default() == 'on') %}checked{% endif %}
+      >只显示在教课的老师
+
+    </form>
+
+    <div id="teacher-table-box">
+      <div class="empty">{{ '正在载入数据，请稍等...'|trans }}</div>
+    </div>
+  </div>
+{% endblock %}

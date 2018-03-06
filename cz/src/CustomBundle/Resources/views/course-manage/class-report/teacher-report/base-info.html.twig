@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-4">
+    <ul class="list-unstyled class-report_info">
+      <li class="color-primary">课程： {{ courseSet['title']|sub_text(18) }}</li>
+      <li>学期： {{term['title']}}</li>
+      <li>主带老师： {{ masterTeacher }}</li>
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <ul class="list-unstyled class-report_info">
+      <li class="color-primary">课次名称： {{ lesson['title']|default('课次'~lesson['number'])|sub_text(18) }}</li>
+      <li>班级： {{ course['title'] }}</li>
+      <li>辅带老师： {{ assistantTeachers }}</li>
+    </ul>
+  </div>
+  <div class="col-md-4">
+    <ul class="list-unstyled class-report_info">
+      <li></li>
+      <li>课次号： {{ lesson.number }}</li>
+      <li>上课时间： {{ lesson.startTime|date('Y-n-d') }}</li>
+    </ul>
+  </div>
+</div>

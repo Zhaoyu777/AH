@@ -1,0 +1,32 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% block content %}
+  {% set studentCount = data('CourseMemberCount', {courseId:activity.fromCourseId, role:'student'}) %}
+  <div class="iframe-parent-content-new iframe-parent-full" id="rollcall-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        {% if is_course_teacher(activity.fromCourseId) %}
+          {# <span class="color-white text-14 stu-num rollcall-stu-num js-rollcall-stu-num">
+            从该班级的{{ studentCount }}名学生中
+          </span> #}
+          <div class="operation-btn">
+            <button class="cz-btn cz-btn-orange js-rend-call">随机点名</button>
+          </div>
+          <div class="activity-results">
+            <div class="activity-name js-activity-name">
+              {{ activity.content|raw }}
+            </div>
+            <div class="cz-activity-content  js-cz-activity-content clearfix" id="rollcall-student">
+              <div class="js-activity-animate activity-animate">
+                <img src="/static-dist/custombundle/img/rollcall.png" alt="活动图">
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ courseSet.title }} - 上课 - {{ parent() }}{% endblock %}
+
+{% set bodyClass = "" %}
+{% do script(['libs/perfect-scrollbar.js','libs/es-ckeditor/ckeditor.js','custombundle/js/task/index.js']) %}
+
+{% block body %}
+  {% set preview = app.request.query.get('preview') %}
+  {% set lessonStatus = lesson.status|default('') %}
+  <div id="js-hidden-data">
+    <input type="hidden" name="course-id" value="{{ task.courseId }}">
+    <input type="hidden" name="task-id" value="{{ task.id }}">
+    <input type="hidden" name="task-result-status" value="{{ taskResult.status|default() }}">
+    <input type="hidden" name="mode" value="{% if preview %}preview{% else %}learn{% endif %}">
+    <input type="hidden" name="plugins_url"
+           value="{{ path('lesson_task_show_plugins', {courseId:course.id, preview:preview, lessonId: lesson.id, taskId: task.id}) }}">
+    <input id="js-socket-params" type="hidden" name=""
+           value="{{ path('instant_course_lesson_push_params', {courseId: course.id,lessonId: lesson.id}) }}">
+    <input id="js-lesson-status" type="hidden" value="{{ lessonStatus }}">
+  </div>
+
+  <div class="task-dashboard-page-new test js-task-dashboard-page">
+    <div class="dashboard-header">
+      {% if site.favicon|default() %}
+        <img src="{{ asset(site.favicon) }}" alt="Logo" class="logo-img">
+      {% endif %}
+      {% if lessonStatus == 'created' %}
+        <p class="fl js-task-name text-bold text-28 task-name color-orange text-overflow">
+          课次{{lesson.number}}
+          {% if lesson.title %}
+            ：{{lesson.title}}
+          {% endif %}
+        </p>
+      {% elseif task.title|default() %}
+        <p class="fl js-task-name text-bold text-28 task-name color-orange text-overflow" title="任务{{ count }}：{{ task.title }}">
+          任务{{ count }}：{{ task.title }}
+        </p>
+      {% else %}
+        <p class="fl js-task-name text-bold text-28 task-name color-orange text-overflow">
+          课前活动汇总
+        </p>
+      {% endif %}
+      {% if is_course_teacher(course.id) %}
+        <div class="sign-code text-bold js-sign-code clearfix {% if code|default() %}{% else %}hidden{% endif %}">
+          <span class="fl">签到码：</span>
+          <span class="fl code-number color-orange fl-code js-sign-code-num">{{ code|default() }}</span>
+        </div>
+      {% endif %}
+      <div class="fr color-white text-18 text-bold clearfix">
+        {% if lessonStatus == 'teaching' and is_course_teacher(course.id) %}
+          <div class="finish-course-box fl clearfix" data-target="#modal" data-toggle="modal"
+            data-url="{{ path('custom_courser_lesson_end_button_show', {lessonId: lesson.id}) }}">
+            <span class="fl split-cutline"></span>
+            <div class="finish-class js-finish-class fl plr15">
+              <i class="cz-icon cz-icon-finishclass"></i>
+              <span>下课</span>
+            </div>
+          </div>
+        {% endif %}
+        <span class="fl split-cutline"></span>
+        <div class="fl pl20 pr20 text-18 hover-color-primary cursor-pointer js-full-screen">
+          <i class="cz-icon cz-icon-Fullscreen js-full-screen-icon"></i>
+          <i class="cz-icon cz-icon-btn_cancelFullscreen js-full-screen-icon hidden"></i>
+        </div>
+      </div>
+    </div>
+    {% if lessonStatus == 'created' and is_course_teacher(course.id) %}
+      <div class="no-start-lesson">
+        <div>
+          <img class="start-lesson-img" src="/static-dist/custombundle/img/start-lesson-tip.png" srcset="/static-dist/custombundle/img/start-lesson-tip-2.png" />
+        </div>
+        <div class='text-center'>
+          <button class="btn start-course-btn text-bold text-20 btn-primary js-start-course-btn" data-time=""
+             data-url="{{ path('instant_course_lesson_start', {courseId: course.id, lessonId: lesson.id}) }}">
+            开始上课
+          </button>
+        </div>
+      </div>
+    {% else %}
+      <div class="dashboard-content" id="dashboard-content">
+        <div class="dashboard-body js-dashboard-body">
+          {% if task.title|default() or task.id == 0 %}
+            <iframe id="task-content-iframe"
+                    class="task-content-iframe {% if course.type|default() == 'instant' %}back-deep-color{% endif %} "
+                    data-event-enable="1"
+                    data-event-url="{{ path('course_task_trigger', {courseId: task.courseId, id: task.id}) }}"
+                    data-last-time="{{ date().timestamp }}"
+                    {% if task.id == 0 %}
+                    src="{{ path('custom_course_lesson_before_task_completion',{courseId:task.courseId, lessonId:lesson.id }) }}"
+                    {% else %}
+                    src="{{ path('course_task_activity_show',{courseId:task.courseId, id:task.id, preview:app.request.get('preview') }) }}"
+                    {% endif %}
+                    style="width:100%;height:100%;border:0"
+                    allowfullscreen webkitallowfullscreen>
+            </iframe>
+          {% else %}
+            <div class="start-class-mask">
+              该课次暂未备课
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="dashboard-sidebar
+        {% if lessonStatus == 'teached' or (not is_course_teacher(course.id)) %} more-right {% endif %}"
+        id="dashboard-sidebar">
+      </div>
+      {% if lessonStatus == 'teached' %}
+        <div class="class-finish-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/class_finish.png" srcset="/static-dist/custombundle/img/class_finish@2x.png">
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
+  <div id="modal" class="modal"></div>
+  <div id="attachment-modal" class="modal"></div>
+{% endblock %}

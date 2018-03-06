@@ -1,0 +1,15 @@
+{% if isEditColor|default(0) %}
+  {% set maincolor = config.config.maincolor|default('default') %}
+  {% set navigationcolor = config.config.navigationcolor|default('default') %}
+{% else %}
+  {% set maincolor = config.confirmConfig.maincolor|default('default') %}
+  {% set navigationcolor = config.confirmConfig.navigationcolor|default('default') %}
+{% endif %}
+
+<link href="{{ asset('static-dist/app/css/bootstrap.css') }}" rel="stylesheet" />
+<link href="{{ asset('static-dist/app/css/main.css') }}" rel="stylesheet" />
+<link href="{{ asset('static-dist/custombundle/css/main.css') }}" rel="stylesheet" />
+{% set currentTheme = current_theme() %}
+{% if currentTheme.name == '零主题' %}
+<link rel="stylesheet" media="screen" href="{{ asset('themes/zero/css/zero-'~ maincolor ~'.css') }}" />
+{% endif %}

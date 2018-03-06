@@ -1,0 +1,91 @@
+admin_system_upgrade:
+    path:  /upgrade
+    defaults: { _controller: CustomBundle:Admin/Upgrade:index }
+
+admin_system_upgrade_start:
+    path:  /upgrade/start
+    defaults: { _controller: CustomBundle:Admin/Upgrade:start }
+
+admin_system_upgrade_end:
+    path:  /upgrade/end
+    defaults: { _controller: CustomBundle:Admin/Upgrade:end }
+
+admin_sync_data:
+    path:  /sync_data
+    defaults: { _controller: CustomBundle:Admin/SyncData:syncDataManage }
+
+admin_data_analysis_manage:
+    path:  /analysis/data/manage
+    defaults: { _controller: CustomBundle:Admin/Analysis:index }
+
+admin_data_analysis_manage_file_statistic:
+    path:  /analysis/data/manage/file/statistic
+    defaults: { _controller: CustomBundle:Admin/Analysis:fileStatistic }
+
+admin_user_create:
+    path:  /custom/user/create
+    defaults: { _controller: CustomBundle:Admin/User:create }
+
+admin_course_share_count:
+    path: /custom/course/share/count
+    defaults: { _controller: CustomBundle:Admin/Analysis:shareCount }
+
+admin_data_analysis_teachers:
+    path: /analysis/data/teachers
+    defaults: { _controller: CustomBundle:Admin/Analysis:teachersStatistic }
+
+admin_load_data_analysis_teachers:
+    path: /analysis/load/data/teachers
+    defaults: { _controller: CustomBundle:Admin/Analysis:loadTeachersStatistic }
+
+admin_data_analysis_students:
+    path: /analysis/data/students
+    defaults: { _controller: CustomBundle:Admin/Analysis:studentsStatistic }
+
+admin_data_analysis_teacher_detail:
+    path: /analysis/data/teacher/detail
+    defaults: { _controller: CustomBundle:Admin/Analysis:teacherDetail }
+
+admin_data_analysis_teacher_courses:
+    path: /analysis/data/teacher/courses
+    defaults: { _controller: CustomBundle:Admin/Analysis:teacherCourses }
+
+admin_data_analysis_student_courses:
+    path: /analysis/data/student/courses
+    defaults: { _controller: CustomBundle:Admin/Analysis:studentCourses }
+
+admin_instant_course_manage:
+    path:  /instant/course_set/{filter}/index
+    defaults: { _controller: CustomBundle:Admin/CourseSet:index, filter:'normal' }
+    permissions: [admin_course_manage]
+
+custom_data_board_index:
+    path: /databoard/index
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:index }
+    permissions: [admin_data_board]
+
+custom_data_board_colleges_infos:
+    path: /databoard/colleges_infos
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:collegesInfos }
+    permissions: [admin_data_board]
+
+custom_data_board_courses_infos:
+    path: /databoard/courses_infos
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:coursesInfos }
+    permissions: [admin_data_board]
+
+custom_data_board_detail:
+    path: /databoard/college/detail
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:collegeDetail }
+    permissions: [admin_data_board]
+
+custom_data_board_colleges_attend_trend:
+    path: /databoard/colleges/attend_trend
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:collegesAttendTrend }
+    permissions: [admin_data_board]
+
+admin_setting_warning:
+    path:  /setting/warning
+    defaults: { _controller: CustomBundle:Admin/Setting:warning }
+    permissions: [admin_setting_warning]
+

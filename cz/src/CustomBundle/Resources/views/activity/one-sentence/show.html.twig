@@ -1,0 +1,99 @@
+{% extends 'activity/content-layout.html.twig' %}
+{% do script(['libs/perfect-scrollbar.js','custombundle/js/activity/one-sentence/index.js']) %}
+
+{% block content %}
+  {% set userId = app.user.id %}
+  {% set studentCount = data('CourseMemberCount', {courseId:activity.fromCourseId, role:'student'}) %}
+  {% set mode = app.request.get('mode') %}
+  <div class="iframe-parent-content-new iframe-parent-full" id="one-sentence-activity"
+       data-url="{{ path('one_sentence_result_load', {taskId:task.id, activityId:task.activityId}) }}">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          {% if is_course_teacher(activity.fromCourseId) and mode != 'report' %}
+            {% if lesson.status == 'teaching' %}
+              <button class="cz-btn cz-btn-orange js-rend-call js-start-answer
+                {% if taskStatus.status|default("") in ['start','end'] %} hidden {% endif %}"
+                 data-url="{{ path('one_sentence_start',{taskId:task.id, activityId:activity.id}) }}">
+                开始回答
+              </button>
+              <button class="cz-btn cz-btn-orange js-rend-call js-end-answer
+                {% if taskStatus.status|default("") in ['','end'] %} hidden {% endif %}"
+                data-url="{{ path('one_sentence_end',{taskId:task.id, activityId:activity.id}) }}">
+                停止回答
+              </button>
+            {% endif %}
+            <button class="cz-btn cz-btn-default js-rend-stop 
+              {% if not (taskStatus.status|default("") == 'end' or lesson.status == 'teached') %} hidden {% endif %}"
+              disabled>活动已结束</button>
+          {% endif %}
+        </div>
+      </div>
+      <div class="activity-results js-activity-results" id="js-one-sentence-result">
+        <div class="activity-name js-activity-name">
+          {{ activity.content|raw }}
+        </div>
+        <div class="cz-activity-content js-cz-activity-content clearfix">
+          {% if taskStatus.status|default("") %}
+            {% for group in groups %}
+              {% set groupNum = loop.index %}
+              <div id="js-group-{{ group.id }}"
+                   class="{% if taskStatus.status|default() == null %}hidden{% endif %}{% if isGrouped %}one-sentence-group{% endif %} answer-content">
+                {% if isGrouped %}
+                  <div class="color-orange text-28 mbs">第{{ groupNum }}组：{{ group.title }}</div>
+                {% endif %}
+                <div class="color-white mbl {% if isGrouped %}text-20{% else %}text-28{% endif %}">
+                  应答：<span>{% if groupMember[group.id]|default(0) %}{{ groupMember[group.id]|length }}{% else %}0{% endif %}</span>
+                  &nbsp;人，
+                  已答：<span class="color-orange js-group-answered-num">
+                  {% if results[group.id]|default(0) %}{{ results[group.id]|length }}{% else %}0{% endif %}
+                </span>&nbsp;人
+                </div>
+                <div class="js-results-list">
+                  {% for result in results[group.id]|default() %}
+                    <div class="js-group-result-{{ result.id }} clearfix mbm">
+                      <div class="pull-left">
+                        <i class="es-icon es-icon-dot color-orange text-lg mtm"></i>
+                        <img class="avatar-md inline-block mrm"
+                             src="{{ filepath(users[result.userId].largeAvatar, 'avatar.png') }}"
+                             alt="{{ users[result.userId].truename }}"/>
+                        <span class="color-orange text-16 name">{{ users[result.userId].truename }}</span>
+                        <span class="color-white text-16 ml10">{{ result.createdTime|date('H:i:s') }}</span>
+                      </div>
+                      <p class="one-sentence-content pull-left color-white text-18">{{ result.content }}</p>
+                    </div>
+                  {% else %}
+                    <span class="text-20 color-white js-not-answered-alert">暂无提交</span>{% endfor %}
+                </div>
+              </div>
+              <hr>
+            {% endfor %}
+          {% endif %}
+          <div
+            class="js-activity-animate activity-animate {% if taskStatus.status|default() != null %}hidden{% endif %}">
+            <img src="/static-dist/custombundle/img/one_word.png" alt="活动图">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <input id="js-socket-params" type="hidden" name=""
+         value="{{ path('instant_course_lesson_push_params', {courseId: lesson.courseId,lessonId: lesson.id}) }}">
+  <input type="hidden" id="js-isGrouped" name="" value="{{ isGrouped }}">
+  <input type="hidden" name="" id="js-taskId" value="{{ task.id }}">
+
+  {#socket部分#}
+  <div class="hidden" id="js-student-answer">
+    <div class="clearfix mbm">
+      <div class="pull-left">
+        <i class="es-icon es-icon-dot color-orange text-lg mtm"></i>
+        <img class="avatar-md inline-block mrm js-answered-student-avatar" src="" alt=""/>
+        <span class="color-orange text-16 name js-answered-student-name"></span>
+        {#回答时间#}
+        <span class="color-white text-16 ml10 js-student-answer-time"></span>
+      </div>
+      <p class="one-sentence-content pull-left color-white text-18 js-answered-content"></p>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+<div id="brain-storm-production">
+  {% for group in groups %}
+    {% set captain = data('TaskGroupCaptain', {groupId:group.id}) %}
+    <div class="clearfix brainStorm-group-item js-group-members-{{ group.id }}">
+      <p class="group-name color-orange text-28 mbs">{{ group.title }}</p>
+      <p class="reply-member">
+        应答
+        <span class="js-member-count">{{ group.memberCount|default(0) }}</span>
+        人 已答
+        <span class="color-orange js-reply-count">{{ group.replyCount|default(0) }}</span>
+        人
+      </p>
+      <p class="color-orange text-18">
+        组长：<span class="js-{{ group.id }}-group">{{ captain.truename|default("") }}</span>
+      </p>
+      <p class="color-orange text-18 group-members">
+        <span>组员：</span>
+        {% for result in group['results'] %}
+          <span>{{ result.truename }}</span>
+          {% if loop.index != group['results']|length %}
+            <span>、</span>
+          {% endif %}
+        {% endfor %}
+      </p>
+      <a class="btn btn-orange btn-md js-grade-btn group-score-btn
+          {% if lesson.status != 'teaching' or group['results']|length <= 0 %}hidden{% endif %}"
+       href="javascript:;" data-id="" data-target="#modal" data-toggle="modal"
+       data-url="{{ path('brain_storm_group_remark', {taskId: task.id, groupId:group.id}) }}">查看答案并评分</a>
+    </div>
+    <hr class="border-top-light-black" />
+  {% endfor %}
+</div>
+
+<div id="js-group-member" class="hidden">
+  <div class="member-name">1</div>
+  {% if lesson.status == 'teaching' %}
+    <a class="bbtn btn-orange btn-md js-grade-btn group-score-btn" href="javascript:;" data-id=""
+       data-target="#modal" data-toggle="modal" data-url="">查看答案并评分</a>
+  {% endif %}
+</div>

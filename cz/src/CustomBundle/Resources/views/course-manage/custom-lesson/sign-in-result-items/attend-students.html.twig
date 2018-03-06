@@ -1,0 +1,32 @@
+<tbody class="js-attend-students-tr-num">
+  {% for member in members %}
+    <tr class="js-signin-user-{{member.userId}}">
+      <td>
+        <img class="avatar-xs" src="{{ filepath(users[member.userId].smallAvatar, 'avatar.png') }}" alt="">
+      </td>
+      <td>
+        {{ users[member.userId].truename }}
+      </td>
+      <td>{{ users[member.userId].number }}</td>
+      <td>{{ member.updatedTime|date('Y-m-d H:i:s') }}</td>
+      <td>{{ member.address|default('无签到位置信息。') }}</td>
+      <td>
+        {% if member.type == 'add' %}
+          <a class="link-primary js-delete-single-member" href="javascript:;" data-url="{{path('custom_sign_in_member_delete', {id:member.id})}}">移除</a>
+        {% else %}
+          <div class="dropdown">
+            <a class="link-primary dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+            操作<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right sign-status-dropdown">
+              <li><a class="js-sign-status-li" href="javascript:;" data-url="{{path('custom_sign_in_set_member_status', {signInMemberId:member.id, status:'absent'})}}" data-status='absent'>设为缺勤</a></li>
+              <li><a class="js-sign-status-li" href="javascript:;" data-url="{{path('custom_sign_in_set_member_status', {signInMemberId:member.id, status:'leave'})}}" data-status='leave'>设为请假</a></li>
+              <li><a class="js-sign-status-li" href="javascript:;" data-url="{{path('custom_sign_in_set_member_status', {signInMemberId:member.id, status:'late'})}}" data-status='late'>设为迟到</a></li>
+              <li><a class="js-sign-status-li" href="javascript:;" data-url="{{path('custom_sign_in_set_member_status', {signInMemberId:member.id, status:'early'})}}" data-status='early'>设为早退</a></li>
+            </ul>
+          </div>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+</tbody>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title data-title="{{truename}}的课程报告">{{truename}}的课程报告</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="description" content="{{description}}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  {% include 'course-manage/class-report/custom-student-report/stylesheet/css.html.twig' %}
+  <body>
+  <img style="display: none" class=" hidden"id="share-img" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/share_img.png') }}"/>
+  <div id="report">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide page-bule page-1" id="slide1"  data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "homePage"}) }}">
+          <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+  
+        {% if pages.signInPage|default("") %}
+        <div class="swiper-slide page-2 page-orange" id="slide2" data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "signInPage"}) }}">
+        <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="swiper-slide page-3 page-green" id="slide3" data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "beforePage"}) }}">
+        <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+
+        <div class="swiper-slide page-4 page-bule" id="slide4" data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "inPage"}) }}">
+        <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+
+        <div class="swiper-slide page-5 page-orange" id="slide5" data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "afterPage"}) }}">
+        <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+
+        <div class="swiper-slide page-6 page-yellow" id="slide6" data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "scorePage"}) }}">
+        <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+
+        {% if pages.evaluationPage|default("") %}
+        <div class="swiper-slide page-7 page-green" id="slide7" data-url="{{ path('custom_courser_lesson_student_custom_report', {courseId:course.id, lessonId:lesson.id,userId: app.request.get('userId') ,page: "evaluationPage"}) }}">
+        <div class="loading">
+            <span>
+            </span>
+            <span>
+            </span>
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="swiper-slide page-8 page-bule">
+          <div class="ani end-top" swiper-animate-effect="fadeInDown" swiper-animate-duration="0.5s" swiper-animate-delay="1s">
+            <img src="{{ asset('/static-dist/custombundle/img/class-report-mobile/shar.png') }}"/>
+          </div>
+          <div class="ani end-info" swiper-animate-effect="rotateIn" swiper-animate-duration="1s" swiper-animate-delay="0s">
+          </div>
+          <div class="ani end-bottom" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0s">
+            常州工程职业技术学院
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="arrow" id="arrow">
+    <i class="cz-icon cz-icon-btn_Packup"></i>
+  </div>
+  {% include 'course-manage/class-report/custom-student-report/script/js.html.twig' %}
+</body>
+</html>

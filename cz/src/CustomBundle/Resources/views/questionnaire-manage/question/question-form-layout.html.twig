@@ -1,0 +1,78 @@
+{% extends 'courseset-manage/instant-layout.html.twig' %}
+
+{% import 'macro.html.twig' as web_macro %}
+
+{% block title %}{{'编辑调查题'|trans}} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'questionnaire' %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js', 'libs/jquery-validation.js', 'custombundle/js/questionnaire-manage/question/create/index.js']) %}
+
+{% block main %}
+<div class="panel panel-default panel-col test-creator">
+  <div class="panel-heading clearfix">{{questionnaire.title|default()|trans}}</div>
+
+  <div class="panel-body">
+    <ol class="breadcrumb">
+      <li><a href="{{ path('course_set_manage_questionnaire',{id:courseSet.id}) }}">{{'调查问卷管理'|trans}}</a></li>
+      <li class="active">
+        <a href="{{ path('questionnaire_question', {questionnaireId: questionnaire.id}) }}">{{ '编辑调查题'|trans }}</a>
+      </li>
+      <li class="active">
+        {% if type == 'single_choice' %}
+          {{ '添加单选问题'|trans }}
+        {% elseif type == 'choice' %}
+          {{ '添加多选问题'|trans }}
+        {% else %}
+          {{ '添加问答问题'|trans }}
+        {% endif %}
+      </li>
+    </ol>
+    <div id="question-creator-widget">
+      <form id="question-create-form" data-role="question-form" class="form-horizontal quiz-question" method="post" action="{{ path('questionnaire_question_create', {questionnaireId: questionnaire.id, type:type}) }}">
+
+        {{ web_macro.flash_messages() }}
+
+        <div class="form-group">
+          <div class="col-md-2 control-label"><label for="question-stem-field" class="control-label-required">{{ '题干'|trans }}</label></div>
+          <div class="col-md-8 controls">
+            <textarea class="form-control" id="question-stem-field" data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}"  data-image-download-url="{{ path('editor_download', {token:upload_token('course')}) }}" name="stem" style="height:180px;"></textarea>
+          </div>
+        </div>
+
+        {% block question_extra_fields %}{% endblock %}
+
+        <div id="advanced-collapse" class="advanced-collapse collapse">
+          <div class="form-group">
+            <div class="col-md-2 control-label"><label for="question-analysis-field">{{'解析'|trans}}</label></div>
+            <div class="col-md-8 controls">
+                <textarea class="form-control" id="question-analysis-field" data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}" name="analysis" data-image-download-url="{{ path('editor_download', {token:upload_token('course')}) }}">{{ question.analysis|default('') }}</textarea>
+            </div>
+          </div>
+           {{ render(controller('AppBundle:File/Attachment:formFields',{targetType: 'question.analysis', targetId: question.id|default(0)},{ useType:true,})) }}
+          <div class="form-group">
+            <div class="col-md-2 control-label"><label for="question-score-field">{{'分值'|trans}}</label></div>
+            <div class="col-md-4 controls">
+              <input class="form-control" value="{{question.score|default(2)}}" type="text" id="question-score-field" name="score" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-8 col-md-offset-2 controls">
+            {% block question_buttons %}
+              <button type="button" data-role="submit" class="btn btn-primary submit-btn" data-submission="continue" data-loading-text="{{'正在保存'|trans}}...">{{'保存并继续添加'|trans}}</button>
+              <button type="button" data-role="submit" class="btn btn-primary submit-btn" data-submission="submit" data-loading-text="{{'正在保存'|trans}}...">{{'保存'|trans}}</button>
+            {% endblock %}
+            <a href="{{ path('course_set_manage_questionnaire', {id:courseSet.id, parentId:parentQuestion.id|default(0)}) }}" class="btn btn-link">{{'返回'|trans}}</a>
+          </div>
+        </div>
+
+        <input type="hidden" name="submission">
+        <input type="hidden" name="type" value="{{ type }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}System Upgrade Operate - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'upgrade/index' %}
+
+{% set menu = 'admin_setting_message' %}
+
+{% block content %}
+<div class="page-header"><h1>System Upgrade Operate</h1></div>
+
+<div class="mbm">
+  <a id="js-start-upgrade" href="javascript:;" class="btn btn-primary" data-url="{{ path('admin_system_upgrade_start') }}">开始升级</a>
+</div>
+
+<div>
+  <a id="js-end-upgrade" href="javascript:;" class="btn btn-default" data-url="{{ path('admin_system_upgrade_end') }}">结束升级</a>
+</div>
+
+{% endblock %}

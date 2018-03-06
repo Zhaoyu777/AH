@@ -1,0 +1,62 @@
+{% extends 'activity/content-layout.html.twig' %}
+{% do script(['libs/perfect-scrollbar.js','custombundle/js/activity/rollcall/index.js']) %}
+
+{% block content %}
+  {% set studentCount = data('CourseMemberCount', {courseId:activity.fromCourseId, role:'student'}) %}
+  {% set mode = app.request.get('mode') %}
+  <div class="iframe-parent-content-new iframe-parent-full" id="rollcall-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        {% if app.user.isTeacher() %}
+          <div class="operation-btn">
+            {% if lesson.status == 'teaching' and mode != 'report' %}
+              <button class="cz-btn cz-btn-orange js-rend-call"
+                 data-url="{{ path('instant_course_student_rand', {courseId:activity.fromCourseId, taskId:task.id}) }}">随机点名</button>
+            {% elseif lesson.status == 'teached' %}
+              <button class="cz-btn cz-btn-default" disabled>活动已结束</button>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="call-animate-warp"></div>
+        <div class="selected-content"></div>
+        <div class="activity-results js-activity-results">
+          <div class="activity-name js-activity-name ">
+            {{ activity.content|raw }}
+          </div>
+          <span class="color-white text-20 text-bold stu-num js-rollcall-stu-num">
+            从该班级的{{ studentCount }}名学生中
+          </span>
+          <div class="cz-activity-content js-cz-activity-content clearfix" id="rollcall-student">
+            {% for student in students %}
+              <div class="called-stu-info pull-left inline-block mrl text-center js-called-stu-info">
+                <img class="avatar-lg mbl" src="{{ filepath(student.avatar,'avatar.png') }}" alt="">
+                <p class="color-orange text-24 text-overflow">{{ student.truename }}</p>
+                <p class="gray-dark text-18 mbl text-overflow">{{ student.nickname }}</p>
+                {% if results[student.id].score %}
+                  <div class="js-score-show color-primary score-show text-24">+ {{ results[student.id].score }}分</div>
+                {% else %}
+                  {% if app.user.isTeacher() %}
+                    {% if lesson.status == 'teaching' %}
+                      <a class="btn cz-link-primary cz-btn-md text-bold js-grade-btn" href="javascript:;"
+                         data-id="{{ student.id }}" data-target="#modal" data-toggle="modal"
+                         data-url="{{ path('rollcall_result_remark',{resultId: results[student.id].id}) }}">评分</a>
+                    {% else %}
+                      <div class="btn btn-default cz-btn-md text-bold disabled">评分</div>
+                    {% endif %}
+                  {% endif %}
+                  <span class="js-score-show color-primary text-24" id="{{ results[student.id].id }}"></span>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="js-activity-animate activity-animate">
+                <img src="/static-dist/custombundle/img/rollcall.png" alt="活动图">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="taskId" value="{{ task.id }}">
+  </div>
+
+{% endblock %}

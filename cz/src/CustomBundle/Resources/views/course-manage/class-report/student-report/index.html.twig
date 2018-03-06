@@ -1,0 +1,64 @@
+{% extends 'prepare-course-manage/layout.html.twig' %}
+{% do script(['custombundle/js/class-report/index.js']) %}
+
+{% block content %}
+  {% block main %}
+    <!-- <ol class="breadcrumb">
+      <li>
+        <a href="/">首页</a>
+      </li>
+      <li>
+        <a href="">备课</a>
+      </li>
+      <li class="active">课堂报告</li>
+    </ol> -->
+
+    <div class="panel panel-default class-report-section">
+      <div class="class-report_title">课堂报告</div>
+      <div id="js-report-base" data-url="{{ path('instant_course_student_class_report_base', {courseId:course.id, lessonId:lesson.id}) }}">
+        <div class="empty">
+          数据加载中...
+        </div>
+      </div>
+      <hr/>
+
+      <div class="class-report_subtitle">
+        签到
+      </div>
+      <div id="js-report-sign-in" data-url="{{ path('instant_course_student_class_report_sign_in', {courseId:course.id, lessonId:lesson.id}) }}">
+        <div class="empty">
+          数据加载中...
+        </div>
+      </div>
+      <hr/>
+
+      <div class="class-report_subtitle">
+        教学
+      </div>
+      <div id="js-report-task" data-url="{{ path('instant_course_student_class_report_task', {courseId:course.id, lessonId:lesson.id}) }}">
+        <div class="empty">
+          数据加载中...
+        </div>
+      </div>
+      <hr/>
+      <div class="class-report_subtitle">
+        积分
+      </div>
+      <div id="js-report-score" data-url="{{ path('instant_course_student_class_report_score', {courseId:course.id, lessonId:lesson.id}) }}">
+        <div class="empty">
+          数据加载中...
+        </div>
+      </div>
+
+      <hr/>
+      <div class="class-report_subtitle">
+        评价
+      </div>
+      <div id="js-report-evaluation" data-url="{{ path('instant_course_student_class_report_evaluation', {courseId:course.id, lessonId:lesson.id}) }}">
+        <div class="empty">
+          数据加载中...
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% import "admin/macro.html.twig" as admin_macro %}
+
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+
+<tr class="js-courseSet-tr" data-id="{{ courseSet.id }}" id="course-tr-{{ courseSet.id }}">
+  {% include 'org/parts/table-body-checkbox.html.twig' %}
+  <td>
+    <strong>{{ courseSet.title }}</strong>
+  </td>
+  <td>
+    {{ user.truename|default('用户已删除') }}
+  </td>
+  <td>{{ count(courses[courseSet.id]|default()) }}</td>
+  <td></td>
+  <td>
+    <div>
+      <a class="btn btn-default btn-sm" href="{{ path('course_set_manage_base', {id:courseSet.id}) }}" target="_blank">课程设置</a>
+      <a class="fr js-toogle-btn" href="javascript:;">
+        <span class="glyphicon glyphicon-chevron-down js-icon-unfold "></span>
+        <span class="glyphicon glyphicon-chevron-up js-icon-Packup hidden"></span>
+      </a>
+    </div>
+  </td>
+</tr>
+{% for course in courses[courseSet.id]|default() %}
+  <tr class="tr-noborder gray-darker text-12 pt20 pb20 choose js-classroom-item js-classroom-item__{{ courseSet.id }}  hidden" >
+      <td></td>
+      <td></td>
+      <td>
+        <span class="fl js-course-title-tip" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{{ course.title }}">
+          {{ course.title|sub_text(35) }}
+        </span>
+      </td>
+      <td>
+        <span>
+          {{ course.teachedLessonCount|default(0) }} / {{ course.lessonCount|default(0) }}个课次
+        </span>
+      </td>
+      <td>
+          <a class="btn mrs" href="{{ path('custom_course_lesson_list', {courseId:course.id}) }}">班级教案</a>
+      </td>
+  </tr>
+{% endfor %}

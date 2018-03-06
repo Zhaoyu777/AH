@@ -1,0 +1,16 @@
+<ul class="nav navbar-nav">
+  <li class="dropdown">
+    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> 数据统计 <span class="glyphicon glyphicon-chevron-down"></span></a>
+    <ul class="dropdown-menu main-list">
+      <li>
+        <a href="{{ path('admin_data_analysis_manage') }}"> {{'全部'|trans}}</a>
+      </li>
+      <li>
+        <a href="{{ path('admin_data_analysis_teachers') }}"> {{'老师'|trans}}</a>
+      </li>
+      <li>
+        <a href="{{ path('admin_data_analysis_students') }}"> {{'学生'|trans}}</a>
+      </li>
+    </ul>
+  </li>
+</ul>

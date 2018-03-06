@@ -1,0 +1,58 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% block title %}{{'添加自定义课程'|trans}}{% endblock %}
+
+{% do script(['libs/jquery-validation.js','custombundle/js/courseset-manage/create-custom-course-modal/index.js'], 300) %}
+
+{% block body %}
+  <form id="custom-course-set-create-form" class="form-horizontal" method="post" action="{{ path('custom_course_set_manage_create') }}">
+    <div class="content-tips mb20">
+        自定义课程常用于创建竞赛类、展示类的课程；只能针对一个班级进行教学。
+    </div>  
+    <div class="form-group">
+      <div class="col-sm-3 control-label">
+        <label class="control-label-required" for="title">{{'课程名称'|trans}} </label>
+      </div>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="title" type="text" name="title" value="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-3 control-label">
+        <label class="control-label-required" for="termCode">{{'学期'|trans}} </label>
+      </div>
+      <div class="col-md-6 controls">
+        <select class="form-control" name="termCode" id="termCode">
+          {{ term_choices() }}
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-3 control-label">
+        <label class="control-label-required" for="lessonCount">{{'课次数'|trans}}</label>
+      </div>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="lessonCount" type="text" name="lessonCount" value="">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-3 control-label">
+        <label class="control-label-required" for="courseTitle">{{'班级'|trans}}</label>
+      </div>
+      <div class="col-md-6 controls">
+        <input class="form-control" id="courseTitle" type="text" name="courseTitle" value="">
+      </div>
+    </div> 
+
+    <input type="hidden" name="type" value="instant">
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+  </form>
+{% endblock %}
+
+{% block footer %}
+  <button class="btn btn-link" data-dismiss="modal">{{'取消'|trans}}</button>
+  <button id="submit-btn" class="btn btn-primary" data-loading-text="{{'正在提交'|trans}}" type="button">{{'提交'|trans}}</button>
+{% endblock %}

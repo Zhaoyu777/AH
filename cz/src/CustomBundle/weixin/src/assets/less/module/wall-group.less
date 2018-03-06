@@ -1,0 +1,86 @@
+//分组展示效果
+
+.wall-group {
+  background: #fff;
+  border-radius: 0.625rem;
+  margin: 0.9375rem 0.625rem;
+  padding: 1.25rem;
+  line-height: 1.875rem;
+  .wall-group__title {
+    color: #4993e9;
+    font-size: 0.875rem;
+    line-height: 1;
+  }
+  .wall-group__info {
+    color: #919191;
+  }
+}
+
+.wall-photo {
+  background: #fff;
+  border-radius: 0.625rem;
+  margin: 0.9375rem 0.625rem;
+  padding-bottom: .0625rem;
+}
+
+.wall-photo-list {
+  border-bottom: .0625rem solid #f0f0f0;
+  &:last-child {
+    border-bottom: 0px solid #f0f0f0;
+  }
+}
+
+.wall-photo__number {
+  border-radius: 50%;
+  text-align: center;
+  color: #fff;
+  background: #ccc;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin-right: 0.625rem;
+  &.wall-photo__number--primary {
+    background: #4993e9;
+  }
+}
+
+.wall-photo__header {
+  padding: 0.625rem 1.25rem;
+  line-height: 1.875rem;
+
+  .wall-photo__avatar {
+    margin-right: 0.625rem;
+    display: inherit;
+  }
+  .wall-photo__title {
+    font-size: 1.0625rem;
+    color: #313131;
+  }
+}
+
+.wall-photo__loading {
+  text-align: center;
+  line-height: 6.25rem;
+  color: #919191;
+  font-size: 0.875rem;
+}
+
+.wall-content__body {
+  position: relative;
+  margin: .875rem .625rem 1.25rem .625rem;
+  font-size: .9375rem;
+  padding: .625rem;
+  line-height: 1.5rem;
+  background-color: #f3f3f7;
+  border-radius: .5625rem;
+  &:before {
+    content: '';
+    position: absolute;
+    top: -.375rem;
+    left: .625rem;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 10px 5px;
+    border-color: transparent transparent #f3f3f7 transparent;
+  }
+}

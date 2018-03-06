@@ -1,0 +1,20 @@
+{% import 'macro.html.twig' as macro %}
+<tr data-role='item'>
+  <td><input value="{{ questionnaire.id }}" type="checkbox" data-role="batch-item" ></td>
+  <td>
+    {{ questionnaire.title|raw }}
+  </td>
+  <td>
+    {{ questionnaire.itemCount|default(0) }}
+  </td>
+  <td>
+    {{ macro.user_link(user) }}
+    <br/>
+    <span class="color-gray text-sm">{{questionnaire.updatedTime | date('Y-n-d H:i:s')}}</span>
+  </td>
+  <td width="30%">
+    <a class="mrm link-primary" href="{{ path('course_set_manage_questionnaire_update', {id: questionnaire.id}) }}">编辑</a>
+    <a class="mrm link-primary" href="{{ path('questionnaire_question', {questionnaireId: questionnaire.id}) }}">编辑调查题</a>
+    <a class="mrm link-primary js-delete-questionnaire-btn" data-url="{{ path('course_set_manage_questionnaire_delete', {id:questionnaire.id}) }}">删除</a>
+  </td>
+</tr>

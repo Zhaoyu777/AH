@@ -1,0 +1,58 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      {% if teachingAims %}
+        <form class="teaching-checkbox" id="teaching-checkbox-form">
+          {% if teachingAims.abilityAim|default() %}
+            <div class="teaching-modal-title">
+              能力目标
+            </div>
+            {% for abilityAim in teachingAims.abilityAim %}
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="aimIds[]" value="{{ abilityAim.id }}" {% if abilityAim.id in connAimIds %}checked="true"{% endif %}>
+                  <span class="checkbox-text" data-type="ability">{{ abilityAim.content }}</span>
+                </label>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          {% if teachingAims.knowledgeAim|default() %}
+            <div class="teaching-modal-title">
+              知识目标
+            </div>
+            {% for knowledgeAim in teachingAims.knowledgeAim %}
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="aimIds[]" value="{{ knowledgeAim.id }}" {% if knowledgeAim.id in connAimIds %}checked="true"{% endif %}>
+                  <span class="checkbox-text" data-type="knownledge">{{ knowledgeAim.content }}</span>
+                </label>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+
+          {% if teachingAims.qualityAim|default() %}
+            <div class="teaching-modal-title">
+              素质目标
+            </div>
+            {% for qualityAim in teachingAims.qualityAim %}
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" name="aimIds[]" value="{{ qualityAim.id }}" {% if qualityAim.id in connAimIds %}checked="true"{% endif %}>
+                  <span class="checkbox-text" data-type="quality">{{ qualityAim.content }}</span>
+                </label>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </form>
+      {% else %}
+        <div class="pvm text-center color-warning">暂无教学目标，请先在“教案信息”当中编辑</div>
+      {% endif %}
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-primary js-teaching-save-btn" data-loading-text="正在保存...">确定</button>
+      <button type="button" class="btn btn-default close-modal">取消</button>
+    </div>
+  </div>
+</div>

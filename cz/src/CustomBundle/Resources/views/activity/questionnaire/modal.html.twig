@@ -1,0 +1,53 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js', 'custombundle/js/activity-manage/questionnaire/index.js'], 300) %}
+
+{% block activity_content %}
+  <div class="form-group">
+    <div class="col-sm-2 control-label">
+      <label for="text-content-field" class="control-label-required">{{ '内容'|trans }}</label>
+    </div>
+    <div class="col-sm-10">
+      <textarea class="form-control type-hidden js-text" id="text-content-field" name="content"
+        data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}"
+        data-flash-upload-url="{{ path('editor_upload', {token:upload_token('course', 'flash')}) }}"
+        data-image-download-url="{{ path('editor_download', {token:upload_token('course')}) }}"
+      >
+        {{ activity.content|default('') }}
+      </textarea>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-2 control-label">
+      <label for="questionnaire-media" class="control-label-required">{{'调查问卷'|trans}}</label>
+    </div>
+    <div class="col-sm-10 controls">
+      <select id="questionnaire-media" class="form-control" name="mediaId"  data-get-questionnaire-items="{{ path('course_set_manage_testpaper_info',{id:course.courseSetId}) }}">
+
+        <option value="">{{ '请选择调查问卷'|trans }}</option>
+        {% for questionnaire in questionnaires %}
+          <option value="{{ questionnaire.id }}" {% if questionnaire.id == activity.questionnaireMediaId|default('') %}selected{% endif %}>{{ questionnaire.title }}</option>
+        {% endfor %}
+      </select>
+      {% if questionnaires is empty %}
+        <div class="help-block color-danger">还没有调查问卷，请先去<a class="js-source-manage-link" data-url="{{ path('course_set_manage_questionnaire',{id:course.courseSetId}) }}" target="_blank" href="javascript:;">创建</a></div>
+      {% else %}
+        <div class="help-block">点此 <a class="js-source-manage-link" data-url="{{ path('course_set_manage_questionnaire',{id:course.courseSetId}) }}" target="_blank" href="javascript:;">管理调查问卷</a></div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block activity_finish %}
+    <div class="form-group" id="condition-group">
+      <div class="col-sm-2 control-label">
+        <label for="condition-select">完成即可得积分</label>
+      </div>
+      <div class="col-sm-4 form-control-static">
+        <input type="radio" name="score" {% if activity.score|default() == 1 %}checked{% endif %} value="1"> 可获得 1 分
+        <input type="radio" name="score" {% if not activity.score|default() %}checked{% endif %} value="0"> 不能获得积分
+        <div class="help-block">{{'完成的标准是：提交调查结果'|trans}}</div>
+      </div>
+    </div>
+{% endblock %}

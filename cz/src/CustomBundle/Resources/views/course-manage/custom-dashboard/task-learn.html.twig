@@ -1,0 +1,61 @@
+{% extends 'course-manage/custom-dashboard/layout.html.twig' %}
+{% do script(['app/js/course-manage/dashboard/lesson-detail/index.js', 'custombundle/js/course-manage/dashboard/lesson-detail/index.js'])%}
+{% set submenu = 'task_learn_dashboard' %}
+
+{% block dashboard %}
+  <div class="table-responsive js-table-responsive">
+    <table class="table table-bordered" id="learning-data-table" style="word-break:break-all;text-align:center;">
+      <tr class="active">
+        <td width="35%">{{ 'course.dashboard.study_detail.name'|trans }}</td>
+
+        <td>{{ 'course.dashboard.study_detail.per_study_time'|trans }}
+          <span class="link-medium es-icon es-icon-help ml5"
+                data-container="body"
+                data-toggle="popover"
+                data-trigger="hover"
+                data-placement="top"
+                data-content="{{'course.dashboard.study_detail.per_study_time_tips'|trans}}">
+        </span>
+        </td>
+
+        <td>{{ 'course.dashboard.study_detail.audio_time'|trans }}
+          <span class="link-medium es-icon es-icon-help ml5"
+                data-container="body"
+                data-toggle="popover"
+                data-trigger="hover"
+                data-placement="top"
+                data-content="{{'course.dashboard.study_detail.audio_time_tips'|trans}}">
+          </span>
+        </td>
+
+        <td>{{ 'course.dashboard.study_detail.per_audio_time'|trans }}
+          <span class="link-medium es-icon es-icon-help ml5"
+                data-container="body"
+                data-toggle="popover"
+                data-trigger="hover"
+                data-placement="top"
+                data-content="{{'course.dashboard.study_detail.per_audio_time_tips'|trans}}">
+          </span>
+        </td>
+
+        <td>{{ 'course.dashboard.study_detail.per_score'|trans }}
+          <span class="link-medium es-icon es-icon-help ml5"
+                data-container="body"
+                data-toggle="popover"
+                data-trigger="hover"
+                data-placement="top"
+                data-content="{{'course.dashboard.study_detail.per_score_tips'|trans}}">
+          </span>
+        </td>
+
+        <td>{{ 'course.dashboard.study_detail.detail'|trans }}</td>
+        {# <td>直播同时在线人数峰值</td> #}
+      </tr>
+    </table>
+  </div>
+  <p class="color-success">{{ 'course.dashboard.study_detail.tips'|trans }} | 没有任务的课次以隐藏</p>
+
+  <input type="hidden" name="page" class="js-lesson-page" value="1">
+
+  <input type="hidden" name="loadUrl" class="js-task-detail" data-url="{{ path('instant_course_table_detail',{courseId:course.id}) }}">
+{% endblock %}

@@ -1,0 +1,138 @@
+{% set taskNo = 0 %}
+<div class="course-detail-content-new">
+  <ul class="task-list task-list-md task-list-hover js-task-list">
+    <li class="task-type-title text-15 gray-darker">
+      <b>课前活动</b>
+    </li>
+    {% for key, item in items['before'] %}
+      {% if loop.index0 == 0 %}
+        <li class="task-item js-task-content task-content mouse-control " style="display: list-item;">
+          <a class="title js-collect-before-task" href="javascript:;"
+             data-url="{{ path('custom_course_lesson_before_task_completion', {courseId: item.courseId, lessonId: lesson.id}) }}">
+            课前活动汇总
+          </a>
+        </li>
+      {% endif %}
+      <li class="task-item js-task-content task-content mouse-control {% if taskId == item['task'].id %}active{% endif %}" style="display: list-item;">
+      {% if is_locked_task(item['task']) %}
+        <i class="es-icon es-icon-lock left-menu gray-medium hidden">
+        </i>
+        <div class="title gray-medium">任务{{ loop.index }} ： {{ item.title|sub_text(30) }}</div>
+      {% else %}
+        {% if is_course_teacher(item.courseId) %}
+          <i class="es-icon
+            {% if lesson.status == 'teached' %}
+            es-icon-iccheckcircleblack24px color-primary
+            {% else %}
+            es-icon-undone-check color-gray
+            {% endif %}
+            left-menu">
+          </i>
+          <a class="title js-lesson-task" href="javascript:;" data-task-id="{{item['task'].id}}" data-course-id="{{item.courseId}}" data-role="teacher">
+            任务{{ loop.index }} ： {{ item.title|sub_text(30) }}
+          </a>
+        {% else %}
+          <i class="es-icon
+            {% if  not item['task'].result|default(null) %}
+            es-icon-undone-check color-gray js-task-{{ item['task'].id }}
+            {% elseif item['task'].result.status == 'start' %}
+            es-icon-doing color-primary js-task-{{ item['task'].id }}
+            {% elseif item['task'].result.status == 'finish' %}
+            es-icon-iccheckcircleblack24px color-primary
+            {% endif %}
+            left-menu">
+          </i>
+          <a class="title js-lesson-task" href="javascript:;" data-task-id="{{item['task'].id}}" data-course-id="{{item.courseId}}" data-role="student">
+            任务{{ loop.index }} ： {{ item.title|sub_text(30) }}
+          </a>
+        {% endif %}
+
+      {% endif %}
+      {% set meta = activity_meta(item['task'].activity.mediaType) %}
+      <i class="right-menu {{ meta.icon }} color-gray ml10" data-toggle="tooltip" data-placement="top" title=""
+        data-original-title="{{ meta.name }}任务" data-container="body"></i>
+    </li>
+    {% set taskNo = loop.length %}
+    {% endfor %}
+    <li class="task-type-title text-15 gray-darker">
+      <b>课前活动</b>
+    </li>
+    {% for key, item in items['in'] %}
+      {% if item['type'] == 'chapter' %}
+      <li class="task-item color-gray bg-gray-lighter" style="display: list-item;">
+        <span class="title">{{ chapters[item.id].title }}</span>
+      </li>
+      {% else %}
+      {% set taskNo = taskNo|default(0)+1 %}
+      <li class="task-item js-task-content task-content mouse-control {% if taskId == item['task'].id %}active{% endif %}" style="display: list-item;">
+        {% if is_locked_task(item['task']) %}
+          <i class="es-icon es-icon-lock left-menu gray-medium hidden">
+          </i>
+          <div class="title gray-medium hidden">任务{{ taskNo }} ： {{ item.title|sub_text(30) }}</div>
+        {% else %}
+          <i class="es-icon
+            {% if lesson.status == 'teached' %}
+            es-icon-iccheckcircleblack24px color-primary
+            {% else %}
+            es-icon-undone-check color-gray
+            {% endif %}
+            left-menu">
+          </i>
+          <a class="title js-lesson-task" href="javascript:;" data-task-id="{{item['task'].id}}" data-course-id="{{item.courseId}}">
+            任务{{ taskNo }} ： {{ item.title|sub_text(30) }}
+          </a>
+        {% endif %}
+        {% set meta = activity_meta(item['task'].activity.mediaType) %}
+        <i class="right-menu {{ meta.icon }} color-gray ml10" data-toggle="tooltip" data-placement="top" title=""
+        data-original-title="{{ meta.name }}任务" data-container="body"></i>
+
+      </li>
+      {% endif %}
+    {% endfor %}
+    <li class="task-type-title text-15 gray-darker">
+      <b>课前活动</b>
+    </li>
+    {% for key, item in items['after'] %}
+    {% set taskNo = taskNo|default(0)+1 %}
+    <li class="{% if is_locked_task(item['task']) %} hidden {% endif %} task-item js-task-content task-content mouse-control {% if taskId == item['task'].id %}active{% endif %}" style="display: list-item;">
+      {% if is_locked_task(item['task']) %}
+        <i class="es-icon es-icon-lock left-menu gray-medium hidden">
+        </i>
+        <div class="title gray-medium hidden">任务{{ taskNo }} ： {{ item.title|sub_text(30) }}</div>
+      {% else %}
+        {% if is_course_teacher(item.courseId) %}
+          <i class="es-icon
+            {% if lesson.status == 'teached' %}
+            es-icon-iccheckcircleblack24px color-primary
+            {% else %}
+            es-icon-undone-check color-gray
+            {% endif %}
+            left-menu">
+          </i>
+          <a class="title js-lesson-task" href="javascript:;" data-task-id="{{item['task'].id}}" data-course-id="{{item.courseId}}" data-role="teacher">
+            任务{{ taskNo }} ： {{ item.title|sub_text(30) }}
+          </a>
+        {% else %}
+          <i class="es-icon
+            {% if  not item['task'].result|default(null) %}
+            es-icon-undone-check color-gray
+            {% elseif item['task'].result.status == 'start' %}
+            es-icon-doing color-primary
+            {% elseif item['task'].result.status == 'finish' %}
+            es-icon-iccheckcircleblack24px color-primary
+            {% endif %}
+            left-menu">
+          </i>
+          <a class="title js-lesson-task" href="javascript:;" data-task-id="{{item['task'].id}}" data-course-id="{{item.courseId}}" data-role="student">
+            任务{{ taskNo }} ： {{ item.title|sub_text(30) }}
+          </a>
+        {% endif %}
+      {% endif %}
+      {% set meta = activity_meta(item['task'].activity.mediaType) %}
+      <i class="right-menu {{ meta.icon }} color-gray ml10" data-toggle="tooltip" data-placement="top" title=""
+        data-original-title="{{ meta.name }}任务" data-container="body"></i>
+
+    </li>
+    {% endfor %}
+  </ul>
+</div>

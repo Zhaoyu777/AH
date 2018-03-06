@@ -1,0 +1,17 @@
+<div class="return-current-course">
+  <span class="gray-dark" id="js-current-place">当前位置：课次{{ lessons[lessonId].number }}</span>
+  <a class="pull-right link-primary" href="javascript:;" data-url="{{ path('lesson_task_show_activities_load', {lessonId:lessonId}) }}">回到当前课次</a>
+</div>
+<ul class="js-teached-course-list sidebar-teached-course-list list-unstyled mtm">
+  {% for lesson in lessons|default() %}
+    <li class="es-piece sidebar-piece mbs js-teached-course-head clearfix" data-url="{{ path('lesson_task_show_activities_load', {lessonId:lesson.id, contract:1}) }}" data-ajax="true" data-lesson-number="{{ lesson.number }}">
+      <div class="piece-header sidebar-piece-header text-lg color-primary pull-left">
+        课次{{ lesson.number }}： {{ lesson.title }}
+      </div>
+      <div class="pull-right">
+        <i class="js-toggle-icon js-course-open es-icon es-icon-keyboardarrowup color-primary"></i>
+        <i class="js-toggle-icon js-course-close es-icon es-icon-keyboardarrowdown color-primary" hidden></i>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

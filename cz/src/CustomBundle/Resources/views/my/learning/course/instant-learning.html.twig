@@ -1,0 +1,44 @@
+{% extends 'my/layout.html.twig' %}
+
+{% set bodyClass = 'my-course' %}
+{% set side_nav = 'my-instant-learing' %}
+
+{% set mobile = is_show_mobile_page() %}
+
+{% do script(['custombundle/js/courseset-manage/course-term-select/index.js']) %}
+
+{% block title %}{{ '课堂学习'|trans }} - {{ parent() }}{% endblock %}
+
+{% block main %}
+  <div class="panel panel-default panel-col">
+    <div class="panel-heading">{{ '课堂学习'|trans }}</div>
+    <div class="panel-body">
+      <form id="term-form" data-url="{{path('my_instant_term_courses_learning')}}" method="post">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-3">
+              <select class="form-control" name="termCode" id="termCode">
+                {{ term_choices() }}
+              </select>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div id="courses-table">
+        <div class="empty">{{ '正在载入数据，请稍等...'|trans }}</div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block main_mobile %}
+  {% if mobile %}
+    {% include 'my/learning/course/learning-mobile.html.twig' %}
+  {% endif %}
+{% endblock %}
+
+{% block bottom %}
+  {% include 'mobile/footer-tool-bar.html.twig' with { mobile_tool_bar: 'learning' } %}
+{% endblock %}
+

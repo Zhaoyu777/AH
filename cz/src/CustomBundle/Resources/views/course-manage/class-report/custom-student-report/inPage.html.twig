@@ -1,0 +1,72 @@
+<div class="ani course-top" swiper-animate-effect="fadeInLeft" swiper-animate-duration="1s" swiper-animate-delay="0">
+  <img class="course-top__img" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/book_2.png') }}"/>
+  <div class="course-top__title course-top__title--bule">
+    课堂
+  </div>
+</div>
+
+<div class="ani course-center course-center--bule" swiper-animate-effect="fadeInRight" swiper-animate-duration="1s" swiper-animate-delay="0">
+  <div class="course-content">
+    {% for taskResult in taskResults %}
+      <div class="course-content__item">
+        <i class="course-content__icon cz-icon {{ taskResult.icon|default("cz-icon-tiaocha ") }} class-report-body_icon"></i>
+        <div class="course-content__title text-overflow"> {{ taskResult.title }}</div>
+        {% if taskResult.status %}
+          <span class="course-content__status color-green">
+          {% if taskResult.score|default(null) %}
+            {{ taskResult.score }}
+          {% else %}
+            已完成
+          {% endif %}
+          </span>
+        {% else %}
+          <span class="course-content__status color-yellow">
+            未参与
+          </span>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
+  <div class="course-status course-status--sm">
+    <div class="course-status__info course-status__info--bule">已完成</div>
+    <div class="course-status__num" > 
+      <div class="circle-chart" data-size="small" data-total="{{taskCounnt}}" data-finish="{{finishCount}}">
+      </div>
+    </div>
+    <div class="course-status__text">
+      <span class="course-status__text--yellow">{{ finishCount }}</span>/{{ taskCounnt }}
+    </div>
+  </div>
+</div>
+
+
+{% if taskBeat >= 50 %}
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.6s">
+  <div class="encourage-well">
+    <div class="encourage-well__info">
+      超越了全班<span class="encourage-well_number">{{ taskBeat }}</span>%的同学
+    </div>
+    <img class="encourage-well__img" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/small_thumb.png') }}"/>
+  </div>
+</div>
+{% endif %}
+
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.9s">
+  <div class="course-status course-status--sm course-status-container">
+    参与互动{{ exerciseNumber|default('0') }}次
+  </div>
+</div>
+
+{% if exerciseBeat >= 50 %}
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="1.2s">
+  <div class="encourage-well">
+    <div class="encourage-well__info">
+      超越了全班<span class="encourage-well_number">{{ exerciseBeat|default('0') }}</span>%的同学
+    </div>
+    <img class="encourage-well__img" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/small_thumb.png') }}"/>
+  </div>
+</div>
+{% endif %}

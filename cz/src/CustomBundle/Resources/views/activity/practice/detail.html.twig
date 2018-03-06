@@ -1,0 +1,137 @@
+<div class="practice-detail-page js-result-{{content.resultId}}">
+  <div class="detail-header clearfix">
+    <img src="{{ users[content.userId].avatar }}" class="fl stu-avatar">
+    <span class="fl ml15 text-bold text-20 color-white">
+      {{ profiles[content.userId].truename|default(users[content.userId].nickname) }}
+    </span>
+    <i class="cz-icon cz-icon-close fr cursor-pointer text-20 hover-color-primary" data-dismiss="modal" aria-hidden="true"></i>
+  </div>
+  <div class="detail-content">
+    <div class="stu-img-box">
+      <div class="prev-img-lg">
+        <div class="img-btn {% if not switch == 0 %}js-prev-img active{% endif %}">
+          <i class="cz-icon cz-icon-lastone color-white text-32"></i>
+        </div>
+      </div>
+      <img src="{{ filepath(content.uri) }}" class="current-stu-img cursor-pointer js-current-stu-img">
+      <div class="next-img-lg">
+        <div class="img-btn {% if not (switch == (contents|length|default(0) - 1)) %}js-next-img active{% endif %}">
+          <i class="cz-icon cz-icon-thenext color-white text-32"></i>
+        </div>
+      </div>
+      {% if result.isTeacher == '0' %}
+        <div class="like-box">
+          <i
+            class="cz-icon cz-icon-praise-hover text-34 cursor-pointer js-zan-like color-primary {% if not isLike %} hidden {% endif %}"
+            data-url="{{ path('practice_content_cancel_like',{contentId: content.id}) }}"
+            data-result-id="{{ result.id }}"></i>
+          <i class="cz-icon cz-icon-praise text-34 cursor-pointer js-cancel-like color-primary {% if isLike %} hidden {% endif %}"
+             data-url="{{ path('practice_content_like',{contentId: content.id}) }}"
+             data-result-id="{{ result.id }}"></i>
+          <span class="ml10 js-wall-like-num like-num text-20 text-bold color-white line-height-1 cursor-pointer">{{ content.likeNum }}</span>
+        </div>
+      {% endif %}
+    </div>
+    <div class="fixed-width-content mt20">
+      <div class="stu-img-list-box">
+        <div class="prev-img {% if not switch == 0 %}js-prev-img active{% endif %}">
+          <i class="cz-icon cz-icon-lastone color-white text-24"></i>
+        </div>
+        <div class="fixed-list-box">
+          <ul class="stu-img-list js-stu-img-list clearfix">
+            {% for content in contents %}
+              <li class="fl js-stu-img-li
+                {% if content.resultId == result.id %}active{% endif %}
+                {% if loop.last %}last{% endif %}"
+                  data-url="{{ path('practice_content_show', {contentId:content.id}) }}">
+                <img class="stu-img js-stu-img" src="{{ filepath(content.uri) }}">
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="next-img {% if not (switch == (contents|length|default(0) - 1)) %}js-next-img active{% endif %}">
+          <i class="cz-icon cz-icon-thenext color-white text-24"></i>
+        </div>
+      </div>
+      <p class="split-line"></p>
+      {% if not is_course_teacher(result.courseId) %}
+        <div class="comment-area clearfix hidden">
+          <textarea id="" class="comment-textarea" placeholder="最多输入200字"></textarea>
+          <button class="kt-btn kt-btn-primary fr mt20">发表评论</button>
+        </div>
+      {% endif %}
+
+      {% if result.isTeacher == '0' %}
+        <div class="comment-list-box">
+          <div class="comment-tips">
+            <span class="text-24 text-bold color-white">评论</span>
+            <span class="text-18 text-bold color-white js-wall-post-num">（{{ content.postNum }}）</span>
+          </div>
+          <ul class="comment-list">
+            {% for post in posts %}
+              <li class="comment-li clearfix">
+                <img src="{{ users[post.userId].avatar }}" class="fl mr20 comment-stu-avatar">
+                <div class="fl line-height-1">
+                  <p class="text-18 text-bold color-primary mb10">
+                    {{ profiles[post.parentId].truename|default(users[post.userId].nickname) }}
+                  </p>
+                  <p class="text-20 text-bold color-white">{{ post.content }}</p>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="detail-footer">
+
+  </div>
+</div>
+
+{% include 'js_loader_async.html.twig' %}
+<script>
+  const $elem = $('.js-stu-img-list');
+  const $childLi = $elem.find('li');
+  const marginRight = $childLi.find('img').css('marginRight');
+  const imgLength = $childLi.length;
+  const width = $childLi.width() * imgLength - parseInt(marginRight);
+  $elem.width(width);
+
+  function changePage(url) {
+    if(!url) {
+      return;
+    }
+
+    $.get(url, (data) => {
+      $('#modal').html(data);
+    })
+  }
+
+  $('.js-stu-img-li').on('click', function () {
+    const url = $(this).data('url');
+    changePage(url);
+  });
+
+  $('.js-prev-img').on('click', function () {
+    const $currentImgLi = $('.js-stu-img-list').find('li.active');
+    const $prevLi = $currentImgLi.prev();
+    if(!$prevLi.length) {
+      return;
+    }
+
+    const url = $prevLi.data('url');
+    changePage(url);
+  });
+
+  $('.js-next-img').on('click', function () {
+    const $currentImgLi = $('.js-stu-img-list').find('li.active');
+    const $nextLi = $currentImgLi.next();
+    if(!$nextLi.length) {
+      return;
+    }
+
+    const url = $nextLi.data('url');
+    changePage(url);
+  });
+</script>

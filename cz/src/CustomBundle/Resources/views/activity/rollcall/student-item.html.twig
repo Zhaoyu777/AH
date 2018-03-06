@@ -1,0 +1,7 @@
+<div class="called-stu-info js-called-stu-info">
+  <img class="avatar-md inline-block" src="{{ filepath(student.avatar,'avatar.png') }}" alt="">
+  <div class="color-dark mtm">{{ student.truename }}</div>
+  <div class="color-gray mbm">{{ student.nickname }}</div>
+  <a class="btn cz-link-primary cz-btn-md text-bold js-grade-btn" href="javascript:;" data-target="#modal" data-toggle="modal" data-url="{{ path('rollcall_result_remark',{resultId: result.id}) }}">评分</a>
+  <!-- <div class="js-score-animate score-animate color-primary"></div> -->
+</div>

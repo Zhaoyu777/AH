@@ -1,0 +1,27 @@
+{% set taskIndex = 1 %}
+{% set studentCount = data('CourseMemberCount', {courseId:courseId, role: 'student'}) %}
+{% for stage in ['before', 'in', 'after'] %}
+  {% if chapters[stage]|default() %}
+    <div class="class-report-body">
+      <div class="class-report-body_title">
+        {% if stage == 'before' %}
+          课前
+        {% elseif stage == 'in' %}
+          课堂
+        {% elseif stage == 'after' %}
+          课后
+        {% endif %}
+      </div>
+      {% set chapterIndex = 1 %}
+      {% for chapter in chapters[stage] %}
+        {% if chapter['type'] == 'chapter' %}
+          <div class="gray-darker mbm">环节{{ chapterIndex }}： {{ chapter['chapter'].title }}</div>
+          {% set chapterIndex = chapterIndex + 1 %}
+        {% else %}
+          {% include 'course-manage/class-report/teacher-report/task-report-detail.html.twig' %}
+          {% set taskIndex = taskIndex + 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,34 @@
+{% set layout = 'prepare-course-manage/layout.html.twig' %}
+
+{% extends layout %}
+
+{% block title %}{{'课程学习数据'|trans}} - {{ course.title }} - {{ parent() }}{% endblock %}
+{% set side_nav = 'dashboard' %}
+
+{% block main %}
+  <div class="panel panel-default">
+    {% include 'course-manage/panel-header/course-publish-header.html.twig' with {code: side_nav} %}
+    <div class="panel-body dashboard-panel">
+      <ul class="nav nav-pills mbl">
+        <li class="{% if submenu|default() == 'course_learn' %}active{% endif %}">
+          <a href="{{ path('teacher_course_multianalysis',{courseId:course.id}) }}">课堂数据报告</a>
+        </li>
+
+        <li class="{% if submenu|default() == 'task_dashboard' %}active{% endif %}">
+          <a href="{{ path('instant_course_set_manage_course_dashboard',{courseSetId: course.courseSetId, courseId:course.id, tab: 'task'}) }}">{{ '任务完成率'|trans }}
+          </a>
+        </li>
+
+        <li class="{% if submenu|default() == 'task_learn_dashboard' %}active{% endif %}">
+          <a href="{{ path('instant_course_set_manage_course_dashboard',{courseSetId: course.courseSetId, courseId:course.id, tab: 'task-detail'}) }}">{{ '任务学习详情'|trans }}
+          </a>
+        </li>
+
+        <li class="{% if submenu|default() == 'student_learn' %}active{% endif %}">
+          <a href="{{ path('course_students_study_multianalysis',{courseSetId: course.courseSetId, courseId:course.id}) }}">{{ '学生学习情况'|trans }}</a>
+        </li>
+      </ul>
+      {% block dashboard %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}

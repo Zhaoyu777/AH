@@ -1,0 +1,41 @@
+.circle-chart-box {
+  position: relative;
+  margin-bottom: 60px;
+  .circle-box {
+    @media (max-width: 768px) {
+      display: none;
+    }
+    position: absolute;
+    z-index: 999;
+    float:left;
+    .circle {
+      position: relative;
+      width:120px;
+      height:120px;
+      margin-bottom:20px;
+      margin-left:30px;
+      span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 28px;
+        color: @brand-primary;
+        .transform(translate(-50%,-50%));
+      }
+    }
+    .title {
+      width:180px;
+      text-align:center;
+      font-size: 18px;
+      color: #616161;
+    }
+  }
+  .chart {
+    width: 100%;
+    padding-left:180px;
+    height: 158px;
+    @media (max-width: 768px) {
+      padding-left: 0;
+    }
+  }
+}

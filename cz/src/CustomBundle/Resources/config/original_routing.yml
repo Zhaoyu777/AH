@@ -1,0 +1,75 @@
+# AppBundle下被重写掉的路由，独立方便处理之后升级碰到的问题
+
+login:
+    path:  /login
+    defaults: { _controller: CustomBundle:Login:index }
+
+my:
+    path: /my
+    defaults: { _controller: CustomBundle:My/Course:index }
+
+esbar_my_course:
+    path:  /esbar/my/course
+    defaults: { _controller: CustomBundle:EsBar/EsBar:course }
+
+classroom_courses_pick:
+    path: /classroom/{classroomId}/course/pick
+    defaults: { _controller: CustomBundle:Classroom/Course:pick }
+
+classroom_course_search:
+    path: /classroom/{classroomId}/course/search
+    defaults: { _controller: CustomBundle:Classroom/Course:search }
+
+course_task_activity_show:
+    path:  /course/{courseId}/task/{id}/activity_show
+    defaults: { _controller: CustomBundle:Task:taskActivity }
+
+message_create:
+    path: /message/create/{toId}
+    defaults: { _controller: CustomBundle:Message:create }
+
+testpaper_finish:
+    path: /testpaper/result/{resultId}/finish
+    defaults: { _controller: CustomBundle:Testpaper/Testpaper:finishTest }
+
+course_set_manage_course_dashboard_task_detail:
+    path:  /course_set/{courseSetId}/manage/course/{courseId}/dashboard/detail/{taskId}
+    defaults: { _controller: CustomBundle:Course/CourseManage:taskLearnDetail }
+
+course_manage_task_delete:
+    path:  /course/{courseId}/task/{taskId}/delete
+    defaults: { _controller: CustomBundle:TaskManage:delete }
+
+my_teaching_classrooms:
+    path: /my/teaching/classrooms
+    defaults: { _controller: CustomBundle:My/Classroom:teaching }
+
+homework_show:
+  path: /homework/{resultId}/show
+  defaults: { _controller: CustomBundle:Homework:doTest }
+
+homework_start_do:
+  path: /lesson/{lessonId}/homework/{homeworkId}/startDo
+  defaults: { _controller: CustomBundle:Homework:startDo }
+
+homework_result_show:
+  path: /homework/result/{resultId}/show
+  defaults: { _controller: CustomBundle:Homework:showResult }
+
+course_set_manage_question_check_num:
+  path: /course_set/{courseSetId}/manage/question/check/num
+  defaults: { _controller: CustomBundle:Question/Manage:showQuestionTypesNum }
+  methods: [POST]
+
+course_set_manage_testpaper_create:
+  path: /course_set/{id}/manage/testpaper/create
+  defaults: { _controller: CustomBundle:Testpaper/Manage:create }
+
+course_set_manage_testpaper_build_check:
+  path: /course_set/{courseSetId}/manage/{type}/build/check
+  defaults: { _controller: CustomBundle:Testpaper/Manage:buildCheck }
+
+#file chooser
+media_materiallib_choose:
+  path: /media/materiallib/choose
+  defaults: { _controller: CustomBundle:FileChooser:materialChoose }

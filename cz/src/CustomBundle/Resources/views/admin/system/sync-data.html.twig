@@ -1,0 +1,32 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% set menu = 'admin_sync_data_manage' %}
+
+{% block main %}
+
+{{ web_macro.flash_messages() }}
+
+  <form class="form-horizontal" method="post">
+    <fieldset>
+      <div class="form-group">
+
+        
+        <div class="controls col-md-10">
+          {% if not currentJob %}
+            <button type="submit" class="btn btn-primary">{{'同步'|trans}}</button>
+          {% elseif (currentJob.status == 'created' or currentJob.status == 'syncing') %}
+            数据正在同步中，请稍候……
+          {% elseif currentJob.status == 'succeed'%}
+            数据同步成功！<button type="submit" class="btn btn-primary">{{'同步'|trans}}</button>
+          {% elseif currentJob.status == 'fail'%}
+            数据同步失败！<button type="submit" class="btn btn-primary">{{'同步'|trans}}</button>
+          {% endif %}
+
+
+          <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+{% endblock %}

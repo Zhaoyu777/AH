@@ -1,0 +1,20 @@
+{% extends 'course-manage/custom-dashboard/layout.html.twig' %}
+{% do script(['libs/echarts.js', 'custombundle/js/courseset-manage/custom-dashboard/lesson/index.js'])%}
+{% set submenu = 'task_dashboard' %}
+{% set flag = 0 %}
+
+{% block dashboard %}
+  {% for stageTask in lessonTasks %}
+    <div class="text-center">课次{{flag + 1}}</div>
+    <div id="lesson-dashboard-container-{{flag}}" class="lesson-dashboard-container"
+      data-lesson-num="{{ stageTask.taskTitles|length }}"
+      data-titles="{{ stageTask.taskTitles|json_encode }}"
+      data-remarks="{{ stageTask.taskRemarks|json_encode }}"
+      data-learn-num="{{ stageTask.learnNum|json_encode }}"
+      data-finished-num="{{ stageTask.finishedNum|json_encode }}"
+      data-finished-rate="{{ stageTask.finishedRate|json_encode }}">
+    </div>
+    {% set flag = flag + 1 %}
+
+  {% endfor %}
+{% endblock %}

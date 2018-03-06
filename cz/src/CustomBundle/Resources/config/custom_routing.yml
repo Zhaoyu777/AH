@@ -1,0 +1,727 @@
+_original:
+    resource: "@CustomBundle/Resources/config/original_routing.yml"
+    prefix:   /
+
+_wei_xin:
+    resource: "@CustomBundle/Resources/config/custom_weixin_routing.yml"
+    prefix:   /
+
+logon:
+    path:  /logon
+    defaults: { _controller: CustomBundle:Login:index }
+
+test:
+    path: /test
+    defaults: { _controller: CustomBundle:Default:hello }
+
+instant_course_lesson_push_params:
+    path: /instant/course/{courseId}/lesson/{lessonId}/push_params
+    defaults: { _controller: CustomBundle:Course/CourseLesson:getPushParams }
+
+my_teaching_instant_courses:
+    path: /my/teaching/instant/courses
+    defaults: { _controller: CustomBundle:My/CourseSet:teachingInstantCourses }
+
+my_teaching_load_instant_courses:
+    path: /my/teaching/load/instant/courses
+    defaults: { _controller: CustomBundle:My/CourseSet:loadTeachingInstantCourses }
+
+my_instant_courses_learning:
+    path: /my/instant/courses/learning
+    defaults: { _controller: CustomBundle:My/Course:instantLearning }
+
+my_instant_term_courses_learning:
+    path: /my/instant/term/courses/learning
+    defaults: { _controller: CustomBundle:My/Course:loadInstantLearning}
+
+my_instant_course_report:
+    path: /my/instant/course/{courseId}/report
+    defaults: { _controller: CustomBundle:CourseStatistics/Student:courseReport}
+
+my_works_list:
+    path: /my/works/{status}/list
+    defaults: { _controller: CustomBundle:My/Works:list}
+
+my_other_homework_list:
+    path: /my/other/homework/{status}/list
+    defaults: { _controller: CustomBundle:My/Works:otherList, status: 'finished' }
+
+custom_course_set_manage_create:
+    path: /instant/course/create
+    defaults: { _controller: CustomBundle:Course/CourseManage:createCourse }
+
+custom_course_set_delete:
+    path: /instant/course/{courseSetId}/delete
+    defaults: { _controller: CustomBundle:Course/CourseManage:delete }
+
+custom_course_set_manage:
+    path: /instant/course/{courseSetId}/manage
+    defaults: { _controller: CustomBundle:Course/CourseManage:manage }
+
+instant_course_set_courses:
+    path: /instant/courseSet/{courseSetId}/courses
+    defaults: { _controller: CustomBundle:Course/CourseSetManage:courses }
+
+custom_course_lesson_list:
+    path: /instant/course/{courseId}/lesson
+    defaults: { _controller: CustomBundle:Course/CourseLesson:index }
+
+custom_lesson_tasks:
+    path: /custom/lesson/{lessonId}/tasks
+    defaults: { _controller: CustomBundle:Course/CourseLesson:tasks }
+
+custom_lesson_edit:
+    path: /custom/lesson/{lessonId}/edit
+    defaults: { _controller: CustomBundle:Course/CourseLesson:edit }
+
+custom_lesson_edit_hint:
+    path: /custom/lesson/edit/hint
+    defaults: { _controller: CustomBundle:Course/CourseLesson:editHint }
+
+custom_lesson_chapter_create:
+    path: /custom/lesson/chapter/create
+    defaults: { _controller: CustomBundle:Course/CourseLesson:createChapter }
+
+custom_lesson_chapter_edit:
+    path: /custom/lesson/chapter/{chapterId}/edit
+    defaults: { _controller: CustomBundle:Course/CourseLesson:editChapter }
+
+custom_chapter_delete:
+    path: /custom/lesson/chapter/{chapterId}/delete
+    defaults: { _controller: CustomBundle:Course/CourseLesson:deleteChapter }
+
+custom_task_create:
+    path: /custom/lesson/{lessonId}/task/create
+    defaults: { _controller: CustomBundle:TaskManage:create }
+
+custom_task_edit:
+    path: /instant/course/{courseId}/task/{id}/update
+    defaults: { _controller: CustomBundle:TaskManage:update }
+
+course_manage_task_fields:
+    path:  /course/{courseId}/task_fields/{mode}
+    defaults: { _controller: CustomBundle:TaskManage:taskFields }
+
+custom_course_manage_course_teachers:
+    path: /custom/manage/course/{courseId}/teachers
+    defaults: { _controller: CustomBundle:Course/CourseManage:teachers }
+
+custom_course_manage_course_teachers_match:
+    path: /custom/manage/course/{courseId}/teachers_match
+    defaults: { _controller: CustomBundle:Course/CourseManage:teachersMatch }
+
+custom_course_manage_course_students:
+    path: /custom/manage/course/{courseId}/students
+    defaults: { _controller: CustomBundle:Course/StudentManage:students }
+
+custom_course_manage_student_create:
+    path: /custom/manage/course/{courseId}/student/create
+    defaults: { _controller: CustomBundle:Course/StudentManage:createCourseStudent }
+
+instant_course_students_sort:
+    path: /instant/course/{courseId}/students/sort
+    defaults: { _controller: CustomBundle:Course/StudentManage:sort }
+
+custom_course_manage_course_students_match:
+    path: /custom/manage/course/{courseId}/students_match
+    defaults: { _controller: CustomBundle:Course/StudentManage:studentsMatch }
+
+instant_group_member_match:
+    path: /instant/course/{courseId}/group/students_match
+    defaults: { _controller: CustomBundle:Course/StudentManage:courseMemberMatch }
+
+custom_course_student_group_create:
+    path: /custom/manage/course/{courseId}/student/group/create
+    defaults: { _controller: CustomBundle:Course/StudentManage:createGroup }
+
+custom_remove_group_member:
+    path: /custom/manage/group_member/{groupMemberId}/remove
+    defaults: { _controller: CustomBundle:Course/StudentManage:removeGroupMember }
+
+custom_group_delete:
+    path: /custom/manage/group/{groupId}/delete
+    defaults: { _controller: CustomBundle:Course/StudentManage:deleteGroup }
+
+custom_teaching_course:
+    path: /custom/teaching/course/{courseId}/show
+    defaults: { _controller: CustomBundle:Course/CourseManage:show }
+
+instant_course_lessons_load:
+    path: /instant/course/{courseId}/lessons/load
+    defaults: { _controller: CustomBundle:Course/CourseLesson:loadLessons }
+
+instant_course_teach_lessons:
+    path: /instant/course/{courseId}/teach/lessons
+    defaults: { _controller: CustomBundle:Course/CourseLesson:teachLessons }
+
+custom_start_sign_in:
+    path: /course/lesson/{lessonId}/sign_in/start
+    defaults: { _controller: CustomBundle:Course/SignIn:start }
+
+custom_cancel_sign_in:
+    path: /sign_in/cancel
+    defaults: { _controller: CustomBundle:Course/SignIn:cancel }
+
+custom_end_sign_in:
+    path: /sign_in/end
+    defaults: { _controller: CustomBundle:Course/SignIn:end }
+
+custom_sign_in_result:
+    path: /custom/lesson/{lessonId}/sign_in/result
+    defaults: { _controller: CustomBundle:Course/SignIn:result }
+
+custom_sign_in_attend_member_count:
+    path: /custom/sign_in/attend
+    defaults: { _controller: CustomBundle:Course/SignIn:attendCount }
+
+custom_sign_in_record:
+    path: /course/{courseId}/lesson/{lessonId}/sign_in/{userId}/record
+    defaults: { _controller: CustomBundle:Course/SignIn:record }
+
+custom_sign_in_manage:
+    path: /course/{courseId}/lesson/{lessonId}/sign_in/{userId}/manage
+    defaults: { _controller: CustomBundle:Course/SignIn:manage }
+
+sign_in_member_add_match:
+    path: /sign_in/{signInId}/member_add/match
+    defaults: { _controller: CustomBundle:Course/SignIn:memberAddMatch }
+
+sign_in_result_attend:
+    path: /sign_in/{signInId}/result/attend/members
+    defaults: { _controller: CustomBundle:Course/SignIn:attendMembers }
+
+sign_in_result_absent:
+    path: /sign_in/{signInId}/result/absent/members
+    defaults: { _controller: CustomBundle:Course/SignIn:absentMembers }
+
+sign_in_add_member:
+    path: /sign_in/{signInId}/member_add/add
+    defaults: { _controller: CustomBundle:Course/SignIn:memberAdd }
+
+display_wall_result_remark:
+    path: /display_wall/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Activity/DisplayWall:remark }
+
+display_wall_content_show:
+    path: /display_wall/result/content/{contentId}/show
+    defaults: { _controller: CustomBundle:Activity/DisplayWall:contentShow }
+
+display_wall_result_load:
+    path: /display_wall/task/{taskId}/activity/{activityId}/result/load
+    defaults: { _controller: CustomBundle:Activity/DisplayWall:loadResult }
+
+custom_sign_in_result_set_absent:
+    path: /custom/sign_in/member/{signInMemberId}/result/set/absent
+    defaults: { _controller: CustomBundle:Course/SignIn:setAbsent }
+
+custom_sign_in_result_set_attend:
+    path: /custom/sign_in/member/{signInMemberId}/result/set/attend
+    defaults: { _controller: CustomBundle:Course/SignIn:setAttend }
+
+custom_sign_in_set_member_status:
+    path: /sign_in/member/{signInMemberId}/status/{status}/set
+    defaults: { _controller: CustomBundle:Course/SignIn:setSignInStatus }
+
+custom_lesson_show:
+    path:  /course/{courseId}/lesson/{lessonId}/teach
+    defaults: { _controller: CustomBundle:Task:lessonShow }
+
+custom_course_check:
+    path: /custom/course/{courseId}/check
+    defaults: { _controller: CustomBundle:Course/CourseManage:checkCourse }
+
+custom_lesson_detail_show:
+    path:  /task/detail
+    defaults: { _controller: CustomBundle:Task:detail }
+
+instant_course_learn:
+    path:  /course/{courseId}/next_lesson/{nextLessonId}/learn
+    defaults: { _controller: CustomBundle:Task:courseLearn }
+
+instant_lesson_learn:
+    path:  /course/{courseId}/lesson/{lessonId}/learn
+    defaults: { _controller: CustomBundle:Task:lessonLearn }
+
+instant_course_lesson_start:
+    path:  /course/{courseId}/lesson/{lessonId}/start
+    defaults: { _controller: CustomBundle:Course/CourseLesson:startLesson }
+
+custom_lesson_end:
+    path:  /course/{courseId}/lesson/{lessonId}/end
+    defaults: { _controller: CustomBundle:Task:lessonEnd }
+
+custom_after_class_show:
+    path: /course/{courseId}/lesson/{lessonId}/after_class/show
+    defaults: { _controller: CustomBundle:Task:afterClassShow }
+
+custom_lesson_cancel:
+    path:  /course/{courseId}/lesson/{lessonId}/cancel
+    defaults: { _controller: CustomBundle:Task:lessonCancel }
+
+lesson_task_show:
+    path:  /course/{courseId}/lesson/{lessonId}/task/{id}/show
+    defaults: { _controller: CustomBundle:Task:show }
+
+instant_lesson_preview:
+    path:  /course/{courseId}/lesson/{lessonId}/preview
+    defaults: { _controller: CustomBundle:Task:lessonPreview }
+
+lesson_task_preview:
+    path:  /course/{courseId}/lesson/{lessonId}/task/{id}/preview
+    defaults: { _controller: CustomBundle:Task:preview }
+
+instant_course_task_content_preview:
+    path:  /instant/course/{courseId}/task/{id}/preview
+    defaults: { _controller: CustomBundle:Task:contentPreview }
+
+instant_course_lesson_tasks_sort:
+    path: /course/{courseId}/lesson/{lessonId}/tasks/sort
+    defaults: { _controller: CustomBundle:Task:sort }
+
+lesson_task_show_plugins:
+    path: /course/{courseId}/lesson/{lessonId}/task/{taskId}/show/plugins
+    defaults: { _controller: CustomBundle:Task:taskPlugins }
+
+lesson_task_show_plugin_task_list:
+    path: /course/{courseId}/lesson/{lessonId}/task/{taskId}/plugin/task_list
+    defaults: { _controller: CustomBundle:TaskPlugin:taskList }
+
+lesson_task_show_activities_load:
+    path: instant/course/lesson/{lessonId}/tasks/load
+    defaults: { _controller: CustomBundle:Course/CourseLesson:loadLessonActivities }
+
+task_start:
+    path: /course/{courseId}/lesson/{lessonId}/task/{taskId}/start
+    defaults: { _controller: CustomBundle:Task:start }
+
+task_end:
+    path: /course/{courseId}/lesson/{lessonId}/task/{taskId}/end
+    defaults: { _controller: CustomBundle:Task:end }
+
+brain_storm_remark:
+    path: /brain_storm/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Activity/BrainStorm:remark }
+
+brain_storm_group_remark:
+    path: /brain_storm/task/{taskId}/group/{groupId}/group/remark
+    defaults: { _controller: CustomBundle:Activity/BrainStorm:groupRemark }
+
+one_sentence_start:
+    path: /task/{taskId}/activity/{activityId}/one_sentence/start
+    defaults: { _controller: CustomBundle:Activity/OneSentence:start }
+
+one_sentence_end:
+    path: /task/{taskId}/activity/{activityId}/one_sentence/end
+    defaults: { _controller: CustomBundle:Activity/OneSentence:end }
+
+one_sentence_result_load:
+    path: /one_sentence/task/{taskId}/activity/{activityId}/result/load
+    defaults: { _controller: CustomBundle:Activity/OneSentence:loadResults }
+
+instant_course_student_rand:
+    path: /instant/course/{courseId}/task/{taskId}/student/rand
+    defaults: { _controller: CustomBundle:Task:randStudent }
+
+rollcall_result_remark:
+    path: /rollcall/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Activity/Rollcall:remark }
+
+following_match_bynickname:
+    path: /following/bynickname/match_jsonp
+    defaults: { _controller: CustomBundle:Message:match }
+
+custom_sign_in_member_delete:
+    path: /sign_in/member/{id}/delete
+    defaults: { _controller: CustomBundle:Course/SignIn:deleteSignMember }
+
+course_set_manage_questionnaire:
+  path: /course_set/{id}/manage/questionnaire
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:index }
+
+course_set_manage_questionnaire_create:
+  path: /course_set/{id}/manage/questionnaire/create
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:create }
+
+course_set_manage_questionnaire_update:
+  path: /manage/questionnaire/{id}/update
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:update }
+
+course_set_manage_questionnaire_delete:
+  path: /manage/questionnaire/{id}/delete
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:delete }
+
+course_set_manage_questionnaire_deletes:
+  path: /manage/questionnaire/deletes
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:deletes }
+  methods: [POST]
+
+questionnaire_question:
+  path: /manage/{questionnaireId}/questionnaire_question
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:question }
+
+questionnaire_question_create:
+  path: /manage/{questionnaireId}/question/{type}/create
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:questionCreate }
+
+course_set_manage_questionnaire_question_delete:
+  path: /manage/questionnaire/question/{id}/delete
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:questionDelete }
+
+course_set_manage_questionnaire_question_deletes:
+  path: /manage/questionnaire/{questionnaireId}/question/deletes
+  defaults: { _controller: CustomBundle:Questionnaire/Manage:questionDeletes }
+
+course_set_questionnaire_question_sort:
+  path: /manage/questionnaire/{questionnaireId}/sort
+  defaults: {_controller: CustomBundle:Questionnaire/Manage:questionSort}
+
+race_answer_result_load:
+    path: /race/answer/task/{taskId}/result/load
+    defaults: { _controller: CustomBundle:Activity/RaceAnswer:loadResult }
+
+race_answer_result_remark:
+    path: /race/answer/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Activity/RaceAnswer:remark }
+
+questionnaire_do:
+    path: task/{taskId}/questionnaire/{questionnaireId}/do
+    defaults: { _controller: CustomBundle:Activity/Questionnaire:doQuestionnaire }
+
+questionnaire_show:
+    path: /questionnaire/{resultId}/show
+    defaults: { _controller: CustomBundle:Activity/Questionnaire:doTest }
+
+questionnaire_finish:
+    path: /questionnaire/result/{resultId}/finish
+    defaults: { _controller: CustomBundle:Activity/Questionnaire:finishTest }
+
+questionnaire_result_show:
+    path: task/{taskId}/questionnaire/{questionnaireId}/result/show
+    defaults: { _controller: CustomBundle:Activity/Questionnaire:showResult }
+
+questionnaire_result_load:
+    path: task/{taskId}/questionnaire/{questionnaireId}/result/load
+    defaults: { _controller: CustomBundle:Activity/Questionnaire:resultLoad }
+
+course_share:
+    path: /instant/course/{courseId}/share
+    defaults: { _controller: CustomBundle:Course/CourseShare:index }
+
+custom_sign_in_member_delete:
+    path: /sign_in/member/{id}/delete
+    defaults: { _controller: CustomBundle:Course/SignIn:deleteSignMember }
+
+instant_course_teacher_class_report:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report
+    defaults: { _controller: CustomBundle:Course/Report:teacherReport }
+
+instant_course_teacher_class_report_export_testpaper_result:
+    path: /instant/course/{courseId}/lesson/{lessonId}/task/{taskId}/teacher/class_report/export/testpaper
+    defaults: { _controller: CustomBundle:Course/Report:exportTestpaperResult }
+
+instant_course_teacher_class_report_base:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/base
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportBase }
+
+instant_course_student_class_report_base:
+    path: /instant/course/{courseId}/lesson/{lessonId}/student/class_report/base
+    defaults: { _controller: CustomBundle:Course/Report:studentReportBase }
+
+instant_course_teacher_class_report_sign_in:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/sign_in
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportSignIn }
+
+instant_course_teacher_class_report_sign_in_detail:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/sign_in/{time}/detail
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportSignInDetail }
+
+instant_course_teacher_class_report_score_detail:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/score/detail
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportScoreDetail }
+
+instant_course_student_class_report_sign_in:
+    path: /instant/course/{courseId}/lesson/{lessonId}/student/class_report/sign_in
+    defaults: { _controller: CustomBundle:Course/Report:studentReportSignIn }
+
+instant_course_teacher_class_report_task:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/task
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportTask }
+
+instant_course_teacher_class_report_task_show:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/task/{taskId}/show
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportTaskShow }
+
+instant_course_student_class_report_task:
+    path: /instant/course/{courseId}/lesson/{lessonId}/student/class_report/task
+    defaults: { _controller: CustomBundle:Course/Report:studentReportTask }
+
+instant_course_teacher_class_report_score:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/score
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportScore }
+
+instant_course_student_class_report_score:
+    path: /instant/course/{courseId}/lesson/{lessonId}/student/class_report/score
+    defaults: { _controller: CustomBundle:Course/Report:studentReportScore }
+
+instant_course_student_class_report_evaluation:
+    path: /instant/course/{courseId}/lesson/{lessonId}/student/class_report/evaluation
+    defaults: { _controller: CustomBundle:Course/Report:studentReportEvaluation }
+
+instant_course_teacher_class_report_evaluation:
+    path: /instant/course/{courseId}/lesson/{lessonId}/teacher/class_report/evaluation
+    defaults: { _controller: CustomBundle:Course/Report:teacherReportEvaluation }
+
+instant_course_student_class_report:
+    path: /instant/course/{courseId}/lesson/{lessonId}/student/class_report
+    defaults: { _controller: CustomBundle:Course/Report:studentReport }
+
+testpaper_finish:
+    path: /testpaper/result/{resultId}/finish
+    defaults: { _controller: CustomBundle:Testpaper/Testpaper:finishTest }
+
+testpaper_statis:
+    path: /activity/{activityId}/testpaper/{testId}/statis
+    defaults: { _controller: CustomBundle:Testpaper/Testpaper:statis }
+
+instant_course_share_create:
+    path:  /instant/course/{courseId}/share/create
+    defaults: { _controller: CustomBundle:Course/CourseShare:create }
+
+instant_course_share_delete:
+    path:  /instant/course/share/{shareId}/delete
+    defaults: { _controller: CustomBundle:Course/CourseShare:delete }
+
+instant_course_share_teachers_match:
+    path: /instant/course/{courseId}/share/teachers_match
+    defaults: { _controller: CustomBundle:Course/CourseShare:shareTeachersMatch }
+
+import_course_lesson:
+    path: /import/course/lesson
+    defaults: { _controller: CustomBundle:Course/CourseImport:importCourseLesson }
+
+import_course:
+    path: /import/course
+    defaults: { _controller: CustomBundle:Course/CourseImport:importCourse }
+
+prepare_import_courses:
+    path: /prepare/import/courses/prepare
+    defaults: { _controller: CustomBundle:Course/CourseManage:prepareImportCourses }
+
+prepare_import_course_lessons:
+    path: /prepare/import/course/{courseId}/lessons
+    defaults: { _controller: CustomBundle:Course/CourseLesson:prepareImportCourseLessons }
+
+prepare_import_course_shares:
+    path: /prepare/import/course/shares
+    defaults: { _controller: CustomBundle:Course/CourseManage:prepareImportCourseShares }
+
+import_course_lesson_index:
+    path: /import/course/lesson/{lessonId}/index
+    defaults: { _controller: CustomBundle:Course/CourseImport:importCourseLessonIndex }
+
+import_course_index:
+    path: /import/course/{courseId}/index
+    defaults: { _controller: CustomBundle:Course/CourseImport:importCourseIndex }
+
+import_course_warn:
+    path: /import/course/warn
+    defaults: { _controller: CustomBundle:Course/CourseImport:importCourseWarn }
+
+course_students_study_multianalysis:
+    path: /course_set/{courseSetId}/course/{courseId}/students/study/statisticses
+    defaults: { _controller: CustomBundle:CourseStatistics/Student:index }
+
+course_students_study_statisticses_search:
+    path: /course/{courseId}/students/study/statisticses/search
+    defaults: { _controller: CustomBundle:CourseStatistics/Student:search }
+
+student_learn_statistic_export:
+    path: /course/{courseId}/students/study/statisticses/export
+    defaults: { _controller: CustomBundle:CourseStatistics/Student:export }
+
+instant_course_set_manage_course_dashboard:
+  path: /instant/course_set/{courseSetId}/manage/course/{courseId}/dashboard
+  defaults: {_controller: CustomBundle:Course/CourseManage:dashboard}
+
+course_set_manage_question:
+  path: /course_set/{id}/manage/question
+  defaults: { _controller: CustomBundle:Question/Manage:index }
+
+course_set_manage_homework_question_picker:
+  path: /course_set/{id}/manage/homework/question/picker
+  defaults: { _controller: CustomBundle:HomeworkManage:questionPicker }
+
+course_set_manage_question_picker:
+  path: /course_set/{id}/manage/question/picker
+  defaults: { _controller: CustomBundle:Question/Manage:questionPicker }
+
+instant_course_set_manage_show_tasks:
+  path: /instant/course_set/{courseSetId}/manage/show/tasks
+  defaults: { _controller: CustomBundle:Question/Manage:showTasks }
+
+fetch_testpaper_questions:
+  path: /activity/{activityId}/testpaper/{testId}/questions/fetch
+  defaults: { _controller: CustomBundle:Testpaper/Testpaper:fetchQuestions }
+
+fetch_questionnaire_results:
+  path: /task/{taskId}/questionnaire/{questionnaireId}/results/fetch
+  defaults: { _controller: CustomBundle:Activity/Questionnaire:fetchQuestionnaireResults }
+
+# cyw
+instant_course_review:
+    path: /instant/course/{courseId}/lesson/{lessonId}/weixin_preview
+    defaults: { _controller: CustomBundle:Course/CourseLesson:weixinPreview }
+
+display_wall_content_like:
+    path: /display_wall/content/{contentId}/like
+    defaults: { _controller: CustomBundle:Activity/DisplayWall:like }
+
+display_wall_content_cancel_like:
+    path: /display_wall/content/{contentId}/cancel_like
+    defaults: { _controller: CustomBundle:Activity/DisplayWall:cancelLike }
+
+instant_course_set_manage_course_students_remove:
+  path: /instant/course_set/{courseSetId}/manage/course/{courseId}/students/{userId}/remove
+  defaults: { _controller: CustomBundle:Course/StudentManage:removeCourseStudent }
+
+teacher_course_multianalysis:
+    path: /teacher/course/{courseId}/multianalysis
+    defaults: { _controller: CustomBundle:CourseStatistics/CourseStatistics:courseStatistics }
+
+teacher_course_multianalysis_data:
+    path: /teacher/course/{courseId}/multianalysis/data
+    defaults: { _controller: CustomBundle:CourseStatistics/CourseStatistics:courseStatisticsData }
+
+teacher_all_course_multianalysis:
+    path: /teacher/course/multianalysis
+    defaults: { _controller: CustomBundle:CourseStatistics/TeacherCourseStatistics:courseStatistics }
+
+custom_testpaper_result_submit:
+    path: /testpaper/{taskId}/result/submit
+    defaults: { _controller: CustomBundle:Activity/RandomTestpaper:submitResult }
+
+custom_practice_work_modal_show:
+    path: /practice_work/{practiceWorkResultId}/show
+    defaults: { _controller: CustomBundle:Activity/PracticeWork:showPracticeWorkModal }
+
+custom_practice_work_result_create:
+    path: /practice_work_result/create
+    defaults: { _controller: CustomBundle:Activity/PracticeWork:createResult }
+
+custom_course_manage_testpaper_check_list:
+    path: /testpaper/check/list
+    defaults: { _controller: CustomBundle:Testpaper/Manage:checkHomeWorkList }
+
+custom_course_manage_practice_work_check_list:
+    path: /practice_work_result/check/list
+    defaults: { _controller: CustomBundle:Testpaper/Manage:checkPracticeWorkList }
+
+course_manage_practice_work_result_list:
+  path: /course/{id}/manage/practice_work/{testpaperId}/result
+  defaults: { _controller: CustomBundle:Testpaper/Manage:practiceResultList }
+
+custom_practice_work_result_teacher_review:
+    path: /practice_work_result/{practiceWorkResultId}/teacher/review
+    defaults: { _controller: CustomBundle:Activity/PracticeWork:teacherReview }
+
+custom_course_manage_homework_check_list:
+  path: /course/{id}/manage/{status}/show
+  defaults: { _controller: CustomBundle:Course/HomeworkManage:checkList }
+
+custom_course_manage_practice_homework_download:
+  path: /practice_work_result/upload_file/{fileId}/download
+  defaults: { _controller: AppBundle:UploadFile:download }
+
+custom_practice_work_result_file_player:
+  path:  /practice_work_result/{practiceWorkResultId}/file/{fileId}/player
+  defaults: { _controller: CustomBundle:Activity/PracticeWork:player }
+
+custom_my_testpaper_list:
+  path:  /my/{type}/testpaper/list
+  defaults: { _controller: CustomBundle:Testpaper/Testpaper:list }
+
+custom_practice_result_export_datas:
+  path:  /practice_work/{practiceWorkId}/export/datas
+  defaults: { _controller: CustomBundle:Activity/PracticeWork:exportResultDatas }
+
+classroom_manage_student_export_csv:
+  path:  /practice_work/{practiceWorkId}/student/export
+  defaults: { _controller: CustomBundle:Activity/PracticeWork:exportCsv }
+
+custom_download_practice_work_result_image:
+  path:  /practice_work/result/file/{fileId}/download
+  defaults: { _controller: CustomBundle:Activity/PracticeWork:downloadWeixinFile }
+
+custom_record_teaching_task:
+    path: /course/{courseId}/lesson/{lessonId}/teaching_task/{taskId}/record
+    defaults: { _controller: CustomBundle:Task:recordTeachingTask }
+
+custom_course_share_count:
+    path: /custom/course/share/count
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:shareCount }
+
+custom_data_analysis_manage_file_statistic:
+    path:  /analysis/data/manage/file/statistic
+    defaults: { _controller: CustomBundle:CourseStatistics/SchoolStatistics:fileStatistic }
+
+custom_course_lesson_before_task_completion:
+    path: /course/{courseId}/lesson/{lessonId}/before_task/completion
+    defaults: { _controller: CustomBundle:Activity/Activity:collectBeforeTasks }
+
+custom_courser_lesson_student_custom_report:
+    path: /course/{courseId}/lesson/{lessonId}/student/{userId}/custom/report
+    defaults: { _controller: CustomBundle:Course/Report:studentCustomReport }
+
+custom_courser_lesson_end_button_show:
+    path:  /custom/lesson/{lessonId}/endButton/show
+    defaults: { _controller: CustomBundle:Course/CourseLesson:showEndButton }
+
+instant_course_table_detail:
+  path: /instant/course/{courseId}/table/detail
+  defaults: {_controller: CustomBundle:Course/CourseManage:taskTableDetail}
+
+# 之前controller要重写
+data_analysis_student_courses:
+    path: /analysis/data/student/courses
+    defaults: { _controller: CustomBundle:Admin/Analysis:studentCourses }
+
+custom_courseSet_teacher_score_show:
+    path: custom/courseSet/{courseSetId}/teacher/score/show
+    defaults: { _controller: CustomBundle:Course/CourseSetManage:teacherScoreShow }
+
+practice_result_remark:
+    path: /practice/result/{resultId}/remark
+    defaults: { _controller: CustomBundle:Activity/Practice:remark }
+
+practice_content_show:
+    path: /practice/result/content/{contentId}/show
+    defaults: { _controller: CustomBundle:Activity/Practice:contentShow }
+
+practice_result_load:
+    path: /practice/task/{taskId}/activity/{activityId}/result/load
+    defaults: { _controller: CustomBundle:Activity/Practice:loadResult }
+
+practice_content_like:
+    path: /practice/content/{contentId}/like
+    defaults: { _controller: CustomBundle:Activity/Practice:like }
+
+practice_content_cancel_like:
+    path: /practice/content/{contentId}/cancel_like
+    defaults: { _controller: CustomBundle:Activity/Practice:cancelLike }
+
+practice_content_save_to_material:
+    path: /practice/content/{contentId}/material/save
+    defaults: { _controller: CustomBundle:Activity/Practice:saveToMaterial }
+
+practice_content_picture_show:
+    path: /practice/content/{contentId}/picture/show
+    defaults: { _controller: CustomBundle:Activity/Practice:pictureShow }
+
+practice_content_post:
+    path: /practice/content/{contentId}/post
+    defaults: { _controller: CustomBundle:Activity/Practice:postContent }
+
+uploader_finished_v2:
+  path:  /uploader/v2/finished
+  defaults: { _controller: CustomBundle:Uploader:finished }
+  methods: [GET]

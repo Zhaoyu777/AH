@@ -1,0 +1,66 @@
+{% extends 'courseset-manage/instant-layout.html.twig' %}
+{% import 'macro.html.twig' as web_macro %}
+
+{% block title %}{{'编辑调查题'|trans}} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'questionnaire' %}
+
+{% do script(['custombundle/js/questionnaire-manage/question/index.js']) %}
+
+{% block main %}
+<div class="panel panel-default panel-col test-creator">
+  <div class="panel-heading clearfix">{{questionnaire.title|default()|trans}}</div>
+
+  <div class="panel-body">
+    <ol class="breadcrumb">
+      <li><a href="{{ path('course_set_manage_questionnaire',{id:courseSet.id}) }}">{{'调查问卷管理'|trans}}</a></li>
+      <li class="active">
+          {{ '编辑调查题'|trans }}
+      </li>
+    </ol>
+    <div class="panel-body " id="quiz-table-container">
+      <div class="pull-right">
+        <a href="{{ path('questionnaire_question_create', {questionnaireId: questionnaire.id, type:'single_choice'}) }}" class="btn btn-info btn-sm"><span class="es-icon es-icon-anonymous-iconfont"></span> {{ '单选' }}</a>
+        <a href="{{ path('questionnaire_question_create', {questionnaireId: questionnaire.id, type:'choice'}) }}" class="btn btn-info btn-sm"><span class="es-icon es-icon-anonymous-iconfont"></span> {{ '多选' }}</a>
+        <a href="{{ path('questionnaire_question_create', {questionnaireId: questionnaire.id, type:'essay'}) }}" class="btn btn-info btn-sm"><span class="es-icon es-icon-anonymous-iconfont"></span> {{ '问答' }}</a>
+      </div>
+      <div style="clear: both;"></div>
+      <table class="table  questionnaire-question-list" data-sort-url="{{ path('course_set_questionnaire_question_sort', {questionnaireId:questionnaire.id}) }}" id="quiz-table">
+        {{ web_macro.flash_messages() }}
+        <thead>
+        <tr>
+          <th><input type="checkbox" autocomplete="off" data-role="batch-select"></th>
+          <th width="20%">{{ '题干'|trans }}</th>
+          <th>{{ '类型'|trans }}</th>
+          <th>{{ '最后更新'|trans }}</th>
+          <th width="15%">{{ '操作'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if questions %}
+          {% for question in questions %}
+            {% include 'questionnaire-manage/question/question-list-tr.html.twig' %}
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="20">
+              <div class="empty">{{ '还没有调查题，请点击右上角按钮，创建调查题'|trans }}
+              </div>
+            </td>
+          </tr>
+        {% endif %}
+        </tbody>
+      </table>
+      <div>
+        <label class="checkbox-inline"><input type="checkbox" autocomplete="off" data-role="batch-select"> {{'全选'|trans}}</label>
+        <button class="btn btn-default btn-sm mlm" data-role="batch-delete" data-name="{{ '调查问卷题目'|trans }}" data-url="{{ path('course_set_manage_questionnaire_question_deletes', {questionnaireId:questionnaire.id}) }}">{{ '删除'|trans }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+

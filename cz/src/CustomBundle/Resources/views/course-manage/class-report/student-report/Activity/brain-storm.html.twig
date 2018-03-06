@@ -1,0 +1,19 @@
+{% set result = data('UserBrainStorm', {taskId:chapter['task'].id, userId:app.user.id}) %}
+<div class="pbs class-report-body__list">
+  <i class="cz-icon cz-icon-ceyan class-report-body_icon"></i>
+  <span class="class-report-body_name">任务{{ taskIndex }}：{{ chapter['task'].activity.title }}</span>
+  {% set taskIndex = taskIndex + 1 %}
+</div>
+<div class="class-report_result">
+  {% if result.content|default() %}
+    <span class="pull-left">我的回答：</span>
+    <div class="class-report_answer">
+      {{ result.content }}
+      <div class="color-primary mtm">积分 +{{ result.score }}</div>
+    </div>
+  {% else %}
+    <span class="color-danger text-lg">
+        未回答
+    </span>
+  {% endif %}
+</div>

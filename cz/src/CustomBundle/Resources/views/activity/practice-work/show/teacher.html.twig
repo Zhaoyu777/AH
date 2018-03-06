@@ -1,0 +1,53 @@
+{% extends 'activity/content-layout.html.twig' %}
+{% do script(['libs/perfect-scrollbar.js', 'custombundle/js/activity/practice-work/teacher/index.js']) %}
+{% block head_scripts %}
+  {{ parent() }}
+  <base target="_blank">
+{% endblock %}
+
+{% block content %}
+  <div class="iframe-parent-content-new iframe-parent-full js-iframe-new" id="practive-work-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          {% if is_course_teacher(activity.fromCourseId) and mode|default() != 'report' %}
+            {% if lesson.status == 'teaching' %}
+              <button class="cz-btn cz-btn-orange js-rend-call 
+                {% if taskStatus.status|default("") == 'start' or taskStatus.status|default("") == 'end' %} hidden {% endif %}"
+                data-url="{{ path('task_start', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">开始回答</button>
+              <button class="cz-btn cz-btn-orange js-rend-call js-end-task 
+                {% if not (taskStatus.status|default("") == 'start') %} hidden {% endif %}"
+                data-url="{{ path('task_end', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">停止回答</button>
+            {% endif %}
+            <button class="cz-btn cz-btn-default js-rend-stop 
+              {% if not (taskStatus.status|default("") == 'end' or lesson.status == 'teached') %} hidden {% endif %}"
+              disabled>活动已结束</button>
+          {% endif %}
+        </div>
+        <div class="activity-results">
+          <div class="activity-name">
+            {{ activity.content|raw }}
+          </div>
+          <div class="cz-activity-content">
+            <div class="reply-member">
+              应答：{{ totalMemberCount }} 人&nbsp;&nbsp;
+              已答：<span class="color-orange js-reality-member">{{ realityMemberCount }}</span> 人
+            </div>
+            <div id="student-picture-show" class="practice-work-activity-content clearfix">
+              {% if lessonTask.stage == 'in' %}
+                {% for result in practiceWorkResults %}
+                  <div class="practice-work-card js-practice-work-card" id="js-result-{{result.id}}" >
+                    <img class="wall-img inline-block cursor-pointer js-wall-img" src="{{result.url}}" />
+                    <div class="practice-work-bottom">{{profiles[result['userId']].truename}}</div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" id="taskId" name="taskId" value="{{ task.id }}">
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}

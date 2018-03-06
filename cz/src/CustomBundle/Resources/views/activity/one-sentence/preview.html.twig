@@ -1,0 +1,27 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% block content %}
+  {% set studentCount = data('CourseMemberCount', {courseId:activity.fromCourseId, role:'student'}) %}
+  <div class="iframe-parent-content-new iframe-parent-full" id="one-sentence-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          <button class="cz-btn cz-btn-orange js-rend-call">开始回答</button>
+        </div>
+        <div class="activity-results">
+          <div class="activity-name js-activity-name">
+            {{ activity.content|raw }}
+          </div>
+          <div class="cz-activity-content  js-cz-activity-content clearfix" id="rollcall-student">
+            <div class="js-activity-animate activity-animate">
+              <img src="/static-dist/custombundle/img/one_word.png" alt="活动图">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+.cz-teaching-add-modal {
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    right: 0;
+    left: 50%;
+    top: 10%;
+    width: 600px;
+    margin-left: -300px;
+    z-index: 1060;
+    max-height: 440px;
+  .modal-dialog {
+    z-index: 1060;
+    margin: 0 auto;
+  }
+  .modal-content {
+    box-shadow: 0 4px 20px 4px rgba(0,0,0,.3);
+    border-radius: 0;
+    .modal-body {
+      overflow-y: scroll;
+      max-height: 380px;
+    }
+    .teaching-modal-title {
+      font-size: 16px;
+      color: @gray-darker;
+      padding-top: 10px;
+      padding-left: 20px;
+    }
+  }
+}
+
+.teaching-added-content {
+  p {
+    margin-left: 60px;
+    .gray-darker {
+      margin-left: -65px;
+    }
+    i:hover {
+      color: @brand-primary;
+      .es-transition;
+    }
+  }
+}

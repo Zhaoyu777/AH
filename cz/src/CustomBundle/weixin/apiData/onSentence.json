@@ -1,0 +1,98 @@
+{
+  "fixedGroup": {
+    "status": null,
+    "isGrouped": true,
+    "results": [
+      [
+        {
+          "groupId": 1,
+          "currentReplyCount": 1,
+          "replyCount": 2,
+          "replys": [
+            {
+              "avatar": null,
+              "content": null,
+              "createdTime": 1499931867,
+              "resultId": 1,
+              "truename": "吴博"
+            }
+          ]
+        },
+        {
+          "groupId": 1,
+          "currentReplyCount": 2,
+          "replyCount": 2,
+          "replys": [
+            {
+              "avatar": null,
+              "content": null,
+              "createdTime": 1499962867,
+              "resultId": 2,
+              "truename": "吴博2"
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "groupId": 2,
+          "currentReplyCount": 1,
+          "replyCount": 2,
+          "replys": [
+            {
+              "avatar": null,
+              "content": null,
+              "createdTime": 1499931867,
+              "resultId": 1,
+              "truename": "吴博"
+            }
+          ]
+        },
+        {
+          "groupId": 2,
+          "currentReplyCount": 2,
+          "replyCount": 2,
+          "replys": [
+            {
+              "avatar": null,
+              "content": null,
+              "createdTime": 1499962867,
+              "resultId": 2,
+              "truename": "吴博2"
+            }
+          ]
+        }
+      ]
+    ],
+    "content": null,
+    "isAnswer": null,
+    "score": null
+  },
+  "noGroup": {
+    "status": null,
+    "isGrouped": false,
+    "results": [
+      [
+        {
+          "groupId": 1,
+          "avatar": null,
+          "content": null,
+          "createdTime": 1499931867,
+          "resultId": 1,
+          "truename": "吴博"
+        },
+        {
+          "groupId": 1,
+          "avatar": null,
+          "content": null,
+          "createdTime": 1499962867,
+          "resultId": 2,
+          "truename": "吴博2"
+        }
+      ]
+    ],
+    "content": null,
+    "isAnswer": null,
+    "score": null
+  }
+}

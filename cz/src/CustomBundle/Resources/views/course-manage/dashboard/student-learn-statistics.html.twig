@@ -1,0 +1,41 @@
+{% extends 'course-manage/custom-dashboard/layout.html.twig' %}
+{% do script(['libs/echarts.js', 'custombundle/js/course-manage/dashboard/student-statistics/index.js']) %}
+{% set submenu = 'student_learn' %}
+
+{% block title %}
+  {{ '学员学习详情'|trans }} ({{ '任务'|trans }}{{ task.seq|default(0) }}: {{task.title|default('')}})
+{% endblock %}
+
+{% block dashboard %}
+  <div class="student-learn-chart-box">
+    <div id="js-student-learn-chart" style="width:100%;height:366px;"></div>
+  </div>
+  <form class="form-inline" style="margin: 30px 0 20px;">
+    <div class="form-group">
+      <input type="text" class="form-control" name="search-condition" placeholder="输入姓名或者学号搜索">
+      <input type="button" class="btn btn-primary search-submit" value="搜索" style="margin-left:6px;">
+    </div>
+    <div class="form-group pull-right">
+      <a class="btn btn-primary" href="{{ path('student_learn_statistic_export', {courseId: course.id}) }}">导出所有记录</a>
+    </div>
+  </form>
+
+  <div id="js-student-learn-datas">
+    <table class="table table-hover table-lg">
+      <thead>
+        <tr>
+          <th>学生姓名</th>
+          <th>学号</th>
+          <th>出勤率</th>
+          <th>课堂积极性</th>
+          <th>课外积极性</th>
+          <th>平时成绩</th>
+          <th>积分</th>
+        </tr>
+      </thead>
+    </table>
+    <div class="empty">加载中...</div>
+  </div>
+  <input type="hidden" name="multi-analysis" value="{{ multiAnalysis|default() }}">
+  <input type="hidden" name="search-url" value="{{ path('course_students_study_statisticses_search', {courseId: course.id}) }}">
+{% endblock %}

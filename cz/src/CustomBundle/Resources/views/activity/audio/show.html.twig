@@ -1,0 +1,17 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% do script(['app/js/activity/audio/index.js']) %}
+
+{% block body %}
+  <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant'%}bt50{% endif %}">
+    <div class="audio-content" id="audio-content" data-role="audio-content">
+      {% if audio.file|default(null) %}
+        {{ render(controller('AppBundle:Player:show', {id: audio.mediaId})) }}
+      {% else %}
+        {% include 'activity/file-not-found.html.twig' with {type:'audio'} %}
+      {% endif %}
+    </div>
+  </div>
+
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}

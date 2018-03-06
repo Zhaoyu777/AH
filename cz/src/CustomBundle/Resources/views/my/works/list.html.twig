@@ -1,0 +1,75 @@
+{% extends 'my/layout.html.twig' %}
+
+{% block title %}我的作业 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my-works-list' %}
+
+{% block main %}
+  <div class="panel panel-default panel-col">
+    <div class="panel-heading"><span>我的作业</span></div>
+    <div class="panel-body">
+      <ul class="nav nav-pills mb15">
+        <li class="{% if status == 'homework' %}active{% endif %}"><a href="{{ path('my_works_list', {status: 'homework'}) }}">题目作业</a></li>
+        <li class="{% if status == 'practice' %}active{% endif %}"><a href="{{ path('my_works_list', {status: 'practice'}) }}">实践作业</a></li>
+      </ul>
+        {% if results|default(null) %}
+          <table class="table table-striped table-hover">
+            <tbody>
+              {% if status == 'practice' %}
+                {% for result in results %}
+                {% set activity = activities[result.activityId] %}
+                {% set courseSet = courseSets[courses[activity.fromCourseId].courseSetId]|default(null) %}
+                {% set appraisal = {'1':'优秀', '2':'良好', '3':'一般','4':'合格', '5':'不合格'} %}
+                <tr>
+                  <td width="55%">
+                    <div>
+                      <h3 class="">{{ activity.title }}</h3>
+                      <small class="color-gray">《{{ courseSet.title }}》 {{ result.updatedTime|date('Y年n月d日 H:i:s'|trans) }} 提交</small>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="mt10">
+                      {% if result.status|default(null) == 'finished' %}
+                        <div>评价：{{ appraisal[result.appraisal] }}</div>
+                        <div class="mt5">评语：{{ result.comment }}</div>
+                      {% else %}
+                        未批阅
+                      {% endif %}
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                {% for result in results %}
+                  {% set courseSet = courseSets[courses[result.courseId].courseSetId]|default(null) %}
+                  {% set testpaper = testpapers[result.testId]|default(null) %}
+                  <tr>
+                    <td width="55%">
+                      <div>
+                        <h3 class="">{{ result.paperName }}</h3>
+                        <small class="color-gray">《{{ courseSet.title }}》 {{ result.updateTime|date('Y年n月d日 H:i:s'|trans) }} 提交</small>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="mt10">
+                        {% if result.status|default(null) == 'finished' %}
+                          <div>做对 {{ result.rightItemCount }} 题/共 {{ testpaper.itemCount }} 题</div>
+                          <a class="color-primary" href="{{ path('homework_result_show',{resultId:result.id,action:'my'}) }}"><small>查看完整结果</small></a>
+                        {% else %}
+                          未批阅
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+        {{ web_macro.paginator(paginator) }}
+        {% else %}
+          <div class="empty">{{'还没有做过任何作业'|trans}}</div>
+        {% endif %}
+    </div>
+  </div>
+
+{% endblock %}

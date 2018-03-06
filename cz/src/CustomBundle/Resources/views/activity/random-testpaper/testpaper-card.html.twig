@@ -1,0 +1,28 @@
+<div class="testpaper-card {{ testpaperCardClass|default('') }}" >
+  {% set questionTypeDict = getQuestionTypes() %}
+  {% set types = questions|keys %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{'testpaper.answer.answer_card'|trans}}
+      <a class="pull-right link-medium" href="javascript:;" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content='
+      {{ 'testpaper.answer.answer_card.exam_with_pass_score_tips'|trans({'%itemCount%':randomTestpaper.itemCount|default(0),'%score%':randomTestpaper.totalScore|default(0),'%finishScore%':randomTestpaper.passedScore|default(0) })|raw }}'><i class="es-icon es-icon-info"></i></a>
+    </div>
+    <div class="panel-body">
+      <div class="js-panel-card panel-card">
+      {% for type in types|default([]) if questions[type]|default(null) %}
+        <p>{{ questionTypeDict[type] }}</p>
+        {% for question in questions[type]|default(null) %}
+          {% include 'testpaper/part/paper-card-choice.html.twig' with {paperResult:null,question:question,seq:question.seq} %}
+        {% endfor %}
+      {% endfor %}
+      </div>
+    </div>
+    <div class="panel-footer text-right">
+      {% if is_course_teacher(activity.fromCourseId) and course.type == 'instant' %}
+        <button class="btn btn-primary" disabled="disabled">{{'testpaper.answer.answer_card.submit_btn'|trans}}</button>
+      {% else %}
+        <button class="btn btn-primary do-test" id="finishPaper" data-ajax="{{ path('custom_testpaper_result_submit', { taskId: task.id|default(0) }) }}"  data-toggle="modal" data-target="#testpaper-finished-dialog">{{'testpaper.answer.answer_card.submit_btn'|trans}}</button>
+      {% endif %}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+{% extends 'activity/questionnaire/questionnaire-layout.html.twig' %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js','libs/perfect-scrollbar.js','custombundle/js/questionnaire/do-test/index.js']) %}
+
+{% block questionnaire_description %}
+  <div class="testpaper-description">{{ questionnaire.description|bbCode2Html|raw }}</div>
+{% endblock %}
+
+{% block paper_sidebar %}
+    <div class="testpaper-card {{ testpaperCardClass|default('') }}" >
+      {% include 'activity/questionnaire/questionnaire-card.html.twig' %}
+    </div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% block side %}
+  <div class="sidenav locked">
+    <ul class="list-group">
+      <li class="list-group-item {% if side_nav == "course-list" %}active{% endif %}">
+        <a href="{{ path('custom_course_lesson_list', {courseId:courseId} )}}">
+          {{ '课次列表'|trans }}
+        </a>
+      </li>
+
+      <li class="list-group-item {% if side_nav == "teacher-list" %}active{% endif %}">
+        <a href="{{ path('custom_course_manage_course_teachers', {courseId:courseId}) }}">
+          {{ '授课教师'|trans }}
+        </a>
+      </li>
+
+      <li class="list-group-item {% if side_nav == "student-list" %}active{% endif %}">
+        <a href="{{ path('custom_course_manage_course_students', {courseId:courseId, termCode:termCode}) }}">
+          {{ '学生名单'|trans }}
+        </a>
+      </li>
+
+      <hr class="mv5 mh10 bg-border-color"/>
+
+      <li class="list-group-item {% if side_nav == "testpaper-check" %}active{% endif %}">
+        <a href="{{ path('course_manage_testpaper_check_list', {id: courseId}) }}">
+          {{ '试卷批阅'|trans }}
+        </a>
+      </li>
+
+      <li class="list-group-item {% if side_nav == "homework-check" %}active{% endif %}">
+        <a href="{{ path('custom_course_manage_homework_check_list', {id: courseId, status:'homework'}) }}">
+          {{ '作业批阅'|trans }}
+        </a>
+      </li>
+
+      <hr class="mv5 mh10 bg-border-color"/>
+
+      <li class="list-group-item {% if side_nav == "dashboard" %}active{% endif %}">
+        <a href="{{ path('teacher_course_multianalysis',{courseId: courseId}) }}">
+          {{ '学习数据'|trans }}
+        </a>
+      </li>
+    </ul>
+  </div>
+
+{% endblock %}

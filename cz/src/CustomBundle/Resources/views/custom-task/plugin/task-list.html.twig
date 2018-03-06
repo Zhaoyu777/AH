@@ -1,0 +1,63 @@
+{% extends 'task/plugin/base.html.twig' %}
+{% if role == 'student' %}
+  {% set lock = true %}
+{% endif %}
+
+{% if preview %}
+  {% do script(['custombundle/js/teach-course-manage/toggle-course/index.js']) %}
+{% else %}
+  {% do script(['custombundle/js/task/task-list/index.js', 'custombundle/js/teach-course-manage/toggle-course/index.js']) %}
+{% endif %}
+
+{% block content %}
+  <input type="hidden" name="mode" value="{% if preview %}preview{% else %}learn{% endif %}">
+  <input type="hidden" name="canConnectSocket" value="true">
+  <input type="hidden" id="userId" value="{{ user.id }}"/>
+
+  <div class="course-task-title gray-darker text-18 text-center text-bold" {% if role == 'student' %}style="border-bottom:0"{% endif %}>
+    <p class="bottom-cut-line"></p>
+    <span>课堂任务</span>
+    <span class="fr hover-color-primary close-btn js-close-btn">×</span>
+  </div>
+
+  {% if role == 'teacher' %}
+    <div class="course-task-control text-center hidden">
+      {% if lesson.status == 'teached' %}
+        <div class="btn teached-btn mtl disabled" hidden>已授课</div>
+      {% else %}
+        <div class="js-time-get" data-time-get="{{ lesson.startTime }}"></div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="js-current-course current-course">
+    <div data-lesson-number="{{ lesson.number }}"></div>
+    {{ render(controller('CustomBundle:Course/CourseLesson:loadLessonActivities', {lessonId:lesson.id, taskId:task.id|default()})) }}
+    {% if lesson.status == 'teached' and (not is_course_teacher(courseId)) %}
+      <a class="link-primary half-all-course-btn js-all-course-btn"
+         data-target="#modal" data-toggle="modal" href="javascript:;"
+         data-url="{{ path('instant_course_teach_lessons', {courseId:courseId}) }}">所有课次</a>
+      <a class="link-primary course-report"
+         href="{{ path('instant_course_student_class_report', {courseId:courseId, lessonId:lesson.id}) }}"
+         target="_blank">课堂报告</a>
+    {% endif %}
+    {% if lesson.status == 'teached' and is_course_teacher(courseId) %}
+      <a class="link-primary all-course-btn js-all-course-btn"
+         data-target="#modal" data-toggle="modal" href="javascript:;"
+         data-url="{{ path('instant_course_teach_lessons', {courseId:courseId}) }}">所有课次</a>
+    {% endif %}
+    {% if lesson.status == 'teaching' and is_course_teacher(courseId) %}
+      <div class="time-count  color-primary text-bold">
+        <i class="cz-icon cz-icon-time color-primary mr5"></i>
+        <span class="js-time-count">
+          <span class="hours">00：</span>
+          <span class="minutes">00：</span>
+          <span class="seconds">00</span>
+        </span>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="js-load-all-course"></div>
+
+{% endblock %}

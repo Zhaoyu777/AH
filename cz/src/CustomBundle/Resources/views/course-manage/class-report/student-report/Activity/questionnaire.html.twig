@@ -1,0 +1,16 @@
+{% set result = data('QuestionnaireResult', {taskId:chapter['task'].id, userId:app.user.id}) %}
+  <div class="pbs class-report-body__list">
+    <i class="cz-icon cz-icon-ceyan class-report-body_icon"></i>
+    <span class="class-report-body_name">任务{{ taskIndex }}：{{ chapter['task'].activity.title }}</span>
+    {% set taskIndex = taskIndex + 1 %}
+  </div>
+  <div class="class-report_result">
+    {% if result.status|default() == 'finished' %}
+      <span class="color-success text-lg">已完成</span>
+      <span class="color-primary mlm">积分 +{{ chapter['task'].activity.score }}</span>
+    {% else %}
+      <span class="color-danger text-lg">
+        未完成
+      </span>
+    {% endif %}
+  </div>

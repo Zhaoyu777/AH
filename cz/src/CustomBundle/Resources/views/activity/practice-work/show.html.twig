@@ -1,0 +1,94 @@
+{% extends 'activity/content-layout.html.twig' %}
+{% block head_scripts %}
+  {{ parent() }}
+  <base target="_blank">
+{% endblock %}
+
+{% set targetType = targetType|default('course-activity') %}
+{% set token = uploader_token(targetType, activity.fromCourseId, 'private') %}
+{% set fileType = {'doc/docx':'doc', 'ppt/pptx':'ppt', 'xls/xlsx':'xls', 'pdf':'pdf', 'zip':'zip', 'jpg/png':'image'} %}
+{% set resultFileType = fileType[practiceWork.fileType]|default('homework_document') %}
+
+{% block body %}
+  {% if isTeacher %}
+    {% do script(['custombundle/js/activity/practice-work/index.js']) %}
+    <div class="iframe-parent-content-new iframe-parent-full js-iframe-new" id="practive-work-activity">
+      <div class="activity-show-content-new">
+        <div class="activity-content">
+          <div class="operation-btn">
+            {% if is_course_teacher(activity.fromCourseId) and mode|default() != 'report' %}
+              {% if lesson.status == 'teaching' %}
+                <button class="cz-btn cz-btn-orange js-rend-call 
+                  {% if taskStatus.status|default("") == 'start' or taskStatus.status|default("") == 'end' %} hidden {% endif %}"
+                  data-url="{{ path('task_start', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">开始回答</button>
+                <button class="cz-btn cz-btn-orange js-rend-call js-end-task 
+                  {% if not (taskStatus.status|default("") == 'start') %} hidden {% endif %}"
+                  data-url="{{ path('task_end', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">停止回答</button>
+              {% endif %}
+              <button class="cz-btn cz-btn-default js-rend-stop 
+                {% if not (taskStatus.status|default("") == 'end' or lesson.status == 'teached') %} hidden {% endif %}"
+                disabled>活动已结束</button>
+            {% endif %}
+          </div>
+          <div class="activity-results">
+            <div class="activity-name">
+              {{ activity.content|raw }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    {% if practiceWorkResult == null or practiceWorkResult.status == 'create' %} <!--批阅前-->
+      {% set doScriptArray = ['//service-cdn.qiqiuyun.net/js-sdk/uploader/sdk-v1.js','libs/perfect-scrollbar.js','custombundle/js/activity/practice-work/index.js'] %}
+    {% else %}<!--批阅后-->
+      {% set doScriptArray = ['libs/perfect-scrollbar.js','custombundle/js/activity/practice-work/index.js'] %}
+    {% endif %}
+    {% do script(doScriptArray) %}
+    {% set enableCopy  = setting('course.copy_enabled') %}
+    <div class="iframe-parent-content iframe-parent-full bt50" id="practive-work-activity" data-disable-copy="{{ enableCopy }}">
+      <div class="text-activity-content practice-work-activity-content">
+        <div class="title mb30">{{ activity.content|raw }}</div>
+        {% if practiceWorkResult %}
+          <span>已提交：{{practiceWorkResult.file.filename|default()}}</span>
+          {% if activity.score > 0 %}
+            <span class="ml20 text-14 color-warning text-center">积分+{{ activity.score }}</span>
+          {% endif %}
+        {% endif %}
+        
+        {% if practiceWorkResult.status|default() == 'create' %}
+          <div class="mt20">老师还未批阅，如有需要可重新上传</div>
+        {% elseif practiceWorkResult.status|default() == 'reviewing' %}
+          <div class="mt20">作业批阅中，请稍后查看批阅结果</div>
+        {% elseif practiceWorkResult.status|default() == 'finished' %}
+          <div class="pt10 mt20">批阅完成</div>
+        {% endif %}
+        {% if practiceWorkResult == null or practiceWorkResult.status == 'create' %}<!--批阅前-->
+          <div class="uploader-content" id="chooser-upload-panel" disabled="disabled" data-url="{{ path('custom_practice_work_result_create') }}">
+            <div class="uploader-container" id="uploader-container"
+              data-init-url="{{ url('uploader_init_v2', {token: token}, true) }}"
+              data-finish-url="{{ url('uploader_finished_v2', {token: token}, true) }}"
+              data-accept="{{ custom_uploader_accept('homework', resultFileType)|json_encode }}"
+              data-process="{{ uploader_process(targetType) }}"
+              data-file-single-size-limit={{ 5 * 1024 * 1024 }}>
+            </div>
+          </div>
+          <div class="mt20 text-14 color-warning text-center">（文件最大支持：5MB，文件类型：{{ practiceWork.fileType }}）</div>
+        {% elseif practiceWorkResult.status == 'finished' %}<!--批阅后-->
+          {% set appraisal = {'1':'优秀', '2':'良好', '3':'一般', '4':'合格', '5':'不合格'} %}
+          <div class="mt20">评价：{{ appraisal[practiceWorkResult.appraisal] }}</div>
+          {% if practiceWorkResult.comment %}
+            <div class="mt20">评语：{{ practiceWorkResult.comment }}</div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+
+    <input type="hidden" id="taskId" value="{{ task.id }}">
+    <input type="hidden" id="activityId" value="{{ activity.id }}">
+    <input type="hidden" id="practiceWorkId" value="{{ practiceWork.id }}">
+  {% endif %}
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}
+
+

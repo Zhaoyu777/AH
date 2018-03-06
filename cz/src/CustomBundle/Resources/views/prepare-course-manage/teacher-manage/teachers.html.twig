@@ -1,0 +1,45 @@
+{% extends 'prepare-course-manage/layout.html.twig' %}
+{% block title %}{{'教师设置'|trans}} - {{ course.title }} - {{ parent() }}{% endblock %}
+{% set side_nav = 'teacher-list' %}
+{% do script(['libs/jquery-validation.js','app/js/course-manage/teachers/index.js']) %}
+
+{% block main %}
+  <div class="panel panel-default">
+    <div class="panel-heading" title="{{ course.title }}">
+      {{ course.title|sub_text(40) }}
+    </div>
+    <div class="panel-body">
+    {#{% include 'prepare-course-manage/course-tab.html.twig' %}#}
+      <input type="hidden" id="js-course-type" value="instant">
+      <form id="teachers-form" class="form-horizontal" method="post" >
+        {{ web_macro.flash_messages() }}
+        <div class="form-group" id="teachers-form-group">
+          <div class="col-md-2 control-label"><label>{{'已添加教师'|trans}}</label></div>
+          <div class="col-md-8 controls">
+            <ul class="local-teacher-group list-group">
+            {% if lecturers %}
+              <div id="js-lecturers" data-lecture="1" hidden></div>
+              {% for lecturer in lecturers %}
+                <li class="list-group-item">
+                  <img class="avatar-sm avatar-sm-square mrm" src="{{ asset(lecturer.avatar|default('/assets/img/default/avatar.png')) }}" alt="">
+                  <span class="">{{lecturer.jsdm}}</span>
+                  <span class="pull-right mtm mrm color-gray">{% if lecturer.zjjs == 1 %}主带老师{% else %}辅带老师{% endif %}</span>
+                  <input type="hidden" name="lecturerIds[]" value="{{ lecturer.userId }}">
+                </li>
+                {% endfor %}
+              {% endif %}
+            </ul>
+            <div id="course-teachers" data-field-name="teachers" data-init-value="{{teacherIds|json_encode}}" data-query-url="{{ path('custom_course_manage_course_teachers_match', {courseId: course.id}) }}"></div>
+            <div class="help-block">{{'只能添加有教师权限的用户'|trans}}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-8 controls">
+            <button type="button" class="btn btn-fat btn-primary js-btn-save">{{'保存'|trans}}</button>
+          </div>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+      </form>
+    </div>
+  </div>
+{% endblock %}

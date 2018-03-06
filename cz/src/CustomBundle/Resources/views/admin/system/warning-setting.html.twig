@@ -1,0 +1,73 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% set menu = 'admin_setting_warning_settings' %}
+
+{% block main %}
+
+{{ web_macro.flash_messages() }}
+
+<form class="form-horizontal" id="warning-form" method="post">
+  <div class="form-group">
+    <div class="col-md-3 control-label">
+      <label>缺勤预警设置</label>
+    </div>
+    <div class="controls col-md-8 radios">
+      <div class="input-group" style="width: 200px">
+        <input class="form-control" rows="10" name="signInTeacherWarning" value="{{warning.signInTeacherWarning|default(0)}}">
+        <div class="input-group-addon">次</div>
+      </div>
+      <div class="help-block">连续缺勤x次，就给相应的班主任发预警消息，设置为0则不预警</div>
+      <div class="input-group" style="width: 200px">
+        <input class="form-control" rows="10" name="signInLeaderWarning" value="{{warning.signInLeaderWarning|default(0)}}">
+        <div class="input-group-addon">次</div>
+      </div>
+      <div class="help-block">连续缺勤x次，就给相应的学院负责人发预警消息，设置为0则不预警</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3 control-label">
+      <label>教学目标达成度预警设置</label>
+    </div>
+    <div class="controls col-md-8 radios">
+      <div class="input-group" style="width: 200px">
+        <input class="form-control" rows="10" name="teachingAimWarningRate" value="{{warning.teachingAimWarningRate|default(0)}}">
+        <div class="input-group-addon">%</div>
+      </div>
+      <div class="help-block">低于预警值（百分比），就给相应的老师发预警消息，设置为0则不预警</div>
+      <div class="input-group" style="width: 200px">
+        <input class="form-control" rows="10" name="teachingAimWarningTimes" value="{{warning.teachingAimWarningTimes|default(0)}}">
+        <div class="input-group-addon">次</div>
+      </div>
+      <div class="help-block">连续低于预警值x次，就给相应的学院负责人发预警消息，设置为0则不预警</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3 control-label">
+      <label>课程活动参与率预警设置</label>
+    </div>
+    <div class="controls col-md-8 radios">
+      <div class="input-group" style="width: 200px">
+        <input class="form-control" rows="10" name="taskInCompleWarning" value="{{warning.taskInCompleWarning|default(0)}}">
+        <div class="input-group-addon">%</div>
+      </div>
+      <div class="help-block">低于预警值（百分比），就给相应的老师发预警消息，设置为0则不预警</div>
+      <div class="input-group" style="width: 200px">
+        <input class="form-control" rows="10" name="taskInCompleWarningCount" value="{{warning.taskInCompleWarningCount|default(0)}}">
+        <div class="input-group-addon">次</div>
+      </div>
+      <div class="help-block">连续低于预警值x次，就给相应的学院负责人发预警消息，设置为0则不预警</div>
+    </div>
+  </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+  <div class="row form-group">
+    <div class="controls col-md-offset-3 col-md-8">
+      <button type="submit" class="btn btn-primary">{{'form.btn.submit'|trans}}</button>
+    </div>
+  </div>
+
+</form>
+{% endblock %}

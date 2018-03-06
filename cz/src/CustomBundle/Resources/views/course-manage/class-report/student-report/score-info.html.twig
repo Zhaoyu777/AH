@@ -1,0 +1,16 @@
+<div class="text-center">
+  <div class="pvl">
+    共获得 <span class="color-primary">{{ sum }}</span> 分
+  </div>
+  <div class="class-report_score">
+    {% for score in scores %}
+      {% if score.score > 0 %}
+        <div class="pvs">
+          <span class="color-gray">完成</span>
+          <span class="pls gray-darker">{{ tasks[score['taskId']].title|default(score.remark) }}</span>
+          <div class="color-gray pull-right">积分 <span class="color-primary">+{{ score.score }}</span></div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

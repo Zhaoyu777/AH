@@ -1,0 +1,79 @@
+{% set modal_class= "modal-lg" %}
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% block title %}
+  课程报告
+{% endblock %}
+
+{% block body %}
+  <div class="panel-default">
+    <div class="panel-body">
+      <div class="col-md-6 statistics-box">
+        <div class="prepare-course-rate">
+          <span class="rate">
+            {% if statistic.studentAttendence|default() %}
+              {{ statistic.studentAttendence|default(0) }}%
+            {% else %}
+              --%
+            {% endif %}
+          </span>
+          <div class="title-percent-box">
+            <p class="title">我的出勤率</p>
+            <p class="exceed-percent">
+              {% if statistic.studentAttendence|default() %}
+                {{ ranking(percentage.studentAttendence|default(0), 'student') }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 statistics-box">
+        <div class="prepare-course-rate">
+          <span class="rate">
+            {% if statistic.taskOutCompletionRate|default() %}
+              {{ statistic.taskOutCompletionRate|default(0) }}%
+            {% else %}
+              --%
+            {% endif %}
+          </span>
+          <div class="title-percent-box">
+            <p class="title">课前课后完成率</p>
+            <p class="exceed-percent">
+              {% if statistic.taskOutCompletionRate|default() %}
+                {{ ranking(percentage.taskOutCompletionRate|default(0), 'student') }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 statistics-box">
+        <div class="prepare-course-rate">
+          <span class="rate">
+            {% if statistic.taskInCompletionRate|default() %}
+              {{ statistic.taskInCompletionRate|default(0) }}%
+            {% else %}
+              --%
+            {% endif %}
+          </span>
+          <div class="title-percent-box">
+            <p class="title">课堂活动参与率</p>
+            <p class="exceed-percent">
+              {% if statistic.taskInCompletionRate|default() %}
+                {{ ranking(percentage.taskInCompletionRate|default(0), 'student') }}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 statistics-box">
+        <div class="prepare-course-rate">
+          <span class="rate">对这个课程的评价 {{ score }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

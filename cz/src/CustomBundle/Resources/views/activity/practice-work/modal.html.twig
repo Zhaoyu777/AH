@@ -1,0 +1,134 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js','libs/jquery-sortable.js','custombundle/js/activity-manage/homework/index.js'], 300) %}
+
+{% block body %}
+  <div class="tab-content" id="iframe-content">
+    <div class="tab-pane js-course-tasks-pane active js-step2-view">
+    <div class="alert alert-info">
+      布置一个需要动手实践的活动，学生提交一个文件来完成作业
+    </div>
+      <form class="form-horizontal" id="step2-form" >
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="title" class="control-label-required">{{ '标题名称'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <input id="title" class="form-control" type="text" name="title" value="{{ activity.title|default('') }}" >
+          </div>
+        </div>
+        <form id="step2-form" class="form-horizontal homework-activity-form" method="post">
+          <div class="form-group">
+            <div class="col-sm-2 control-label"><label for="homework-about-field">作业说明</label></div>
+            <div class="col-sm-10 controls">
+              <textarea name="content" rows="10" id="homework-about-field" class="form-control" data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}" data-image-download-url="{{ path('editor_download', {token:upload_token('course')}) }}">{{ activity.content|default('') }}</textarea>
+            </div>
+          </div>
+
+          {% if stage == 'in' %}
+            <div class="form-group">
+              <div class="col-sm-2 control-label">
+              <label for="duration">{{ '参考时长'|trans }}</label>
+              </div>
+              <div class="col-sm-4">
+                <div class="input-group">
+                  <input id="duration" class="form-control" type="text" name="duration" value="{{ activity.duration|default('') }}" >
+                  <div class="input-group-addon">分钟</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-2 control-label">
+              <label for="about">{{ '教学说明'|trans }}</label>
+              </div>
+              <div class="col-sm-10">
+                <textarea id="about" class="form-control" rows="3" name="about">{{ activity.about|default('') }}</textarea>
+              </div>
+            </div>
+          {% endif %}
+
+          <div>
+            <div class="col-sm-2 control-label">
+              <label class="control-label-required">
+                作业文件类型
+              </label>
+            </div>
+            <div class="col-sm-10 controls radios">
+              {% if stage == 'in' %}
+                {{ radios('fileType', {'jpg/png':'jpg/png  （课堂只能上传图片格式的文件）'}, practiceWork.fileType|default('jpg/png')) }}
+              {% else %}
+                {{ radios('fileType', {'doc/docx':'doc/docx', 'ppt/pptx':'ppt/pptx', 'xls/xlsx':'xls/xlsx', 'pdf':'pdf', 'zip':'zip  （需用电脑交作业）', 'jpg/png':'jpg/png  （手机和电脑都可交作业）'}, practiceWork.fileType|default('doc/docx')) }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10 help-block">
+              提示:老师可在电脑上批阅作业，并可预览office文档、pdf、图片文件（zip暂不支持）
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+            <label for="about">{{ '实现教学目标'|trans }}</label>
+            </div>
+            <div class="col-sm-10">
+              <div class="js-teaching-added-content teaching-added-content">
+                {% for activityConnAim in activityConnAims|default() %}
+                  <p data-id="{{ activityConnAim.id }}"><span class="gray-darker">{{ activityConnAim.type }}:</span> {{ activityConnAim.content }}<i class="es-icon es-icon-close01 selected-delete-icon pull-right" style="margin-right:-20px"></i></p>
+                {% endfor %}
+              </div>
+              <div class="btn btn-primary js-add-modal-btn">
+                <i class="es-icon es-icon-add"></i>添加设置
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </form>
+    </div>
+    <div class="tab-pane js-course-tasks-pane js-step3-view">
+      <form class="form-horizontal" id="step3-form" >
+        {% if stage %}
+          <div class="form-group" id="condition-group">
+            <div class="col-sm-2 control-label">
+              <label for="condition-select">积分规则</label>
+            </div>
+            <div class="col-sm-4 form-control-static">
+              <input type="radio" name="score" {% if stage == 'in' %}disabled{% endif %} {% if activity.score|default() == 1 %}checked{% endif %} value="1"> 可获得 1 分
+              <input type="radio" name="score" {% if stage == 'in' %}disabled{% endif %} {% if not activity.score|default() %}checked{% endif %} value="0"> 不能获得积分
+            </div>
+          </div>
+        {% endif %}
+        <div class="row form-group">
+          <div class="col-sm-2 control-label">
+            <label for="condition-select">{{ '完成条件'|trans }}</label>
+          </div>
+          <div class="col-xs-4 form-control-static">
+            提交作业
+            <select class="form-control hidden" id="condition-select" name="finishCondition">
+              {{ select_options({'submit':'提交作业'|trans}, activity.finishCondition['type']|default('score')) }}
+            </select>
+            <input type="hidden" name="finishScore" value="{{ activity.finishCondition['score']|default('0') }}" />
+            <input type="hidden" name="mediaType" value="practiceWork" />
+
+          </div>
+        </div>
+
+        {% if not stage %}
+          {% set task = data('TaskByActivity', {courseId: activity.fromCourseId|default(0), activityId: activity.id|default(0)}) %}
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2 radios">
+              <label>
+                <input type="checkbox" name="isOptional" value="1" {% if task.isOptional|default(false) %} checked {% endif %}>
+                设为选修
+              </label>
+                <span class="color-gray">学习结果将不会计入学习进度、学习统计中，并且不会影响下一任务的解锁</span>
+            </div>
+          </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+{% endblock %}

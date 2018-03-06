@@ -1,0 +1,16 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% do script(['libs/perfect-scrollbar.js','custombundle/js/activity/question/index.js']) %}
+
+{% block content %}
+  <div class="iframe-parent-content iframe-parent-full {% if course.type|default() == 'instant' %}bt50{% endif %}"
+       id="question-activity">
+    <div class="activity-show-content">
+      <div class="activity-title">调查</div>
+      <div class="activity-content" id="js-activity-content" data-url="{{ path('questionnaire_result_load',{taskId:taskId, questionnaireId:questionnaire.id})}}">
+        {% include 'activity/questionnaire/result-content.html.twig' %}
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="fetchQuestionaireResultsUrl" value="{{ path('fetch_questionnaire_results', {taskId: taskId, questionnaireId:questionnaire.id}) }}">
+{% endblock %}

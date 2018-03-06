@@ -1,0 +1,54 @@
+<div class="cz-activity-content ml-15 mr-15 js-cz-activity-content">
+  <div class="wall-container text-0 clearfix" id="teacher-photo-list">
+    {% for result in results[1]|default() %}
+      {% if result.content %}
+        <div class="wall-stu-info js-wall-stu-info vertical-top js-result-{{ result.id }}">
+          <div class="wall-img-mask" href="javascript:;">
+            <div class="wall-img-container js-detail-show"
+                 data-target="#modal" data-toggle="modal"
+                 data-url="{{ path('practice_content_show', { contentId:result['content'].id}) }}">
+              <img class="wall-img inline-block cursor-pointer js-wall-image"
+                   src="{{ result['content'].thumb }}" />
+            </div>
+            {% if role == 'teacher' %}
+              <div class="base-save-material teacher-save-material {% if result.isCollected == 0 %}active{% endif %}">
+                <div class="js-save-photo-box
+                       {% if result.isCollected == 1 or lesson.status == 'teached' %}opacity-5 cursor-not-allowed{% else %}js-save-photo{% endif %}"
+                     data-content-id="{{ result['content'].id }}">
+                  <i class="cz-icon cz-icon-preservation text-20 vertical-middle"></i>
+                  <span class="js-save-photo-tip">
+                    {% if result.isCollected == 1 %}
+                      已保存
+                    {% else %}
+                      保存为教学资料
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<div class="js-teacher-result-copy" hidden>
+  <div class="wall-stu-info js-wall-stu-info">
+    <div class="wall-img-mask" href="javascript:;">
+      <div class="wall-img-container js-detail-show">
+        <img class="wall-img inline-block cursor-pointer js-wall-image js-wall-content-show" src="" data-target="#modal"
+             data-toggle="modal" data-url="">
+        <div class="color-primary img-score js-score-parent hidden">
+          <div id="" class="js-score-show score-num"></div>
+        </div>
+      </div>
+      <div class="base-save-material active teacher-save-material">
+        <div class="js-save-photo-box js-save-photo">
+          <i class="cz-icon cz-icon-preservation text-20 vertical-middle"></i>
+          <span class="js-save-photo-tip">保存为教学资料</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

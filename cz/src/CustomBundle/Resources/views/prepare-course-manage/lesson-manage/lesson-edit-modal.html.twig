@@ -1,0 +1,111 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% block title %}{{'教案信息编辑'|trans}}{% endblock %}
+
+{% set modal_class = 'modal-lg' %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js','custombundle/js/courseset-manage/lesson-edit-modal/index.js']) %}
+
+{% block body %}
+  <form id="lesson-edit-form" class="form-horizontal" data-url="{{ path('custom_lesson_edit', {lessonId:lesson.id}) }}">
+    <div class="form-group">
+      <label class="col-md-3 control-label">{{'课程'|trans}} </label>
+      <div class="col-md-8 form-control-static">{{ courseSet.title }}</div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label">{{'课次'|trans}} </label>
+      <div class="col-md-8 form-control-static">{{ courseLessonCount }}{{'个课次'|trans}}</div>
+    </div>
+
+    {% if lesson.status == 'created' %}
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="title">{{'课次标题'|trans}}</label>
+      <div class="col-md-8 controls">
+        <input class="form-control" id="title" type="text" name="title" value="{{ lesson.title }}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="teachAim">{{'教学目的'|trans}}</label>
+      <div class="col-md-8 controls">
+        <input class="form-control" type="text" name="teachAimInput">
+        <textarea name="teachAim" id="teachAim" rows="10" cols="80" hidden>
+          {{ lesson.teachAim }}
+        </textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="abilityAim">{{'能力目标'|trans}}</label>
+      <div class="col-md-8 controls">
+        <div id="abilityAims" data-field-name="abilityAim" data-init-value="{{ lessonAims.abilityAim|default('[]') }}"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="knowledgeAim">{{'知识目标'|trans}}</label>
+      <div class="col-md-8 controls">
+        <div id="knowledgeAims" data-field-name="knowledgeAim" data-init-value="{{ lessonAims.knowledgeAim|default('[]') }}"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="qualityAim">{{'素质目标'|trans}}</label>
+      <div class="col-md-8 controls">
+        <div id="qualityAims" data-field-name="qualityAim" data-init-value="{{ lessonAims.qualityAim|default('[]') }}"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="tasksCase">{{'任务与案例'|trans}}</label>
+      <div class="col-md-8 controls">
+        <input class="form-control" type="text" name="tasksCaseInput">
+        <textarea name="tasksCase" id="tasksCase" rows="10" cols="80" hidden>
+          {{ lesson.tasksCase }}
+        </textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="difficult">{{'重点难点与解决方案'|trans}}</label>
+      <div class="col-md-8 controls">
+        <input class="form-control" type="text" name="difficultInput">
+        <textarea name="difficult" id="difficult" rows="10" cols="80" hidden>
+          {{ lesson.difficult }}
+        </textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="referenceMaterial">{{'参考资料'|trans}}</label>
+      <div class="col-md-8 controls">
+        <input class="form-control" type="text" name="referenceMaterialInput">
+        <textarea name="referenceMaterial" id="referenceMaterial" rows="10" cols="80" hidden>
+          {{ lesson.referenceMaterial }}
+        </textarea>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="form-group">
+      <label class="col-md-3 control-label" for="afterKnow">{{'课后体会'|trans}}</label>
+      <div class="col-md-8 controls">
+        <input class="form-control" type="text" name="afterKnowInput">
+        <textarea name="afterKnow" id="afterKnow" rows="10" cols="80" hidden>
+          {{ lesson.afterKnow }}
+        </textarea>
+        {% if lesson.status != 'created' %}
+          <div class="col-md-8 alert alert-info mtl">已下课或者正在上课课次只允许编辑课后体会</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+  </form>
+{% endblock %}
+
+{% block footer %}
+  <button class="btn btn-link" data-dismiss="modal">{{'取消'|trans}}</button>
+  <button id="submit-btn" class="btn btn-primary" data-loading-text="{{'正在提交'|trans}}" type="button">{{'保存'|trans}}</button>
+{% endblock %}

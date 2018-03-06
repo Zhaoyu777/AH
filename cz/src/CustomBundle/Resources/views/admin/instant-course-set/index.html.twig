@@ -1,0 +1,64 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% do script(['custombundle/js/admin/instant-course-set/index.js'], 300) %}
+
+{% set menu = 'admin_instant_course_show' %}
+
+{% set script_controller = 'course/manage' %}
+
+{% block main %}
+  <div class="well well-sm mtl">
+    <form id="message-search-form" class="form-inline" action="" method="get" novalidate>
+      {% include 'org/org-tree-select.html.twig' with {orgCode: app.request.get('orgCode'), modal: 'list'} %}
+
+      <div class="form-group">
+        <select class="form-control" name="termCode" id="termCode">
+                  {{ checked_term_choices(app.request.get('termCode')) }}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input class="form-control js-class-name" type="text" placeholder="课程名称关键词" name="title" value="{{ app.request.get('title') }}">
+      </div>
+      <div class="form-group">
+        <input class="form-control js-teacher-name" type="text" placeholder="授课老师" name="truename" value="{{ app.request.get('truename') }}">
+      </div>
+      <button class="btn btn-primary">{{ 'form.btn.search'|trans }}</button>
+    </form>
+  </div>
+  
+  <p class="text-muted">
+    <span class="mrl">{{ 'admin.course_manage.manage.count'|trans({'%courseNum%':searchCourseSetsNum})|raw }}</span>
+  </p>
+
+  <table class="table table-hover czie-course-table" id="course-table" style="word-break:break-all;">
+    <thead>
+    <tr>
+      {% if setting('magic.enable_org','0') %}
+        <th><input type="checkbox"  data-role="batch-select"></th>
+      {% endif %}
+      <th width="20%">课程名称</th>
+      <th width="25%">授课老师</th>
+      <th width="25%">所教班级</th>
+      <th width="15%">授课完成</th>
+      <th>{{'admin.course_manage.operater'|trans}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for courseSet in courseSets %}
+      {% set index = loop.index0 %}
+      {% set user = users[courseSet.userId]|default(null) %}
+      {% set category = categories[courseSet.categoryId]|default(null) %}
+      {% include 'admin/instant-course-set/tr.html.twig' %}
+    {% else %}
+      <tr>
+        <td colspan="20">
+          <div class="empty">{{'admin.course_manage.manage.empty'|trans}}</div>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% include 'org/batch-update-org-btn.html.twig' with {module:'courseSet', formId:'course-table'} %}
+  {{ admin_macro.paginator(paginator) }}
+{% endblock %}

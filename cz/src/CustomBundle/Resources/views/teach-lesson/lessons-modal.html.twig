@@ -1,0 +1,43 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% block title %}{{'所有课次'|trans}}{% endblock %}
+{% set hide_footer = true %}
+
+{% block body %}
+<div class="all-lesson-content">
+  {% for lesson in lessons %}
+    <ul class="list-unstyled all-course-modal-list">
+      <li class="clearfix">
+        <a class="display-block" href="
+        {% if is_course_teacher(courseId) %}
+          {{ path('custom_lesson_show', {courseId:courseId, lessonId:lesson.id}) }}
+        {% else %}
+          {{ path('instant_lesson_learn', {courseId:courseId, lessonId:lesson.id}) }}
+        {% endif %}
+        "
+        {% if source == 'myClass' %}
+          target="_blank"
+        {% endif %}
+        >
+          <span class="color-primary text-lg">
+            课次{{ lesson.number }}
+            {% if lesson.title %}
+              ：
+            {% endif %}
+          </span>
+          <span class="course-title">{{ lesson.title|sub_text(20) }}</span>
+          <div class="pull-right cz-label-primary mrm mts">
+            {% if lesson.status == 'created' %}
+              未开课
+            {% elseif lesson.status == 'teaching' %}
+              上课中
+            {% elseif lesson.status == 'teached' %}
+              已授课
+            {% endif %}
+          </div>
+        </a>
+      </li>
+    </ul>
+  {% endfor %}
+</div>
+{% endblock %}

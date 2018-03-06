@@ -1,0 +1,59 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class= "modal-lg sign-modal" %}
+
+{% block title %}
+  第{{signIn.time}}次签到结果
+{% endblock %}
+
+{% set signTables = {'attend':'出勤', 'absent':'缺勤', 'leave':'请假', 'late':'迟到', 'early':'早退'} %}
+
+{% block body %}
+  <ul class="cz-sign-modal-nav nav nav-tabs" role="tablist">
+    {% for status, explain in signTables %}
+      <li role="presentation" class="{% if status == 'attend' %}active{% endif %}">
+        <a href="#{{status}}" aria-controls="{{status}}" role="tab" data-toggle="tab">
+          {{explain}} (<span id="attend-students-num">{{ members[status]|default()|length }}</span>)
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="tab-content">
+    {% for status, explain in signTables %}
+      <div role="tabpanel" class="tab-pane {% if status == 'attend' %}active{% endif %}" id="{{ status }}">
+        <div class="sign-stu-content">
+          <table class="table table-noborder table-hover">
+            <tbody class="js-absent-students-tr-num">
+              {% for member in members[status]|default() %}
+                <tr>
+                  <td>
+                    <img class="avatar-xs" src="{{ filepath(users[member.userId].smallAvatar, 'avatar.png') }}" alt="">
+                  </td>
+                  <td>
+                    {{ users[member.userId].truename }}
+                  </td>
+                  <td>{{ users[member.userId].number }}</td>
+
+                  <td>
+                    {% if status == 'absent' %}
+                      ——
+                    {% else %}
+                      {{ member.updatedTime|date('Y-m-d H:i:s') }}
+                    {% endif %}
+                  </td>
+                  <td>{{ member.address|default('无签到位置信息。') }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <a class="btn btn-primary" data-dismiss="modal" href="">关闭</a>
+{% endblock %}

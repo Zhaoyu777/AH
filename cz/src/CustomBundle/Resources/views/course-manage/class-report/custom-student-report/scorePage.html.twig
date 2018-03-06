@@ -1,0 +1,70 @@
+<div class="score-top-container">
+	<div class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="1s" swiper-animate-delay="0">
+		<div class="score-top {% if score %} score-top--ligth {% endif %}">
+			<div class="score-top__score ">
+				<span class="score-top__number">{{ score }}</span>
+				积分
+			</div>
+			{% if score %}
+				<img class="score-ornament one " src="{{ asset('/static-dist/custombundle/img/class-report-mobile/c.png') }}"/>
+				<img class="score-ornament two" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/g.png') }}"/>
+			{% endif %}
+		</div>
+
+		{% if score %}
+			<div class="score-top__img">
+			本次授课获得
+			</div>
+		{% else %}
+			<div class="score-top__img">
+			本次授课未获得积分
+			</div>
+		{% endif %}
+	</div>
+
+	{% if not score %}
+		<div class="ani score-top__encourage" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.6s"><img src="{{ asset('/static-dist/custombundle/img/class-report-mobile/sad_2.png') }}"/>需要加油咯！</div>
+	{% else %}
+	<img class="ani score-ornament score-ornament-1" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/1.png') }}" 
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"/>
+	<img class="ani score-ornament score-ornament-2" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/2.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"/>
+	<img class="ani score-ornament score-ornament-3" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/3.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-4" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/4.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-5" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/5.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-6" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/6.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-7" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/7.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-8" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/8.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-9" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/9.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+	<img class="ani score-ornament score-ornament-10" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/fireworks/10.png') }}"
+	swiper-animate-effect="fadeInDown" swiper-animate-duration="1.5s" swiper-animate-delay="0.6s"
+	/>
+</div>
+{% endif %}
+
+{% if beatRate >= 50 %}
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.9s">
+	<div class="encourage-well">
+		<div class="encourage-well__info encourage-well__info--red">
+			超越了全班<span class="encourage-well_number">{{ beatRate }}</span>%的同学
+		</div>
+		<img class="encourage-well__img" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/small_thumb.png') }}"/>
+	</div>
+</div>
+{% endif %}
+
+

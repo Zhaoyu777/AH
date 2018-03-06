@@ -1,0 +1,21 @@
+{% set resultCount = data('StudentTaskResultCount', {taskId:chapter['task'].id}) %}
+{% set progress = resultCount/studentCount * 100 %}
+<div class="pbs">
+  <i class="{{ meta.icon }} class-report-body_icon"></i>
+  任务{{ taskIndex }}：{{ chapter['task'].activity.title }}
+  {% set taskIndex = taskIndex + 1 %}
+  {% if chapter['stage'] != 'in' %}
+    <span class="pll color-primary">{{ resultCount }}</span><span class="gray-medium">/{{ studentCount }}份</span>
+  {% endif %}
+</div>
+<div class="class-report_result">
+  {% if chapter['stage'] != 'in' %}
+    <div class="progress report_progress">
+      <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: {{progress}}%;">
+      </div>
+    </div>
+    <span class="progress-precent">{{progress|number_format(2, '.')}}%</span>
+  {% endif %}
+
+  <a class="link-primary pbm inline-block" href="javascript:;" data-url="{{ path('course_set_manage_course_dashboard_task_detail',{courseSetId: chapter['task'].activity.fromCourseSetId, courseId:chapter['task'].courseId,taskId:chapter['task'].id,mode:'report'}) }}" data-target="#modal" data-toggle="modal">查看结果</a>
+</div>

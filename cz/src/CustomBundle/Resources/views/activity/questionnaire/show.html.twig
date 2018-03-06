@@ -1,0 +1,45 @@
+{% extends 'layout.html.twig' %}
+
+{% do script(['custombundle/js/activity/question/index.js','custombundle/js/activity/index.js']) %}
+
+{% block body %}
+  <div class="iframe-parent-content {% if course.type|default() == 'instant' %}bt50{% endif %}">
+    <div class="modal show">
+      <div class="modal-dialog ">
+        <div class="modal-content">
+          <div class="modal-body task-state-modal">
+            <div class="title font-blod">
+              <i class="es-icon es-icon-xinxi color-info"></i>{{ '问卷说明'|trans }}
+            </div>
+            <div class="content">
+              <div class="text-16 ">
+                本次调查共<span class="color-primary">{{ questionnaire.itemCount }}题</span>
+              </div>
+            </div>
+            <div class="text-right">
+              {% if role == 'teacher' %}
+                <a class="btn btn-primary"
+                   href="{{ path('questionnaire_result_show',{taskId:task.id,questionnaireId:questionnaire.id}) }}">{{ '查看结果'|trans }}</a>
+              {% elseif lessonTask.stage|default() == 'in' and  lesson.status|default() != 'teaching' %}
+                <div class="btn btn-default disabled">{{ '开始调查'|trans }}</div>
+              {% elseif lesson.status != 'teached' and lessonTask.stage|default() == 'after' %}
+                <div class="btn btn-default disabled">{{ '开始调查'|trans }}</div>
+              {% else %}
+                <a
+                  class="btn btn-primary js-start-test {% if lesson.status == 'teached' and lessonTask.stage|default() == 'in' %} hidden {% endif %}"
+                  href="{{ path('questionnaire_do',{taskId:task.id,questionnaireId:questionnaire.id}) }}">{{ '开始调查'|trans }}</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'activity/content-footer.html.twig' %}
+
+  <div class="modal-backdrop in"></div>
+  <input type="hidden" id="taskId" value="{{ task.id }}">
+  <input id="js-socket-params" type="hidden" name=""
+         value="{{ path('instant_course_lesson_push_params', {courseId: lesson.courseId,lessonId: lesson.id}) }}">
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% do script(['libs/perfect-scrollbar.js', 'custombundle/js/activity/practice/index.js']) %}
+
+{% block content %}
+  {% set mode = app.request.get('mode') %}
+  <div class="iframe-parent-content-new iframe-parent-full ps-container" id="practice-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          <button class="cz-btn cz-btn-orange js-rend-call">
+            开始回答
+          </button>
+        </div>
+        <div class="activity-results">
+          <div class="bg-linear-green clearfix mb30">
+            练一练
+          </div>
+          <div class="activity-name">
+            {{ activity.content|raw }}
+          </div>
+          {% if materials %}
+            <div class="practice-show-data">
+              <p class="bg-linear-blue clearfix mb30">演示资料</p>
+              <div class="show-data-list ml-15 clearfix">
+                {% for material in materials %}
+                  <div class="show-data-item fl">
+                    <div class="item text-center pt40"
+                         data-url="{{ path('material_lib_file_preview', {fileId: material.fileId}) }}"
+                         data-target="#modal" data-toggle="modal">
+                      <div class="icon-box inline-block">
+                        {% if material.type == 'video' %}
+                          <i class="cz-icon cz-icon-video color-white"></i>
+                        {% else %}
+                          <i class="cz-icon cz-icon-file color-white"></i>
+                        {% endif %}
+                      </div>
+                      <p class="material-title mt40 text-20 text-bold">{{ material.title }}</p>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="taskId" value="{{ task.id }}">
+{% endblock %}

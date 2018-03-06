@@ -1,0 +1,43 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "" %}
+{# {% set modalSize = 'large' %} #}
+{% do script(['libs/jquery-validation.js','custombundle/js/courseset-manage/select-student-modal/index.js']) %}
+{% block title %}
+  {{'添加学员'|trans}}
+{% endblock %}
+{% block body %}
+
+<form id="teachers-form" class="form-horizontal" method="post" action="{{ path('custom_course_manage_student_create', {courseId: course.id}) }}" onkeydown="if(event.keyCode==13){return false;}">
+  <div class="col-md-2">
+    <label class="control-label">添加学员：</label>
+  </div>
+  <div class="col-md-8 controls">
+    <div class="form-group" id="teachers-form-group">
+      <div class="js-input-container select-input-container">
+        <input type="text" class="js-input-search form-control" data-query-url="{{ path('custom_course_manage_course_students_match', {courseId: course.id}) }}" placeholder="请输入姓名，学号，工号查询" />
+        <a href="javascript:;" class="es-icon es-icon-search"></a>
+        <div class="cz-select-list" hidden>
+          <table class="table table-noborder" id="student-list">
+
+          </table>
+        </div>
+      </div>
+      <table class="js-selected-students table table-noborder mtl">
+
+      </table>
+    </div>
+  </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-8 controls">
+    </div>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block footer %}
+  <span class="color-danger prl js-help-block" hidden>请选择至少一名学员</span>
+  <button type="submit" class="btn btn-fat btn-primary js-btn-save" data-loading-text="保存中...">{{'保存'|trans}}</button>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'courseset-manage/instant-layout.html.twig' %}
+
+{% block title %}{{'班级列表'|trans}} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'course_list' %}
+{% set tab = 'courseLesson' %}
+
+{% block main %}
+  <table class="table table-lg table-hover">
+    <thead>
+      <tr>
+        <th width="80%">班级</td>
+        <th>操作</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for course in courses %}
+        <tr>
+          <td>
+            <span class="fl" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{{ course.title }}">
+              {{ course.title|sub_text(40) }}
+            </span>
+            <span class='fr'>{{ courseMemberCounts[course.id].count|default(0) }}人</span>
+          </td>
+          <td>
+            <a class="link-primary mrs" href="{{ path('custom_course_lesson_list', {courseId:course.id}) }}">班级教案</a>
+            <a class="link-primary mrs" href="{{ path('teacher_course_multianalysis',{courseId: course.id}) }}">学习数据</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

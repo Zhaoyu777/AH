@@ -1,0 +1,75 @@
+{% extends 'activity/content-layout.html.twig' %}
+{% do script(['libs/perfect-scrollbar.js','custombundle/js/activity/race-answer/index.js']) %}
+
+{% block content %}
+  <div class="iframe-parent-content-new iframe-parent-full ps-container" id="race-answr-activity"
+       data-url="{{ path('race_answer_result_load', {taskId:task.id, activityId:task.activityId}) }}">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          {% if is_course_teacher(activity.fromCourseId) %}
+            {% if lesson.status == 'teaching' %}
+              {% if taskStatus.status|default() != 'end' %}
+                <button
+                  class="cz-btn cz-btn-orange js-rend-start {% if taskStatus.status|default() == 'start' %} hidden {% endif %}"
+                  data-url="{{ path('weixin_race_answer_start', {taskId:task.id, activityId:activity.id}) }}">开始回答</button>
+                <button
+                  class="cz-btn cz-btn-orange js-rend-end {% if not (taskStatus.status|default() == 'start') %} hidden {% endif %}"
+                  data-url="{{ path('weixin_race_answer_end', {taskId:task.id, activityId:activity.id}) }}">停止回答</button>
+                <button class="cz-btn cz-btn-default js-rend-stop hidden" disabled>抢答已结束</button>
+              {% else %}
+                <button class="cz-btn cz-btn-default js-rend-stop 
+                  {% if not (taskStatus.status|default() == 'end') %}hidden{% endif %}" disabled>抢答已结束</button>
+              {% endif %}
+            {% elseif lesson.status == 'teached' %}
+              <button class="cz-btn cz-btn-default" disabled>抢答已结束</button>
+            {% else %}
+              <button class="cz-btn cz-btn-default" disabled>开始回答</button>
+            {% endif %}
+          {% endif %}
+        </div>
+        <div class="activity-results js-activity-results">
+          <div class="activity-name js-activity-name{% if taskStatus.status|default("") == '' %} hidden {% endif %}">
+            {{ activity.content|raw }}
+          </div>
+          <div class="cz-activity-content js-cz-activity-content clearfix" id="race-student">
+            {% for student in students %}
+              <div class="raceAnswer-stu-info pull-left inline-block mrl text-center js-called-stu-info">
+                <div class="color-primary stu-rank stu-rank-{{ loop.index }}">
+                  <div class="rank-num text-24">{{ loop.index }}</div>
+                </div>
+                <img class="avatar-lg mbl" src="{{ filepath(student.avatar, 'avatar.png') }}" alt="">
+                <p class="color-orange text-24 text-overflow">{{ student.truename }}</p>
+                <p class="gray-dark text-18 mbl text-overflow">{{ student.nickname }}</p>
+                {% if results[student.id].score %}
+                  <span class="js-score-show color-primary text-24 score-show mrm">+ {{ results[student.id].score }}
+                    分</span>
+                {% elseif is_course_teacher(activity.fromCourseId) %}
+                  {% if lesson.status == 'teaching' %}
+                    <a class="btn cz-link-primary cz-btn-md text-bold js-grade-btn" href="javascript:;"
+                       data-id="{{ student.id }}" data-target="#modal" data-toggle="modal"
+                       data-url="{{ path('race_answer_result_remark', {resultId: results[student.id].id}) }}"
+                       hidden>评分</a>
+                  {% else %}
+                    <span class="btn btn-default cz-btn-md text-bold disabled">评分</span>
+                  {% endif %}
+                  <span class="js-score-show color-primary text-24" id="{{ results[student.id].id }}"></span>
+                {% endif %}
+              </div>
+            {% else %}
+              <div
+                class="js-activity-animate activity-animate {% if taskStatus.status|default() != null %}hidden{% endif %}">
+                <img src="/static-dist/custombundle/img/fast_answer.png" alt="活动图">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="result-tr" hidden>
+    {% include 'activity/race-answer/result-tr.html.twig' %}
+  </div>
+  <input type="hidden" id="taskId" value="{{ task.id }}">
+  <input type="hidden" id="race" value="{{ is_course_teacher(activity.fromCourseId) }}">
+{% endblock %}

@@ -1,0 +1,15 @@
+<form id='teacherCheckForm' autocomplete="off">
+    <div class="panel panel-default js-testpaper-question-block" >
+      <div class="panel-body">
+        {% for question in questions|default(null) %}
+          {% if question.type == 'essay' %}
+            {% include 'activity/questionnaire/essay-do.html.twig' %}
+          {% else %}
+            {% include 'activity/questionnaire/choice-do.html.twig' %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>

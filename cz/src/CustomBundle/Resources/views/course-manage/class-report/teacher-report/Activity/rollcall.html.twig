@@ -1,0 +1,7 @@
+<div class="pbs">
+  <i class="{{ meta.icon }} class-report-body_icon"></i>
+  任务{{ taskIndex }}：{{ chapter['task'].activity.title }}
+</div>
+<div class="class-report_result">
+  <a class="link-primary inline-block" href="javascript:;" data-url="{{ path('instant_course_teacher_class_report_task_show', {courseId:courseId,lessonId:lessonId,taskId:chapter['task'].id}) }}" data-target="#modal" data-toggle="modal">查看全部结果</a>
+</div>

@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{'课程管理'|trans}} - {{ parent() }}{% endblock %}
+{% set use_webapck_loader = true %}
+
+{% do script(['app/js/courseset-manage/index.js']) %}
+
+{% block content %}
+{{ render(controller('CustomBundle:Course/CourseSetManage:header', {course: course|default(null), manage: true, courseSet: courseSet|default(null), termCode: termCode|default(null)})) }}
+
+{% if course.courseSetId|default() %}
+  {% set courseSetId = course.courseSetId %}
+{% else %}
+  {% set courseSetId = courseSet.id %}
+{% endif %}
+<div class="row">
+  <div class="col-md-3">
+    {{ render(controller('CustomBundle:Course/CourseSetManage:sidebar', {sideNav: side_nav|default(null), courseSetId:courseSetId, termCode: termCode|default(null)})) }}
+  </div>
+  <div class="col-md-9">
+    {% block main %}{% endblock %}
+  </div>
+</div>
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}

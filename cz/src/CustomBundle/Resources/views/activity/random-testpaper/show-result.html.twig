@@ -1,0 +1,153 @@
+{% extends 'activity/random-testpaper/random-testpaper-layout.html.twig' %}
+
+{% set showHeader = 0 %}
+{% set showTypeBar = 1 %}
+{% set isIframeBody = 1 %}
+
+{% set questionTypesDict = getQuestionTypes() %}
+{% set types = questions|keys %}
+
+{% block paper_header %}
+  <div class="es-section testpaper-heading js-testpaper-heading">
+    <div class="testpaper-titlebar clearfix">
+      <h1 class="testpaper-title">
+        {{ activity.title }} <br>
+      </h1>
+      <div class="testpaper-status">
+        <div class="label label-primary">{{'批阅完成'|trans}}</div>
+      </div>
+    </div>
+    
+    <div class="testpaper-description">{{ activity.content|bbCode2Html|raw }}</div>
+    
+    {# {% include 'testpaper/part/paper-result-objective.html.twig' %} #}
+      <div class="media testpaper-result">
+        <div class="testpaper-result-total">
+          <div class="well">
+            <div class="testpaper-result-total-score">
+                {{ realScore|default(0) }}
+              <small>{{'site.data.score'|trans}}</small>
+            </div>
+            <small class="color-gray">{{'testpaper.result.total_score'|trans({'%score%':randomTestpaper.totalScore|default(0)})}}</small>
+          </div>
+        </div>
+        <div class="media-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-condensed testpaper-result-table">
+              <thead>
+                <th></th>
+                {% for type in types|default([]) %}
+                  <th>{{ questionTypesDict[type] }} <small class="color-gray">({{ totals[type].itemCount|default(0) }}{{'testpaper.result.question_num'|trans}})</small></th>
+                {% endfor %}
+              </thead>
+              <tbody>
+                <tr>
+                  <th>{{'testpaper.result.true_answer'|trans}}</th>
+                  {% for type in types|default([]) %}
+                      <td><span class="color-success">{{ totals[type].status.right }} <small>{{'testpaper.result.question_num'|trans}}</small></span></td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>{{'testpaper.result.wrong_answer'|trans}}</th>
+                  {% for type in types|default([]) %}
+                      <td>
+                          <span class="color-danger">
+                            {{ totals[type].status.wrong + totals[type].status.partRight }}
+                            <small>
+                              {{'testpaper.result.question_num'|trans}}
+                              {% if type in ['choice', 'uncertain_choice'] and totals[type].status.partRight != 0 %}
+                                {{'testpaper.result.missing'|trans({'%partRightNum%': totals[type].status.partRight})}}
+                              {% endif %}
+                            </small>
+                          </span>
+                      </td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>{{'testpaper.result.not_answer'|trans}}</th>
+                  {% for type in types|default([]) %}
+                    <td><span class="color-gray">{{ totals[type].status.noAnswer }} <small>{{'testpaper.result.question_num'|trans}}</small></span></td>
+                  {% endfor %}
+                </tr>
+                <tr>
+                  <th>{{'testpaper.result.score'|trans}}</th>
+                  {% for type in types|default([]) %}
+                    <td><span class="text-score">{{ totals[type].totalScore }} <small>{{'site.data.score'|trans}}</small></span></td>
+                  {% endfor %}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+    {# {% block paper_warning %}{% endblock %} #}
+    {% if randomTestpaper.passedScore|default(0) > realScore %}
+      <div class="alert alert-danger">{{ 'testpaper.result.failed'|trans }}。本次测验合格分是{{randomTestpaper.passedScore|default(0)}}分</div>
+    {% else %}
+      <div class="alert alert-success">{{'testpaper.result.pass'|trans}}。本次测验合格分是{{randomTestpaper.passedScore|default(0)}}分</div>
+    {% endif %}
+    {# {% block paper_question_type_bar %}{% endblock %} #}
+  </div>
+{% endblock %}
+
+{% block paper_body %}
+  {% for type in types|default([]) if questions[type]|default(null) %}
+    <div class="panel panel-default js-testpaper-question-block" id="testpaper-questions-{{ type }}">
+      <div class="panel-heading">
+        <strong class="">{{ questionTypesDict[type] }}</strong>
+        <small class="color-gray">
+          {{'testpaper.answer.question_score_total_tips'|trans({'%number%': questions[type]|length,'%score%': (randomTestpaper.metas.scores[type]*questions[type]|length)})}}
+        </small>
+      </div>
+      <div class="panel-body">
+        {% for question in questions[type]|default(null) %}
+          {% if question.isDeleted|default(null) %}
+            {% include 'question/part/question-delete.html.twig' with {showScore:1,question:question}%}
+          {% else %}
+            {% set questionTemplate = getQuestionTypeTemplate(question.type,'analysis') %}
+            {% if questionTemplate %}
+              {% include questionTemplate %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+{% block paper_sidebar %}
+
+  <div class="testpaper-card {{ testpaperCardClass|default('') }}" >
+    <div class="testpaper-timer">
+      <a class="btn btn-success do-test" id="finishPaper" data-url="{{path('course_task_activity_show', {courseId:activity.fromCourseId, id:taskId, doAgain:true})}}">{{'testpaper.do_gagin'|trans}}</a>
+    </div>
+    <div class="panel panel-default ">
+      <div class="panel-heading">
+        {{'testpaper.answer.answer_card'|trans}}
+        <a class="pull-right link-medium" href="javascript:;" data-container="body" data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content='{{ 'testpaper.answer.answer_card.exam_with_pass_score_tips'|trans({'%itemCount%':randomTestpaper.itemCount|default(0),'%score%':randomTestpaper.totalScore|default(0),'%finishScore%':randomTestpaper.passedScore|default(0) })|raw }}'><i class="es-icon es-icon-info"></i></a>
+      </div>
+      <div class="panel-body">
+        <div class="js-panel-card panel-card">
+          {% for type in types|default([]) %}
+            <p>{{ questionTypesDict[type] }}</p>
+            {% for question in questions[type] %}
+              {% include 'testpaper/part/paper-card-choice.html.twig' with {paperResult:null,question:question,seq:question.seq} %}
+            {% endfor %}
+          {% endfor %}
+          {% include 'testpaper/part/card-choice-explain.html.twig' %}
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="showWrong" />
+            <span class="text-info">{{'testpaper.result.wrong_only'|trans}}</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}

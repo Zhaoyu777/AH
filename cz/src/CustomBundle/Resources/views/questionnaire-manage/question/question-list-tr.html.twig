@@ -1,0 +1,24 @@
+{% import 'macro.html.twig' as macro %}
+<tr data-role='item' class="drag" id="{{ question.id }}">
+  <td><input value="{{ question.id }}" type="checkbox" data-role="batch-item" autocomplete="off"></td>
+  <td>
+    {{ question.stem|fill_question_stem_text| plain_text(40) }}
+  </td>
+  <td>
+    {% if question.type == 'single_choice' %}
+      单选
+    {% elseif question.type == 'choice' %}
+      多选
+    {% else %}
+      问答
+    {% endif %}
+  </td>
+  <td>
+    {{ macro.user_link(user) }}
+    <br/>
+    <span class="color-gray text-sm">{{question.updatedTime | date('Y-n-d H:i:s')}}</span>
+  </td>
+  <td width="30%">
+    <a class="mrm link-primary js-delete-question-btn" data-url="{{ path('course_set_manage_questionnaire_question_delete', {id:question.id}) }}">删除</a>
+  </td>
+</tr>

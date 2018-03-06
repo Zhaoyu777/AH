@@ -1,0 +1,52 @@
+{% set showHeader = 0 %}
+{% set showTypeBar = 1 %}
+{% set isIframeBody = 1 %}
+{% set isActivityPreview = 'true' %}
+
+{% if paper %}
+  {% include 'testpaper/start-do-show.html.twig' %}
+{% else %}
+  {% if course.type|default() == 'instant' %}
+    <div class="start-class-mask">
+  {% endif %}
+    <span>该试卷已删除,或者未发布</span>
+  {% if course.type|default() == 'instant' %}
+    </div>
+  {% endif %}
+{% endif %}
+
+<style>
+  body {
+    word-wrap: break-word;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    &.bg-blank {
+      background-color: #fff;
+    }
+  }
+
+  html {
+    height: 100%;
+  }
+
+  html.nav-active,
+  html.nav-active body {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+  .start-class-mask {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin-top: -18px;
+    font-size: 26px;
+    text-align: center;
+    color: #fff;
+  }
+</style>

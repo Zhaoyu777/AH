@@ -1,0 +1,78 @@
+{% if course.type|default() == 'instant' and ( not is_mobile_client()) and mode|default() != 'report' %}
+  {% set types = ['displayWall','oneSentence','brainStorm','rollcall'] %}
+  <div class="activity-content-footer">
+    {% if preview|default("") == 'true' %}
+      {#<a class="back-link js-back" href="javascript:;">返回</a>#}
+      <div class="switch-btn-list clearfix">
+        <button class="box prev-box fl cz-btn-noborder color-f0 text-bold js-turn-btn">
+          上一活动
+        </button>
+        <button class="box next-box fr cz-btn-noborder color-f0 text-bold js-turn-btn">
+          下一活动
+        </button>
+      </div>
+    {% else %}
+      {# <a class="back-link js-back"
+         data-url="{% if is_course_teacher(course.id) %}
+          {{ path('custom_teaching_course', {courseId:course.id}) }}
+        {% elseif (not is_course_teacher(course.id)) %}
+          {{ path('my_instant_courses_learning') }}
+        {% endif %}" href="javascript:;">返回</a>
+      {% if activity.mediaType|default() in types %}
+        <a href="javascript:;" class="show-activity-name js-show-activity-name">隐藏题干</a>
+      {% elseif activity.mediaType|default() == 'raceAnswer' %}
+        <a href="javascript:;" class="show-activity-name js-show-activity-name
+          {% if taskStatus.status|default("") == "" %} hidden {% endif %}">
+          隐藏题干
+        </a>
+      {% endif %} #}
+      <div class="switch-btn-list js-switch-btn-list clearfix">
+        {% if closeToTask(task.id, 'preview') %}
+          <button class="box prev-box fl cz-btn-noborder color-f0 text-bold js-turn-btn
+            {% if not closeToTask(task.id, 'next') %} background-primary{% endif %}" 
+            data-step="preview" 
+            data-event-url="{{ path('course_task_trigger', {courseId: task.courseId, id: closeToTask(task.id, 'preview')}) }}"
+            data-url="
+              {% if isActivityPreview|default('') == 'true' %}
+                {{ path('instant_course_task_content_preview',{courseId:task.courseId, id:closeToTask(task.id, 'preview'), preview:'1' }) }}
+              {% else %}
+                {{ path('course_task_activity_show',{courseId:task.courseId, id:closeToTask(task.id, 'preview') }) }}
+              {% endif %}
+          ">
+            上一活动
+          </button>
+        {% endif %}
+        {% if closeToTask(task.id, 'next') %}
+          <button class="fr box next-box cz-btn-noborder color-f0 js-turn-btn"
+            data-step="next" 
+            data-event-url="{{ path('course_task_trigger', {courseId: task.courseId, id: closeToTask(task.id, 'next')}) }}"
+            data-url="
+              {% if isActivityPreview|default('') == 'true' %}
+                {{ path('instant_course_task_content_preview',{courseId:task.courseId, id:closeToTask(task.id, 'next'), preview:'1' }) }}
+              {% else %}
+                {{ path('course_task_activity_show',{courseId:task.courseId, id:closeToTask(task.id, 'next') }) }}
+              {% endif %}
+            ">
+            {# <i class="es-icon cz-icon-chevronright"></i> #}
+            下一活动
+          </button>
+        {% else %}
+          <button class="fr box no-next cz-btn-noborder color-f0" disabled>
+            下一活动
+          </button>
+        {% endif %}
+      </div>
+      {% if is_course_teacher(course.id) and taskStatus|default() %}
+        {% if taskStatus.status|default("") == 'start' or taskStatus.status|default("") == 'end' %}
+          <div class="class-time text-bold">
+            {# <i class="cz-icon cz-icon-shizhong mr5"></i> #}
+            <span class="class-time-tip">答题用时：</span>
+            <input type="hidden" id="js-classed-time" value="{{ taskStatus.costTime|default(0) }}">
+            <span class="hidden js-class-time">{{ taskStatus.costTime|default(0) }}</span>
+            <span class="js-time-num time-num text-24 vertical-sub color-orange"></span>
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+{% endif %}

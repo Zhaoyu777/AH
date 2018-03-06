@@ -1,0 +1,16 @@
+<div class="testpaper-question testpaper-question-essay js-testpaper-question {% if setting('magic.testpaper_watermark') %}js-testpaper-watermark{% endif %}" data-watermark-url="{{ path('cloud_testpaper_watermark') }}" id="question{{ question.id }}">
+  <div class="testpaper-question-body">
+    {% include 'question/part/question-stem.html.twig' %}
+  </div>
+  <div class="testpaper-question-footer clearfix">
+    <div class="testpaper-question-result">
+      <div class="testpaper-question-result-suggested">
+        <div class="testpaper-question-result-title">{{'参考答案：'|trans}}</div>
+        <div>{{ question.answer[0]|bbCode2Html|raw }}</div>
+      </div>
+    </div>
+  </div>
+
+  {% include 'question/part/show-analysis.html.twig' with {showAnalysis:1} %}
+
+</div>

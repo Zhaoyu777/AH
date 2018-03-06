@@ -1,0 +1,19 @@
+{% set results = data('RaceAnswerResults', {taskId:chapter['task'].id}) %}
+<div class="pbs">
+  <i class="{{ meta.icon }} class-report-body_icon"></i>
+  任务{{ taskIndex }}：{{ chapter['task'].activity.title }}
+</div>
+<div class="class-report_result">
+  <table class="table table-noborder report-rank-table">
+    <tbody>
+      {% for result in results %}
+        <tr>
+          <td class="color-primary">第{{ loop.index }}名</td>
+          <td class="gray-darker">{{ result.truename }}</td>
+          <td class="text-center">{{ result.number }}</td>
+          <td class="text-right">+{{ result.score|default(0) }}分</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

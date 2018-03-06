@@ -1,0 +1,31 @@
+{% extends 'prepare-course-manage/layout.html.twig' %}
+
+{% block title %}{{ activity.title }} - {{'试卷批阅'|trans}} - {{ course.title }} - {{ parent() }}{% endblock %}
+{% import 'macro.html.twig' as macro %}
+
+{% set side_nav = 'homework-check' %}
+{% set typeName = '实践作业' %}
+
+{% block main %}
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{ course.title }}<span class="mh5">／</span>{{ activity.title }}
+      {% if course.status != 'published' %}
+        <button class="btn btn-success btn-sm pull-right js-publish-course"
+          data-url="{{ path('course_set_manage_course_publish', {courseSetId: courseSet.id, courseId: course.id}) }}">
+          {{ '发布计划'|trans }}
+        </button>
+      {% endif %}
+      {#{% if course_count(course.courseSetId) > 1 %}
+        <a class="btn btn-default btn-sm pull-right ml5" href="{{ path('course_set_manage_base', {id: courseSet.id}) }}">返回课程编辑</a>
+      {% endif %}#}
+      <a class="btn btn-info btn-sm panel-bar mhs pull-right" id="export-result-btn" href="javascript:;" data-url="{{ path('classroom_manage_student_export_csv', {practiceWorkId:activity.mediaId}) }}" data-datas-url="{{ path('custom_practice_result_export_datas', {practiceWorkId:activity.mediaId}) }}" data-loading-text="{{'classroom.student_exporting'|trans}}"><i class="glyphicon glyphicon-export"></i> {{'成绩导出'|trans}}</a>
+    </div>
+    <div class="panel-body">
+      {% if isTeacher is defined and not isTeacher %}
+        <span class="color-danger">{{'当前用户不是本课程教师，没有批阅%typeName%的权限。'|trans({'%typeName%':typeName}) }}</span>
+      {% endif %}
+      {{ render(controller('CustomBundle:Testpaper/Manage:resultListShow',{request:app.request,activityId:activity.id})) }}
+    </div>
+  </div>
+{% endblock %}

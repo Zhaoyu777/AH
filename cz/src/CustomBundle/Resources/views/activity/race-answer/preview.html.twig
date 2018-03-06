@@ -1,0 +1,29 @@
+{% extends 'activity/content-layout.html.twig' %}
+
+{% set isActivityPreview = 'true' %}
+
+{% block content %}
+  {% set studentCount = data('CourseMemberCount', {courseId:activity.fromCourseId, role:'student'}) %}
+  <div class="iframe-parent-content-new iframe-parent-full" id="rollcall-activity">
+    <div class="activity-show-content-new">
+      <div class="activity-content">
+        <div class="operation-btn">
+          {% if is_course_teacher(activity.fromCourseId) %}
+            <button class="cz-btn cz-btn-orange js-rend-call">开始抢答</button>
+          {% endif %}
+        </div>
+        <div class="activity-results js-activity-results">
+          <div class="activity-name js-activity-name">
+              {{ activity.content|raw }}
+          </div>
+          <div class="cz-activity-content js-cz-activity-content clearfix" id="race-student">
+            <div class="js-activity-animate activity-animate">
+              <img src="/static-dist/custombundle/img/fast_answer.png" alt="活动图">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+<div class="cz-activity-content ml-15 js-cz-activity-content">
+  <div class="wall-container js-wall-container clearfix" id="display-wall-production">
+    {% for result in groups.results %}
+      {% if result.content %}
+        <div class="wall-stu-info js-wall-stu-info js-result-{{ result.id }}">
+          <div class="wall-img-mask">
+            <div class="wall-img-container js-detail-show">
+              <img class="wall-img inline-block cursor-pointer js-wall-image"
+                   src="{{ filepath(result['content'].uri) }}" data-target="#modal" data-toggle="modal"
+                   data-url="{{ path('display_wall_content_show', {contentId:result['content'].id}) }}">
+              <div class="color-primary img-score js-score-parent {% if not result.score|default() %} hidden {% endif %}">
+                <div id="{{ result.id }}" class="js-score-show score-num">+{{ result.score }}</div>
+              </div>
+            </div>
+            <div class="info-box">
+              <div class="zan-answer mt5">
+                <i class="cz-icon cz-icon-praise-hover mrs zan-like cursor-pointer js-zan-like
+                  {% if  result.isStar == 0 %} hidden {% endif %}"
+                  data-url="{{ path('display_wall_content_cancel_like',{contentId: result['content'].id}) }}"
+                  data-result-id="{{ result.id }}"></i>
+                <i class="cz-icon cz-icon-praise mrs cancel-like cursor-pointer js-cancel-like
+                  {% if  result.isStar == 1 %} hidden {% endif %}"
+                  data-url="{{ path('display_wall_content_like',{contentId: result['content'].id}) }}"
+                  data-result-id="{{ result.id }}"></i>
+                <span class="like-unm js-wall-like-num cursor-pointer">{{ result['content'].likeNum }}</span>
+                <span class="cursor-pointer js-wall-post">
+                  <i class="mll cz-icon cz-icon-question_answer mrs "></i>
+                  <span class="js-wall-post-num">{{ result['content'].postNum }}</span>
+                </span>
+              </div>
+              <div class="color-dark stu-truename text-bold mt5 text-overflow js-wall-content-truename">{{ result.truename }}</div>
+              <div class="score-info">
+                {% if app.user.isTeacher() and result.id|default() and not result.score %}
+                  {% if lesson.status == 'teaching' %}
+                    <a class="btn cz-link-primary cz-btn-md text-bold js-grade-btn" href="javascript:;" data-id=""
+                       data-target="#modal" data-toggle="modal"
+                       data-url="{{ path('display_wall_result_remark',{resultId: result.id}) }}">评分</a>
+                  {% else %}
+                    <div class="btn btn-default cz-btn-md text-bold disabled">评分</div>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    {% if not taskStatus %}
+      <div class="js-activity-animate activity-animate">
+        <img src="/static-dist/custombundle/img/display-wall.png" alt="活动图">
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% include 'activity/display-wall/show/template.html.twig' %}

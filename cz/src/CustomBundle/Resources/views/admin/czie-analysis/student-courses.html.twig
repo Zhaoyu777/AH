@@ -1,0 +1,66 @@
+{% extends 'old-bootstrap-modal-layout.html.twig' %}
+
+{% block title %}
+  在学课程列表
+{% endblock %}
+{% block body %}
+  {% for course in courses %}
+    <ul>
+      <li>
+        <span>{{ courseSets[course.courseSetId].title|sub_text(20) }}</span>
+        <div class="pull-right mrl dropdown">
+          <a class="js-course-report pull-right mrl" href="{{ path('teacher_course_multianalysis',{courseId:course.id}) }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看课堂报告
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="dLabel" style="width: 280px;">
+            {% for lesson in lessons[course.id]|default() %}
+              <li>
+                {% if lesson.status == 'teached' %}
+                  <a href="{{ path('instant_course_student_class_report', {courseId:course.id, lessonId:lesson.id}) }}" target="_blank">
+                    课次{{ lesson.number }}
+                    <span class="mll">
+                      授课与{{lesson.endTime|date('Y-m-d H:i:s')}}
+                    </span>
+                  </a>
+                {% else %}
+                  <a href="javascript:;">
+                    课次{{ lesson.number }}
+                    <span class="mll">
+                      未授课
+                    </span>
+                  </a>
+                {% endif %}
+              </li>
+            {% else %}
+              <li>
+                <a href="javascript:;">
+                  该课程无课次
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <a class="pull-right mrl" href="javascript:;" data-url="{{ path('my_instant_course_report', {courseId:course.id, userId:userId}) }}" data-target="#attachment-modal" data-toggle="modal">查看课程报告</a>
+      </li>
+    </ul>
+  {% else %}
+    <div class="empty">无在教课程</div>
+  {% endfor %}
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript">
+    var $elem = $(".js-course-report");
+    $(".js-course-report").on("mouseover", function() {
+      if ($(this).is(".open")) {
+        return;
+      }
+
+      $(this).dropdown("toggle");
+    });
+    $elem.closest('.modal-body').css('overflow','visible');
+  </script>
+{% endblock %}

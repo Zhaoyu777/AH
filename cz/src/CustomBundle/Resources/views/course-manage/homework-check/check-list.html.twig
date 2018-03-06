@@ -1,0 +1,47 @@
+{% if courseSet.type == 'instant' %}
+  {% set layout = 'prepare-course-manage/layout.html.twig' %}
+{% elseif (course_count(course.courseSetId) > 1) %}
+  {% set layout = 'course-manage/layout.html.twig' %}
+{% else %}
+  {% set layout = 'courseset-manage/layout.html.twig' %}
+{% endif %}
+{% extends layout %}
+{# {% do script(['custombundle/js/course-manage/homework-check/index.js'])%} #}
+
+{% block title %}{{'作业批阅'|trans}} - {{ course.title }} - {{ parent() }}{% endblock %}
+{% set side_nav = 'homework-check' %}
+
+{% block main %}
+  <div class="panel panel-default">
+  {% include 'course-manage/panel-header/course-publish-header.html.twig' with {code: side_nav} %}
+    <div class="panel-body">
+    {% if isTeacher is defined and not isTeacher %}
+      <span class="color-danger">{{'当前用户不是本课程教师，没有批阅作业的权限。'|trans}}</span>
+    {% endif %}
+    {% if courseSet.type == 'instant' %}
+      <ul class="nav nav-pills mbl">
+        <li class="{% if status|default(null) == 'homework' %}active{% endif %}">
+          <a class="btn btn-default" href="{{ path('custom_course_manage_homework_check_list', {id: course.id, status:'homework'}) }}">{{ '题目作业'|trans }} 
+          {% if reviewTopicResultCount %}
+            ({{reviewTopicResultCount|default(0)}})
+          {% endif %}
+          </a>
+        </li>
+
+        <li class="{% if status|default(null) == 'practice' %}active{% endif %}">
+          <a class="btn btn-default" href="{{ path('custom_course_manage_homework_check_list', {id: course.id, status:'practice'}) }}">{{ '实践作业'|trans }} 
+            {% if reviewPracticeResultCount %}
+              ({{reviewPracticeResultCount|default(0)}})
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+      <div id="js-homework-list">
+        {% include 'testpaper/manage/check-list.html.twig' %}
+      </div>
+    {% else %}
+      {{ render(controller('AppBundle:Testpaper/Manage:checkList',{request:app.request,targetId:course.id, targetType: 'course',type:'homework',testpaperIds:homeworkIds})) }}
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}

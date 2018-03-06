@@ -1,0 +1,228 @@
+// 变量
+@import '~common/variable.less';
+
+@brand-primary:         #4591ec;
+@brand-primary-hover:   #246ec6;
+@brand-success:         #70d445;
+@blue-dark:             #F1F7FC;
+@black-dark:            #202020;
+@color-orange:          #FFCE4E;
+@color-f0:              #f0f0f0;
+@bg-deep-color:         #24282f;
+
+// 字体 --->
+.line-height-1 {
+  line-height: 1;
+}
+/// <--- 字体
+
+
+// ---> 字体颜色组
+.color-primary {
+	color: @brand-primary;
+  &:active,
+  &:hover,
+  &:focus {
+    color: @brand-primary;
+  }
+}
+
+.color-orange {
+  color: @color-orange !important;
+}
+
+.color-light {
+  color: #4591EC !important;
+}
+
+.color-black-dark {
+  color: #080808 !important;
+}
+
+.color-f0 {
+  color: @color-f0 !important;
+}
+
+.color-fa {
+  color: #fafafa !important;
+}
+
+.black-dark {
+  color: @black-dark !important;
+}
+
+.hover-color-primary {
+  &:hover {
+    color: @brand-primary !important;
+  }
+}
+
+.background-primary {
+  background-color: @brand-primary !important;
+}
+
+.background-color-000 {
+  background-color: #000 !important;
+}
+
+// <--- 字体颜色组
+
+.bg-primary-dark {
+	background-color: @blue-dark !important;
+}
+
+.vertical-sub {
+  vertical-align: sub;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.text-bold {
+  font-weight: bold;;
+}
+
+// 上课页面按钮组 --->
+.cz-btn {
+  display: inline-block;
+  width: 120px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 17px;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: .56px;
+  .border-radius(2px);
+  border: none;
+  cursor: pointer;
+}
+
+.cz-btn-orange {
+  color: #320009;
+  background-color: @color-orange;
+  &:hover,
+  &:active,
+  &:focus {
+    background-color: #ffd976;
+  }
+}
+
+.cz-btn-default {
+  color: #fff;
+  background-color: #919191;
+  opacity: 0.5;
+  &:hover,
+  &:active,
+  &:focus {
+    color: #fff;
+  }
+}
+
+.cz-btn-noborder {
+  border: none;
+  .border-radius(0);
+  background-color: transparent;
+  &:active,
+  &:focus {
+    border: none;
+    outline: none;
+  }
+}
+
+.btn.cz-btn-md {
+  padding: 8px 18px;
+}
+// <--- 上课页面按钮组
+
+// 自定义按钮大小 --->
+.kt-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  line-height: 1;
+  font-size: 16px;
+  font-weight: 400;
+  .border-radius;
+  user-select: none;
+  cursor: pointer;
+}
+
+.kt-btn-sm {
+  padding: 12px 30px;
+}
+
+.kt-btn-default {
+  color: @gray-darker;
+  background-color: #f4f4f4;
+  border: 1px solid rgba(0, 0, 0, .1);
+  &:hover {
+    color: #fff;
+    background-color: #207be8;
+  }
+}
+
+.kt-btn-primary {
+  color: #fff;
+  background-color: @brand-primary;
+  border: 1px solid @brand-primary;
+  &:hover {
+    background-color: #207be8;
+  }
+}
+
+// <--- 自定义按钮大小
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.border-top-light-black {
+  border-top: 1px solid #4d5563;
+}
+
+.opacity-5 {
+  opacity: .5;
+}
+
+.bg-linear-base {
+  position: relative;
+  width: 217px;
+  height: 48px;
+  padding-left: 20px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 48px;
+  overflow: hidden;
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 48px solid @bg-deep-color;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 28px solid transparent;
+  }
+}
+
+.bg-linear-green {
+  .bg-linear-base;
+  background-image: linear-gradient(to left, rgba(90,171,75,.04), #5aab4b);
+}
+
+.bg-linear-blue {
+  .bg-linear-base;
+  background-image: linear-gradient(to left, rgba(84,184,255,.04), #3892ff);
+}
+
+.position-relative {
+  position: relative;
+}
+
+

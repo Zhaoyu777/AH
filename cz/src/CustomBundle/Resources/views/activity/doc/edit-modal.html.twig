@@ -1,0 +1,69 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+
+{% do script(['//service-cdn.qiqiuyun.net/js-sdk/uploader/sdk-v1.js', 'custombundle/js/activity-manage/doc/index.js']) %}
+
+{% block activity_content %}
+  <div class="form-group">
+    <div class="col-sm-2 control-label">
+      <label for="mediaId" class="style control-label-required">文档</label>
+    </div>
+    <div class="col-sm-10">
+      {% include 'file-chooser/file-choose.html.twig' with {
+      mediaType: 'document',
+      fileType:'document',
+      file: doc.media|default(null),
+      placeholder: '文档'
+      } %}
+      <input type="hidden" value="{{ doc.mediaId|default(null) }}" name="mediaId" id="mediaId"/>
+      <div id="file-choose-type" class="hidden" data-type="doc"></div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block activity_finish %}
+  {% if stage %}
+    <div class="form-group" id="condition-group">
+      <div class="col-sm-2 control-label">
+        <label for="condition-select">积分规则</label>
+      </div>
+      <div class="col-sm-4 form-control-static">
+        <input type="radio" name="score" {% if stage == 'in' %}disabled{% endif %} {% if activity.score|default() == 1 %}checked{% endif %} value="1"> 可获得 1 分
+        <input type="radio" name="score" {% if stage == 'in' %}disabled{% endif %} {% if not activity.score|default() %}checked{% endif %} value="0"> 不能获得积分
+      </div>
+    </div>
+    <div class=" form-group">
+      <div class="col-sm-2 control-label">
+        <label>{{ '完成条件'|trans }}</label>
+      </div>
+      <div class="col-sm-4 form-control-static">
+        至少观看1分钟
+      </div>
+    </div>
+    <input type="hidden" name="finishDetail" value="{{ doc.finishDetail|default(1) }}">
+    <input type="hidden" name="finishType" value="time">
+
+  {% else %}
+    <div class=" form-group">
+      <div class="col-sm-2 control-label">
+        <label for="condition-select">{{ '完成条件'|trans }}</label>
+      </div>
+      <div class="col-xs-4 form-control-static">
+        观看时长
+        {#<select class="form-control" id="condition-select" name="finishType">
+          <option value="time" {% if doc.finishType|default('click') == 'time' %}selected{% endif %}>观看时长</option>
+        </select>#}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-2 control-label">
+        <label for="condition-detail">{{ '至少观看'|trans }}</label>
+      </div>
+      <div class="col-xs-4 controls">
+        <input id="condition-detail" class="form-control" type="text" name="finishDetail" value="{{ doc.finishDetail|default(1) }}">
+      </div>
+      <div class="col-xs-4 controls">
+        <p class="form-control-static">分钟</p>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

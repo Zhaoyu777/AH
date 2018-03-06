@@ -1,0 +1,105 @@
+{% extends 'my/layout.html.twig' %}
+{% block title %}{{'上课'|trans}}{% endblock %}
+{% do script(['libs/easy-pie-chart/dist/jquery.easypiechart.js','libs/excanvas-compiled.js','app/js/course-manage/students/index.js','custombundle/js/teach-course-manage/start-course/index.js']) %}
+{% set side_nav = 'my-teaching-custom-courses' %}
+
+{% block main %}
+{% set studentCount = data('CourseMemberCount', {courseId:course.id, role:'student'}) %}
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4">
+          <img class="img-responsive pull-left" src="{{ filepath(courseSet.cover.middle|default(null), 'course.png') }}" alt="">
+        </div>
+        <div class="col-md-5">
+          <div class="gray-darker text-xlg mtm">
+            {{ courseSet.title |sub_text(20)}}
+          </div>
+          <div class="mts pbl">
+            {{ course.title |sub_text(20)}}
+          </div>
+          <div class="stu-num-list color-gray mtl">学生名单：{{ studentCount }} <a class="link-primary mlm" href="{{ path('custom_course_manage_course_students', {courseId:course.id}) }}">编辑</a></div>
+        </div>
+        <div class="col-md-3">
+          <div class="teach-course-progress course-progress">
+            <div class="cricle-progress" id="courseprogress" data-percent="{{ progress }}">
+              <span class="percent"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <!-- 已完成课时部分 -->
+      <ul class="js-teached-course-list list-unstyled mb0">
+        <li class="clearfix js-teached-course-head">
+          <div class="teached-course color-gray pull-left text-lg">
+            已完成{{ completedLessonsCount }}个课次
+          </div>
+          <div class="pull-right">
+            <i class="js-toggle-icon es-icon es-icon-keyboardarrowup color-primary" hidden></i>
+            <i class="js-toggle-icon es-icon es-icon-keyboardarrowdown color-primary"></i>
+          </div>
+        </li>
+        {% for lesson in completedLessons|default() %}
+          <div class="mtm ptm top-line" hidden>
+            <li class="es-piece mbs js-teach-course-head">
+              <div class="piece-header text-lg gray-dark pull-left">
+                课次{{ lesson.number }}： {{ lesson.title |sub_text(30)}}
+              </div>
+              <div class="pull-right">
+                <i class="js-toggle-icon es-icon es-icon-keyboardarrowup color-primary"></i>
+                <i class="js-toggle-icon es-icon es-icon-keyboardarrowdown color-primary" hidden></i>
+              </div>
+              <div class="piece-body p-lg clearfix">
+              </div>
+            </li>
+            {{ render(controller('CustomBundle:Course/CourseLesson:loadLessonActivities', {lessonId:lesson.id, prepare: 1})) }}
+          </div>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <!-- 未完成课次部分 -->
+      <ul class="js-teach-course-list list-unstyled mb0">
+        <li class="clearfix js-teached-course-head mbl">
+          <div class="teached-course color-gray pull-left text-lg">
+            未完成{{ notCompletedLessonsCount }}个课次
+          </div>
+          <div class="pull-right">
+            <i class="js-toggle-icon es-icon es-icon-keyboardarrowup color-primary" hidden></i>
+            <i class="js-toggle-icon es-icon es-icon-keyboardarrowdown color-primary"></i>
+          </div>
+        </li>
+        {% for lesson in notCompletedLessons|default() %}
+          <div class="ptm top-line">
+            <li class="es-piece mbs js-teach-course-head ">
+              <div class="piece-header text-lg gray-dark pull-left mbm">
+                课次{{ lesson.number }}： {{ lesson.title |sub_text(30)}}
+                <a class="link-gray text-md mlm js-prevent-btn" href="{{ path('custom_lesson_tasks', {lessonId:lesson.id}) }}">
+                  <i class="es-icon es-icon-edit text-sm mrs"></i>编辑教案
+                </a>
+              </div>
+              <div class="pull-right">
+                {% if lesson.status == 'teaching' %}
+                  <a class="btn btn-warning mrl js-prevent-btn" href="{{ path('custom_lesson_show', {courseId:course.id, lessonId:lesson.id}) }}">上课中</a>
+                {% elseif lesson.status == 'created' %}
+                  <a class="btn btn-primary mrl js-prevent-btn" href="{{ path('custom_lesson_show', {courseId:course.id, lessonId:lesson.id}) }}">进入课堂</a>
+                {% endif %}
+                <i class="js-toggle-icon es-icon es-icon-keyboardarrowup color-primary"></i>
+                <i class="js-toggle-icon es-icon es-icon-keyboardarrowdown color-primary" hidden></i>
+              </div>
+              <div class="piece-body p-lg clearfix">
+              </div>
+            </li>
+            {{ render(controller('CustomBundle:Course/CourseLesson:loadLessonActivities', {lessonId:lesson.id, prepare: 1})) }}
+          </div>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

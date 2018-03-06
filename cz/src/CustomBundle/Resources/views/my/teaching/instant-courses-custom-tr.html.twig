@@ -1,0 +1,37 @@
+{% import "macro.html.twig" as web_macro %}
+
+<table class="table table-hover czie-course-table">
+  <thead>
+  <tr>
+    <th width="65%">{{ '课程'|trans }}</th>
+    <th >{{ '操作'|trans }}</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for courseSet in courseSets %}
+      <tr data-id="{{ courseSet.id }}">
+        <td>
+          <img class="fl" src="{{ filepath(courseSet.cover.middle|default(null), 'course.png') }}" alt="" width="100">
+          <div class="clearfix pt20" style="padding-left: 110px;">
+            <div class="text-14">{{ courseSet.title }}</div>
+          </div>
+        </td>
+        <td>
+          <div>
+            <a class="link-primary mrs" href="{{ path('custom_course_lesson_list', {courseId:courses[courseSet.id].id}) }}">班级教案</a>
+            <a class="link-primary mrs"
+              href="{{ path('teacher_course_multianalysis',{courseId:courses[courseSet.id].id}) }}">学习数据</a>
+            <a class="link-primary" href="{{ path('course_set_manage_base', {id:courseSet.id}) }}" target="_blank">课程设置</a>
+            <span class="phs gray-medium">|</span>
+            <a class="link-primary js-lesson-cancel" href="javascript:;" data-url="{{ path('custom_course_set_delete', { courseSetId:courseSet.id }) }}">删除</a>
+          </div>
+        </td>
+      </tr>
+    {% else %}
+      <tr>
+        <td class="empty" colspan="5">暂无信息</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{{ web_macro.ajax_paginator(paginator) }}

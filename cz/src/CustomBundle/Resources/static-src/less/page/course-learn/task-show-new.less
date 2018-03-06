@@ -1,0 +1,459 @@
+.task-dashboard-page-new {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: #24282F;
+  height: 100%;
+  @media (max-width: @screen-xs-max) {
+    z-index: 0;
+  }
+  .dashboard-header {
+    position: relative;
+    height: 60px;
+    line-height: 60px;
+    background-color: #41464E;
+    .logo-img {
+      position: absolute;
+      top: 17px;
+      left: 15px;
+      width: 40px;
+      height: 27px;
+    }
+    .task-name {
+      position: absolute;
+      left: 70px;
+      right: 550px;
+      height: 100%;
+      margin: 0;
+    }
+    .sign-code {
+      position: absolute;
+      top: 0;
+      right: 345px;
+      line-height: 60px;
+      font-size: 18px;
+      color: #fff;
+      vertical-align: middle;
+      .code-number {
+        font-size: 36px;
+      }
+    }
+    .finish-course-box {
+      position: relative;
+      z-index: 300;
+      cursor: pointer;
+      &:hover {
+        color: @brand-primary;
+      }
+    }
+    .full-screen {
+      cursor: pointer;
+    }
+  }
+  //
+  .dashboard-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 60px;
+    bottom: 0;
+    .es-transition(.5s);
+    .dashboard-footer {
+      position: absolute;
+      bottom: -70px;
+      left: 0;
+      right: 0;
+      height: 70px;
+      padding: 18px 0;
+      color: @gray;
+      z-index: 1;
+      text-align: right;
+    }
+    .dashboard-body {
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+    }
+    .state-opration {
+      position: relative;
+      display: inline-block;
+      height: 31px;
+      text-align: right;
+      vertical-align: middle;
+      min-width: 300px;
+      @media (max-width: @screen-xs-max) {
+        min-width: 20px;
+      }
+      > .btn {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        &.open {
+          top: 0;
+        }
+        &.moveup {
+          -webkit-animation: moveUp 1s;
+          -moz-animation: moveUp 1s;
+          animation: moveUp 1s;
+          top: 0;
+        }
+      }
+    }
+    .btn-learn {
+      .doing {
+        display: inline;
+      }
+      .done {
+        display: none;
+      }
+      &.active {
+        .doing {
+          display: none;
+        }
+        .done {
+          display: inline;
+        }
+      }
+    }
+  }
+  //
+  .dashboard-sidebar {
+    // 按钮，签到列表，活动列表分开显示
+    &.more-right {
+      .dashboard-toolbar {
+        right: 59px;
+      }
+    }
+    .dashboard-toolbar {
+      position: fixed;
+      top: 0;
+      right: 149px;
+      .dashboard-toolbar-nav {
+        margin: 0;
+        line-height: 60px;
+        list-style-type: none;
+        cursor: pointer;
+        li .nav-item {
+          color: #fff;
+        }
+        li:hover .nav-item,
+        li.active .nav-item {
+          color: @brand-primary;
+        }
+      }
+    }
+    &.spread {
+      .half-all-course-btn {
+        right: 130px;
+      }
+      .sign-list-pane.main {
+        right: 120px;
+      }
+      .task-list-pane.main {
+        .course-task-title,
+        .time-count,
+        .all-course-btn,
+        .course-report {
+          right: 0;
+        }
+        opacity: 1;
+        right: 0;
+        transition: .5s .3s right, 0s .3s opacity;
+      }
+    }
+    &.spread.more-right {
+      .sign-list-pane.main {
+        right: 64px;
+      }
+    }
+
+    .task-list-pane {
+      position: absolute;
+      top: 60px;
+      bottom: 0;
+      overflow-y: hidden;
+      overflow-x: hidden;
+      width: 260px;
+      right: -255px;
+      padding: 0 20px 55px;
+      .box-shadow(-3px 0 10px 0 rgba(0, 0, 0, .4));
+      background-color: #f5f5f5;
+      transition: right .5s ease .3s, opacity 0s ease .8s;
+      opacity: 0;
+    }
+
+    .sign-list-pane {
+      position: fixed;
+      top: 60px;
+      right: -340px;
+      width: 340px;
+      min-height: 334px;
+      padding: 0 30px;
+      box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
+      background-color: #fff;
+      .border-radius;
+      .ps-scrollbar-x-rail, .ps-scrollbar-y-rail {
+        display: none !important;
+      }
+      .sign-before {
+        .sign-in-icon {
+          width: 118px;
+          height: 75px;
+          margin: 40px 0;
+        }
+        .start-sign-btn {
+          width: 100%;
+          padding: 15px 32px;
+          font-weight: bold;
+          font-size: 16px;
+        }
+      }
+      .signed-num-box {
+        margin: 15px 0;
+        padding-top: 8px;
+        background-color: #F0F0F0;
+        font-weight: bold;
+        color: #202020;
+        font-size: 16px;
+        .border-radius;
+        .signed-num {
+          margin: 0;
+          font-size: 72px;
+          line-height: 95px;
+          font-weight: normal;
+        }
+      }
+      .un-sign-box {
+        width: 50%;
+        padding-left: 6px;
+        margin-bottom: 16px;
+        border-right: solid 1px #D8D8D8;
+        font-weight: bold;
+        font-size: 16px;
+        .un-sign-num {
+          color: #DE4A2E;
+        }
+      }
+      .all-student-box {
+        width: 50%;
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .sign-btn-box {
+        .sign-end-btn {
+          width: 100%;
+          padding: 14px 32px;
+          font-weight: bold;
+          font-size: 16px;
+        }
+        .sign-cancel-btn {
+          margin: 30px 0 24px;
+        }
+      }
+      .sign-result-list {
+        text-align: center;
+        > li {
+          position: relative;
+          margin-bottom: 16px;
+          font-size: 14px;
+          cursor: pointer;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .all-course-btn,
+    .course-report,
+    .half-all-course-btn {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      display: inline-block;
+      width: 130px;
+      padding: 16px;
+      text-align: center;
+      border-top: 1px solid #e1e1e1;
+      background-color: #fff;
+      z-index: 100;
+      transition: right .5s ease .3s, opacity 0s ease .8s;
+    }
+
+    .half-all-course-btn {
+      border-right: 1px solid #e1e1e1;
+    }
+
+    .course-task-title {
+      position: fixed;
+      top: 60px;
+      width: 260px;
+      right: -255px;
+      padding: 15px 20px;
+      z-index: 290;
+      background-color: #f5f5f5;
+      transition: right .5s ease .3s, opacity 0s ease .8s;
+    }
+    .all-course-btn,
+    .time-count {
+      width: 260px;
+      right: -255px;
+    }
+
+    .half-all-course-btn {
+      right: -130px;
+    }
+
+    .course-report {
+      right: -130px;
+    }
+
+    .time-count {
+      position: fixed;
+      bottom: 0;
+      right: -255px;
+      display: inline-block;
+      width: 260px;
+      padding: 16px;
+      line-height: 18px;
+      text-align: center;
+      box-shadow: 0 -1px 0 0 #D8D8D8;
+      background-color: #e9e9e9;
+      z-index: 100;
+      transition: right .5s ease .3s, opacity 0s ease .8s;
+    }
+  }
+  .class-finish-label {
+    position: fixed;
+    right: 260px;
+    top: 0;
+    width: 64px;
+  }
+  .no-start-lesson {
+    width: 100%;
+    .start-lesson-img {
+      position: relative;
+      left: 50%;
+      width: 374px;
+      margin-left: -187px;
+      margin-bottom: 40px;
+      margin-top: 90px;
+    }
+    .start-course-btn {
+      padding: 18px 70px;
+      .border-radius(2px);
+    }
+  }
+  //
+  .split-cutline {
+    display: inline-block;
+    width: 1px;
+    height: 34px;
+    margin-top: 13px;
+    background-color: #080808;
+  }
+}
+
+.dashboard-pane {
+  overflow: hidden;
+  height: 100%;
+}
+
+.note-pane {
+  height: 100%;
+  overflow: hidden;
+  .note-pane-body {
+    padding: 15px;
+  }
+}
+
+.question-pane {
+  height: 100%;
+  overflow: hidden;
+  .task-question-plugin-form {
+    margin-bottom: 0;
+    padding: 15px;
+  }
+  .media-list {
+    margin-top: 0;
+    .media {
+      border-bottom: 1px solid @border-color;
+    }
+  }
+}
+
+.screen-full {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 999;
+}
+
+.iframe-modal.modal {
+  overflow-y: auto;
+}
+
+.all-wrapper {
+  height: 100%;
+  &.mobile-scroll-wrapper {
+    @media (max-width: @screen-xs-max) {
+      -webkit-overflow-scrolling: touch;
+      overflow-y: scroll;
+    }
+  }
+}
+
+.end-class-modal {
+  .close {
+    font-size: 23.4px !important;
+  }
+  .end-class-tip {
+    margin: 8px 0 62px;
+    line-height: 1;
+  }
+  .end-class-footer {
+    position: relative;
+    .cancel-class {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+    }
+  }
+}
+
+//修改ppt下全屏不能全高的问题
+.slide-player-body .slide {
+  height: 100%;
+}
+
+@-webkit-keyframes moveUp {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+@-moz-keyframes moveUp {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+
+@keyframes moveUp {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}

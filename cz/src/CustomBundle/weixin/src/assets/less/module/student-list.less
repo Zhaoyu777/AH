@@ -1,0 +1,35 @@
+//学生列展示效果 借用点名答题样式，样式名需改
+
+.activity-student-list {
+  margin: 0.9375rem 0.625rem;
+  background: #fff;
+  border-radius: 0.625rem;
+}
+
+.activity-student-item {
+  padding: 1.25rem 1.125rem;
+  line-height: 1.875rem;
+  + .activity-student-item {
+    border-top: 0.0625rem solid #f0f0f0;
+  }
+  .activity-student__avatar {
+    width: 1.875rem;
+    height: 1.875rem;
+    border-radius: 50%;
+    margin-right: 0.625rem;
+  }
+  .activity-student__name {
+    font-size: 1.0625rem;
+    color: #313131;
+  }
+  .activity-student__assist {
+    text-align: right;
+  }
+  .activity-student__review {
+    margin-top: 0.25rem;
+  }
+}
+.activity-student__scores {
+  color: #4993e9;
+  font-size: 0.875rem;
+}

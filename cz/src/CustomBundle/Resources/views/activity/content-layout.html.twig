@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% do script(['custombundle/js/activity/index.js']) %}
+
+{% block body %}
+  {% if is_course_teacher(course.id) %}
+    {% set role = 'teacher' %}
+  {% else %}
+    {% set role = 'student' %}
+  {% endif %}
+  
+  {% set taskStatus = data('TaskStatus', {taskId:task.id, type:'complect'}) %}
+  <input type="hidden" class="js-current-userId" value="{{ app.user.id }}">
+  <input type="hidden" class="js-task-status" value="{{ taskStatus.status|default("") }}">
+  <input type="hidden" class="js-current-role" value="{{ role }}">
+  {% block content %}
+  {% endblock %}
+
+  {% if lesson|default() %}
+    <input id="js-socket-params" type="hidden" name=""
+           value="{{ path('instant_course_lesson_push_params', {courseId: lesson.courseId,lessonId: lesson.id}) }}">
+  {% endif %}
+
+  <div id="modal" class="modal"></div>
+  <div id="full-modal" class="modal"></div>
+
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}
+

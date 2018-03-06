@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+
+{% do script(['custombundle/js/task/after-class/index.js']) %}
+
+{% block title %}已下课{% endblock %}
+
+{% block body %}
+  <div class="after-class-page" id="after-class-page">
+    <div class="after-class-header">
+      <img class="" src="" />
+      <div class="fr pl20 pr20 color-white text-18 hover-color-primary full-screen-icon-box js-full-screen">
+        <i class="cz-icon cz-icon-Fullscreen js-full-screen-icon"></i>
+        <i class="cz-icon cz-icon-btn_cancelFullscreen js-full-screen-icon hidden"></i>
+      </div>
+      <span class="fr color-black-dark split-cutline"></span>
+    </div>  
+    <div class="after-class-content text-bold back-deep-color">
+      <img class="after-class-icon" src="/static-dist/custombundle/img/homework-1.png" srcset="/static-dist/custombundle/img/homework-2.png" />
+      <p class="color-fa text-28 pt20 mb30">本次授课已结束</p>
+      <p class="color-fa text-24">请大家及时完成课后作业</p>
+    </div> 
+  </div>
+{% endblock %}

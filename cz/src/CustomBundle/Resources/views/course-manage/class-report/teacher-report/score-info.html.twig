@@ -1,0 +1,6 @@
+<div class="text-center">
+  <div class="pvl">
+    本次授课，给予积分 <span class="color-primary">{{ studentCount }}</span> 人次，共 <span class="color-primary">{{ score }}</span> 分
+  </div>
+  <a class="link-primary pbm inline-block" href="javascript:;" data-url="{{ path('instant_course_teacher_class_report_score_detail', {courseId:courseId, lessonId:lessonId}) }}" data-target="#modal" data-toggle="modal">查看积分详情</a>
+</div>

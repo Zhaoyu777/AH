@@ -1,0 +1,53 @@
+{% import "macro.html.twig" as web_macro %}
+
+<table class="table table-hover czie-course-table">
+  <thead>
+  <tr>
+    <th width="80%">{{ '课程'|trans }}</th>
+    <th >{{ '操作'|trans }}</th>
+  </tr>
+  </thead>
+  <tbody>
+    {% for courseSet in courseSets %}
+      {% set index = loop.index0 %}
+      <tr class="js-courseSet-tr gray-darker {% if index == 0 %} choose {% endif %}" data-id="{{ courseSet.id }}">
+        <td>
+          <img class="fl" src="{{ filepath(courseSet.cover.middle|default(null), 'course.png') }}" alt="" width="100">
+          <div class="clearfix pt20" style="padding-left: 110px;">
+            <div class="text-14">{{ courseSet.title }}</div>
+          </div>
+        </td>
+        <td>
+          <div class="mt10">
+            <a class="link-primary" href="{{ path('course_set_manage_base', {id:courseSet.id}) }}" target="_blank">课程设置</a> 
+              <a class="fr js-toogle-btn" href="javascript:;">
+                <span class='cz-icon cz-icon-btn_unfold {% if index == 0 %}hidden{% endif %} js-icon-unfold'></span>
+                <span class='cz-icon cz-icon-btn_Packup {% if index != 0 %}hidden{% endif %} js-icon-Packup'></span>
+              </a>
+          </div>
+        </td>
+      </tr>
+        {% for course in courses[courseSet.id] %}
+          <tr class="tr-noborder gray-darker text-12 pt20 pb20 choose js-classroom-item js-classroom-item__{{ courseSet.id }}{% if index > 0 %} hidden {% endif %}" >
+             <td>
+                <span class="fl pl110 js-course-title-tip" data-trigger="hover" data-toggle="popover" data-placement="top" data-content="{{ course.title }}">
+                  {{ course.title|sub_text(35) }}
+                </span>
+                <span class="fr">
+                  {{ course.studentNum }}人 
+                </span>
+              </td>
+              <td>
+                  <a class="link-primary mrs" href="{{ path('custom_course_lesson_list', {courseId: course.id}) }}">班级教案</a>
+                  <a class="link-primary mrs" href="{{ path('teacher_course_multianalysis',{courseId: course.id}) }}">学习数据</a>
+              </td>
+          </tr>
+        {% endfor %}
+    {% else %}
+      <tr>
+        <td class="empty" colspan="5">暂无信息</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{{ web_macro.ajax_paginator(paginator) }}

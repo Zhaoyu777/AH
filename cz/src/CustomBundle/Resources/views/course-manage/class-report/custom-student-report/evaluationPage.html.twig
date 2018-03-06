@@ -1,0 +1,23 @@
+<div class="ani" swiper-animate-effect="fadeInDown" swiper-animate-duration="1s" swiper-animate-delay="0s">
+  <div class="evaluation-title">我的评价</div>
+</div>
+
+<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
+	<div class="evaluation-info">
+	{% if evaluation %}
+			{{evaluation.remark}}
+			<div class="evaluation-info__start">
+				{% for index in 0..evaluation.score-1 %}
+					{% if index == 3 %}
+						<br/>
+					{% endif %}
+					<img src="{{ asset('/static-dist/custombundle/img/class-report-mobile/star.png') }}"/>
+				{% endfor %}
+			</div>
+	{% else %}
+		未评价
+	{% endif %}
+	</div>
+</div>
+
+

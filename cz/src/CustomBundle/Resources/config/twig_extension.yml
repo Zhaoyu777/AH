@@ -1,0 +1,24 @@
+services:
+    web.twig.custom_extension:
+        class: CustomBundle\Twig\ActivityExtension
+        arguments:    ['@service_container', '@biz']
+        tags:
+            - { name: twig.extension }
+
+    web.twig.custom_common_extension:
+        class: CustomBundle\Twig\CommonExtension
+        arguments:    ['@service_container', '@biz']
+        tags:
+            - { name: twig.extension }
+
+    web.twig.term_extension:
+        class: CustomBundle\Twig\TermExtension
+        arguments:    ['@service_container', '@biz']
+        tags:
+            - { name: twig.extension }
+
+    custom.twig.uploader_extension:
+        class: CustomBundle\Twig\UploaderExtension
+        arguments: ['@service_container']
+        tags:
+            - { name: twig.extension }

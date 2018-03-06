@@ -1,0 +1,10 @@
+<div class="testpaper-question-stem-wrap clearfix">
+  <div class="testpaper-question-seq-wrap">
+    <div class="testpaper-question-seq">
+      {{ question.seq }}
+    </div>
+  </div>
+    <div class="testpaper-question-stem">
+      {{ question.stem|bbCode2Html|raw|nl2br }}
+    </div>
+</div>

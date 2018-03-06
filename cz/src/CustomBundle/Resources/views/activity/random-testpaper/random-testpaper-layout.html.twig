@@ -1,0 +1,83 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}{{ activity.title }} - {{ parent() }}{% endblock %}
+
+{% do script(['libs/es-ckeditor/ckeditor.js','libs/jquery-timer.js','libs/perfect-scrollbar.js','custombundle/js/activity-manage/random-testpaper/do-test/index.js','custombundle/js/activity/index.js']) %}
+
+{# {% set showHeader = 0 %}
+{% set showTypeBar = 1 %}
+{% set isIframeBody = 1 %} #}
+
+{% if isIframeBody|default(1) %}
+  {% set bodyClass = 'task-testpaper-body-iframe js-task-testpaper-body js-task-testpaper-body-iframe' %}
+  {% set testpaperCardClass = 'js-testpaper-card affix mt20' %}
+  {% set testpaperBodyClass = "mt20" %}
+{% else %}
+  {% set bodyClass = 'js-task-testpaper-body' %}
+  {% set containerClass = 'mt20' %}
+  {% set testpaperCardClass = 'js-testpaper-card' %}
+{% endif %}
+
+{% set isDone = isDone|default(false) %}
+
+{% block body %}
+
+  {% block header %}
+    {% if showHeader|default(1) %}{{ parent() }}{% endif %}
+  {% endblock %}
+
+  <div class="iframe-parent-content {% if course.type|default() == 'instant' %}bt50{% endif %}">
+    <div class="container {{ containerClass|default('mt20') }} js-content-iframe">
+      {% block paper_content %}
+        <div class="row">
+          <div class="col-md-9 prevent-copy">
+            <div class="testpaper-body js-testpaper-body {{ testpaperBodyClass|default('') }} ">
+              {% block paper_header %}
+                <div class="es-section testpaper-heading js-testpaper-heading">
+                  <div class="testpaper-titlebar clearfix">
+                    <h1 class="testpaper-title">
+                      {{ activity.title }} <br>
+                    </h1>
+                    <div class="testpaper-status">
+                      <div class="label label-primary">{{ '答题中'|trans }}</div>
+                    </div>
+                  </div>
+
+                  <div class="testpaper-description">{{ activity.content|bbCode2Html|raw }}</div>
+                  {% block paper_result_bar %}{% endblock %}
+                  {% block paper_warning %}{% endblock %}
+                  {% block paper_question_type_bar %}{% endblock %}
+                </div>
+              {% endblock %}
+
+              {% block paper_body %}
+
+              {% endblock %}
+            </div>
+          </div>
+          <div class="col-md-3">
+            {% block paper_sidebar %}{% endblock %}
+          </div>
+        </div>
+      {% endblock %}
+      {% block testpaper_finished_dialog %}
+      {% endblock %}
+    </div>
+  </div>
+
+  {% include 'activity/content-footer.html.twig' %}
+
+  {% block footer %}
+    {% if showHeader|default(1) %}{{ parent() }}{% endif %}
+  {% endblock %}
+
+  {% if not paperResult.id|default(0) %}
+    <input type="hidden" name="preview" value="1"/>
+  {% endif %}
+  <div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
+  <div id="modal" class="modal"></div>
+  <div id="attachment-modal" class="modal"></div>
+  {% set taskStatus = data('TaskStatus', {taskId:task.id|default(null), type:'complect'}) %}
+  <input type="hidden" class="js-task-status" value="{{ taskStatus.status|default("") }}"/>
+  {% include 'activity/content-footer.html.twig' %}
+{% endblock %}

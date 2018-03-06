@@ -1,0 +1,122 @@
+{% import "common/data-dict-macro.html.twig" as dict_macro %}
+{% extends 'prepare-course-manage/layout.html.twig' %}
+
+{% do script(['custombundle/js/prepare-course-manage/lesson-manage/index.js']) %}
+
+{% block title %}{{ '班级教案 '|trans }} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'course-list' %}
+{% set tab_nav = 'course-list' %}
+
+{% block main %}
+  <div class="panel panel-default" role="my-teaching-course-sets">
+    <div class="panel-heading">
+      <span>课次教案</span>
+      <div class="pull-right">
+        <a class="btn-noborder gray-darker" href="javascript:;" data-url="{{ path('import_course_index', {courseId:course.id}) }}"  data-toggle="modal" data-target="#modal">
+          <i class="cz-icon cz-icon-btn_leadin"></i>
+          导入教案
+        </a>
+        <span class="phs gray-medium">|</span>
+        <a class="btn-noborder gray-darker" href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{ path('course_share', {courseId:course.id}) }}">
+          <i class="cz-icon cz-icon-fenxiang"></i>
+          分享教案
+        </a>
+      </div>
+    </div>
+
+    {% set studentCount = data('CourseMemberCount', {courseId:course.id, role:'student'}) %}
+    <div class="panel-body">
+      {#{% include 'prepare-course-manage/course-tab.html.twig' %}#}
+      <table class="table table-hover table-lg">
+        <thead>
+          <tr>
+            <th>
+              课次
+              <span class="link-medium es-icon es-icon-help ml5" data-container="body" data-toggle="popover"
+              data-trigger="hover" data-placement="top" data-content="已授课的课次将会自动排到最后">
+        </span>
+            </th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for lesson in lessons %}
+        {% set taskCount = taskCounts[lesson.id].count|default(0) %}
+          <tr>
+            <td class="gray-darker">
+              <span >
+                课次 {{ lesson.number }}
+                {% if lesson.title|default('') != '' %}
+                  ：{{ lesson.title|sub_text(25) }}
+                {% endif %}
+              </span>
+            </td>
+            {% if lesson.status == 'created' %}
+              <td class="gray-darker">
+                {% if taskCount > 0 %}
+                  <span class="icon-signal icon-signal-gray">
+                    未授课
+                    <span class="color0">({{ taskCount }}个教学活动)</span>
+                  </span>
+                {% else %}
+                  <span class="icon-signal icon-signal-gray">未备课</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if taskCount > 0 %}
+                  <a class="link-primary" target="_blank" href="{{ path('custom_lesson_tasks', {lessonId:lesson.id}) }}">备课</a>
+                  <span class="phs gray-medium">|</span>
+                  <a class="link-primary js-start-course" href="javascript:;"
+                     data-check-url="{{ path('custom_course_check', {courseId:course.id, lessonId:lesson.id}) }}">上课</a>
+                  <span class="phs gray-medium">|</span>
+                  <span class="dropdown">
+                    <a class="link-primary dropdown-toggle" href="javascript:;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">预览</a>
+                    <ul class="dropdown-menu dropdown-menu-right cz-view-dropdown" aria-labelledby="dropdownMenu1">
+                      <li class="top"></li>
+                      <li class="top-shadow"></li>
+                      <li><a class="" href="{{ path('instant_lesson_preview', {courseId:course.id, lessonId:lesson.id, mode:'prepare'}) }}" target="_blank"><i class="mrm cz-icon cz-icon-diannao"></i>PC端效果</a></li>
+                      <li><a class="" href="javascript:;" data-target="#modal" data-toggle="modal" data-url="{{ path('instant_course_review', {courseId:course.id, lessonId:lesson.id}) }}"><i class="mrm es-icon es-icon-weixin"></i>微信端效果</a></li>
+                    </ul>
+                  </span>
+                {% else %}
+                  <a class="link-primary" target="_blank" href="{{ path('custom_lesson_tasks', {lessonId:lesson.id}) }}">备课</a>
+                {% endif %}
+              </td>
+            {% elseif lesson.status == 'teaching' %}
+              <td class="gray-darker">
+                <span class="icon-signal icon-signal-blue">授课中</span>
+              </td>
+              <td>
+                <a class="link-primary" target="_blank" href="{{ path('custom_lesson_show', {courseId:course.id, lessonId:lesson.id}) }}">继续上课</a>
+                <span class="phs gray-medium">|</span>
+                <span class="dropdown">
+                  <a class="link-primary dropdown-toggle" href="javascript:;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">预览</a>
+                  <ul class="dropdown-menu dropdown-menu-right cz-view-dropdown" aria-labelledby="dropdownMenu1">
+                    <li class="top"></li>
+                    <li class="top-shadow"></li>
+                    <li><a class="" href="{{ path('instant_lesson_preview', {courseId:course.id, lessonId:lesson.id, mode:'prepare'}) }}" target="_blank"><i class="mrm cz-icon cz-icon-diannao"></i>PC端效果</a></li>
+                    <li><a class="" href="javascript:;" data-target="#modal" data-toggle="modal" data-url="{{ path('instant_course_review', {courseId:course.id, lessonId:lesson.id}) }}"><i class="mrm es-icon es-icon-weixin"></i>微信端效果</a></li>
+                  </ul>
+                </span>
+              </td>
+            {% elseif lesson.status == 'teached' %}
+              <td class="gray-darker">
+                <span class="icon-signal icon-signal-green">已授课</span>
+              </td>
+              <td>
+                <a class="link-primary" target="_blank" href="{{ path('instant_course_teacher_class_report', {courseId:course.id, lessonId:lesson.id}) }}">课堂报告</a>
+                <span class="phs gray-medium">|</span>
+                <a class="link-primary" target="_blank" href="{{ path('custom_lesson_tasks', {lessonId:lesson.id}) }}">教案</a>
+                <span class="phs gray-medium">|</span>
+                <a class="link-primary" target="_blank" href="{{ path('custom_lesson_show', {courseId:course.id, lessonId:lesson.id}) }}">浏览</a>
+              </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

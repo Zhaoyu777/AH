@@ -1,0 +1,6 @@
+userKeyWordType:
+    truename: 姓名
+    nickname: 学号
+    verifiedMobile: 手机号
+    email: 邮件地址
+    loginIp: 登录IP

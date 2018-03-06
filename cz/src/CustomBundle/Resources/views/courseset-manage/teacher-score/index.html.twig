@@ -1,0 +1,49 @@
+{% extends 'courseset-manage/instant-layout.html.twig' %}
+
+{% block title %}{{'教师积分'|trans}} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'teacher_scores' %}
+{% set tab = 'courseLesson' %}
+
+{% block main %}
+  <div class="panel panel-default">
+    <div class="panel-heading">教师积分 | 总分: {{ creditScore|default(0) }}</div>
+    <table class="table table-lg table-hover">
+      <thead>
+        <tr>
+          <th width="20%">老师</td>
+          <th width="30%">课次</td>
+          <th width="15%">积分</td>
+          <th width="30%">积分描述</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for score in scores %}
+          <tr>
+            <td>
+              <span>{{ users[score.userId]['truename'] | default() }}</span>
+            </td>
+            <td>
+              <span>{{ lessons[score.lessonId]['title'] | default() }}</span>
+            </td>
+            <td>
+              <span>{{ score.score | default()}}</span>
+            </td>
+            <td>
+              <span>{{ score.description | default()}}</span>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <th width="20%" colspan="4" class="text-center">
+              <h3>您还没有获得积分!老师也要加油!</h3>
+            </th>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <nav class="text-center">
+      {{ web_macro.paginator(paginator) }}
+    </nav>
+  </div>
+{% endblock %}

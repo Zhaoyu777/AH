@@ -1,0 +1,28 @@
+{% set displayWallAnswer = data('DisplayWallAnswer', {taskId:chapter['task'].id}) %}
+<div class="pbs class-report-body__list">
+  <i class="cz-icon cz-icon-tiaocha class-report-body_icon"></i>
+  <span class="class-report-body_name">任务{{ taskIndex }}：{{ chapter['task'].activity.title }}</span>
+  {% set taskIndex = taskIndex + 1 %}
+</div>
+<div class="class-report_result no-margin-bottom">
+  <span class="pull-left">我的回答：</span>
+  <div class="class-report_answer">
+    {% if displayWallAnswer %}
+    <div class="report-stu-info">
+      <span class="wall-img-mask" href="javascript:;">
+        <div class="wall-img-container">
+          <img class="wall-img inline-block" src="{{ filepath(displayWallAnswer['content'].uri|default()) }}" alt="">
+        </div>
+        <div class="mask"></div>
+        <div class="zan-answer">
+          <i class="cz-icon cz-icon-favorite mrs"></i>{{ displayWallAnswer['content'].likeNum|default(0) }}
+          <i class="mlm cz-icon cz-icon-question_answer mrs"></i>{{ displayWallAnswer['content'].postNum|default(0) }}
+        </div>
+      </span>
+      <div class="color-dark mtm">{{ displayWallAnswer['content'].truename|default() }}</div>
+    </div>
+    {% else %}
+      未提交作品
+    {% endif %}
+  </div>
+</div>

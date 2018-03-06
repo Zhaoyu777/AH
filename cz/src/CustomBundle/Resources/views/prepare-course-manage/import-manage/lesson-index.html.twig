@@ -1,0 +1,59 @@
+{% extends 'bootstrap-modal-layout.html.twig' %}
+{% set modal_class= "" %}
+{# {% set modalSize = 'large' %} #}
+{% do script(['libs/jquery-validation.js','custombundle/js/courseset-manage/course-import/index.js']) %}
+{% block title %}
+  {{'从已有教案导入'|trans}}
+{% endblock %}
+{% block body %}
+
+<div class="form-horizontal">
+  <div class="form-group mbl">
+    <label class="col-sm-2 control-label"><span class="color-danger">*</span>选择教案</label>
+    <div class="col-sm-10">
+      <label class="radio-inline">
+        <input type="radio" name="coursePlanRadio" data-url="{{ path('prepare_import_courses') }}" checked="true"/> 我的教案
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="coursePlanRadio" data-url="{{ path('prepare_import_course_shares') }}" /> 其它老师分享给我的
+      </label>
+    </div>
+  </div>
+  <div class="form-group mbl">
+    <label class="col-sm-2 control-label"><span class="color-danger">*</span>课程</label>
+    <div class="col-sm-8">
+      <select class="form-control" name="courses" id="select-courses">
+        {% for course in courses|default() %}
+          <option data-url="{{ path('prepare_import_course_lessons', {courseId:course.id}) }}" value="{{ course['id'] }}" >{{ course['count'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="form-group mbl">
+    <label class="col-sm-2 control-label"><span class="color-danger">*</span>课次</label>
+    <div class="col-md-5">
+      <select class="form-control" name="lessons" id="select-lessons">
+        {% for lesson in lessons|default() %}
+          <option value="{{ lesson['id'] }}" >{{ lesson['count'] }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3 pts">
+      当前 : 课次{{lesson.number}}
+    </div>
+  </div>
+  <div class="col-sm-offset-2 col-sm-9">
+    <div class="plm color-danger js-is-filter" hidden>已过滤掉内容为空的课次</div>
+    <div class="alert alert-info mtl">
+      这里导入的是某一课次的教案，包括当中的各个教学活动、以及课件资料。
+    </div>
+  </div>
+
+  <input type="hidden" class="js-lesson-id" value="{{ lesson.id }}">
+</div>
+{% endblock %}
+
+{% block footer %}
+  <button class="btn btn-fat btn-primary js-btn-import-leeson" data-url="{{ path('import_course_lesson') }}" data-loading-text="导入中...">{{'确定'|trans}}</button>
+  <button class="btn btn-fat btn-default" data-dismiss="modal">{{'取消'|trans}}</button>
+{% endblock %}

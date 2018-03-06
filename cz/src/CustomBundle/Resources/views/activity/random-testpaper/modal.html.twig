@@ -1,0 +1,144 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+{% do script(['libs/es-ckeditor/ckeditor.js','custombundle/js/activity-manage/random-testpaper/index.js'], 300) %}
+{% set courseSetType = data('ActivityCourseSetType', {activity:activity|default(), courseId:courseId|default()}) %}
+
+{% block body %}
+  <div class="tab-content" id="iframe-content">
+    <div class="tab-pane js-course-tasks-pane active js-step2-view">
+      <form class="form-horizontal" id="step2-form" >
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="title" class="control-label-required">{{ '活动标题'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <input id="title" class="form-control" type="text" name="title" value="{{ activity.title|default('随机测验') }}" >
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-2 control-label">
+          <label for="content" class="control-label-required">{{ '说明'|trans }}</label>
+          </div>
+          <div class="col-sm-10">
+            <textarea class="form-control" name="content">{{ activity.content|default('') }}</textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">{{'course.plan_task.exercise.question_sourse'|trans}}</label>
+          <div class="col-sm-10 controls radios">
+            <select class="form-control width-150" name="range[courseId]" data-url="{{ path('instant_course_set_manage_show_tasks',{courseSetId:courseSetId})}}" data-check-num-url="{{ path('course_set_manage_question_check_num',{courseSetId:courseSetId}) }}" data-type="instant">
+              <option value="0" {% if not randomTestpaper.metas.range.courseId|default(0) %}selected{% endif %}>{{'course.plan_task.exercise.question_sourse.course'|trans}}</option>
+              <option value="{{ course.id }}" {% if randomTestpaper.metas.range.courseId|default(0) == course.id %}selected{% endif %}>{{ course.title }}</option>
+            </select>
+            <select class="form-control width-150" {% if not courseTasks|default(null) %}style="display:none;"{% endif %} name="range[lessonId]" data-check-num-url="{{ path('course_set_manage_question_check_num',{courseSetId:courseSetId}) }}">
+              <option value="0" {% if not randomTestpaper.metas.range.lessonId|default(0) %}selected{% endif %}>{{'course.plan_task.exercise.question_sourse.choose'|trans}}</option>
+              {% for task in courseTasks|default([]) if task %}
+                <option value="{{ task.id }}" {% if randomTestpaper.metas.range.lessonId|default(0) == task.id %}selected{% endif %}>{{ task.title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-2 control-label"><label>{{'course.plan_task.exercise.difficulty'|trans}}</label></div>
+          <div class="col-sm-10 controls">
+            <select id="course_categoryId" class="form-control width-input width-input-large" name="difficulty"  data-url="{{ path('instant_course_set_manage_show_tasks',{courseSetId:courseSetId})}}" data-check-num-url="{{ path('course_set_manage_question_check_num',{courseSetId:courseSetId}) }}">
+              {{ select_options(dict('difficulty'), randomTestpaper.metas.difficulty|default('0'),{'0':'course.plan_task.exercise.default_difficulty'|trans}) }}
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <style>.testpaper-question-option-item{margin-left:-12px;margin-bottom:5px;list-style: none;}</style>
+          <div class="col-sm-2 control-label">
+          <label class="control-label-required">{{'course.testpaper_manage.create.questions_setup'|trans}}</label></div>
+          <ul class="col-sm-10 controls" id="testpaper-question-options">
+            {% for type,config in types %}
+              <li class="testpaper-question-option-item">
+                <button type="button" class="btn btn-link question-type-sort-handler"><span class="glyphicon glyphicon-move"></span></button>
+                <span style="min-width:85px;display:inline-block;_display:inline;">{{ config.name|trans }}</span>
+                <span class="mlm">{{'course.testpaper_manage.create.questions_setup.number'|trans}}:</span>
+                <input type="text" class="form-control width-input width-input-mini item-number" name="counts[{{ type }}]" data-role="count"  value="{{randomTestpaper.metas.counts[type]|default(0)}}" {% if questionNums[type].questionNum|default(0) == 0  %} disabled {% endif %} />/
+                <span class="text-info question-num" role="questionNum" type="{{ type }}" >{{ questionNums[type].questionNum|default(0) }}</span>
+
+                <span class="mlm">{{'course.testpaper_manage.create.questions_setup.score'|trans}}:</span>
+                <input type="text" class="form-control width-input width-input-mini item-score" name="scores[{{ type }}]"  value="{{randomTestpaper.metas.scores[type]|default(2)}}" data-role="score" />
+
+                {% if config.hasMissScore|default(null) %}
+                  <span class="mlm">{{'course.testpaper_manage.create.questions_setup.missing_score'|trans}}:</span>
+                  <input type="text" class="form-control width-input width-input-mini item-miss-score" name="missScores[{{ type }}]"  value="{{randomTestpaper.metas.missScores[type]|default(0)}}" data-role="missScore" />
+                {% endif %}
+                <span class="pull-right">共<span name='score[{{ type }}]'>0</span>分</span>
+              </li>
+            {% endfor %}
+            <input type="hidden" name="questioncount">
+            <input type="hidden" name="range[courseSetId]" value="{{courseSetId}}">
+            <input type="hidden" name="itemCount">
+            <input type="hidden" name="totalScore">
+            <input type="hidden" name="types" value="{{types|keys|json_encode}}">
+            <p class="">
+              <span class="">题目总数:<span id='itemCount'>0</span>题</span>
+              <span class="mll">备选题目总数:<span id='totalItemCount'>0</span>题</span>
+              <span class="pull-right">测验卷总分:<span id='totalScore'>0</span>分</span>
+            </p>
+            <span class="help-block color-danger js-build-check"></span>
+            <div class="help-block">点此 <a class="js-source-manage-link" data-url="{{ path('course_set_manage_question', {id:courseSetId}) }}" target="_blank" href="javascript:;">管理题目</a></div>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="passedScore">{{'合格分数线'|trans}}</label>
+          <div class="col-sm-3 controls">
+            <div class="input-group">
+              <input id="passedScore" class="form-control" type="text" name="passedScore" value="{{ randomTestpaper.passedScore|default('') }}" >
+              <div class="input-group-addon">分</div>
+            </div>
+          </div>
+        </div>
+        
+        {% if courseSetType == 'instant' %}
+          <div class="form-group">
+            <div class="col-sm-2 control-label">
+            <label for="about">{{ '实现教学目标'|trans }}</label>
+            </div>
+            <div class="col-sm-10">
+              <div class="js-teaching-added-content teaching-added-content">
+                {% for activityConnAim in activityConnAims|default() %}
+                  <p data-id="{{ activityConnAim.id }}"><span class="gray-darker">{{ activityConnAim.type }}:</span> {{ activityConnAim.content }}<i class="es-icon es-icon-close01 selected-delete-icon pull-right" style="margin-right:-20px"></i></p>
+                {% endfor %}
+              </div>
+              <div class="btn btn-primary js-add-modal-btn">
+                <i class="es-icon es-icon-add"></i>添加设置
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </form>
+    </div>
+    <div class="tab-pane js-course-tasks-pane js-step3-view">
+      <form class="form-horizontal" id="step3-form" >
+        {% if course.type == 'instant' %}
+          <div class="form-group" id="condition-group">
+            <div class="col-sm-2 control-label">
+              <label for="condition-select">积分规则</label>
+            </div>
+            <div class="col-sm-4 form-control-static">
+              <input type="radio" name="score" {% if activity.score|default('1') == '0' %}checked{% endif %} value="1"> 可获得 1 分
+              <input type="radio" name="score" {% if activity.score|default('1') == '1' %}checked{% endif %} value="0"> 不能获得积分
+            </div>
+          </div>
+
+        {% endif %}
+          <div class=" form-group">
+            <div class="col-sm-2 control-label">
+              <label>{{ '完成条件'|trans }}</label>
+            </div>
+            <div class="col-sm-4 form-control-static">
+              首次提交
+            </div>
+          </div>
+
+      </form>
+    </div>
+  </div>
+{% endblock %}

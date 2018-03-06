@@ -1,0 +1,8 @@
+{% set isActivityPreview = 'true' %}
+
+{% if questionnaire %}
+  {% include 'activity/questionnaire/start-do-show.html.twig' %}
+{% else %}
+  {% include 'activity/questionnaire/fail.html.twig' %}
+{% endif %}
+

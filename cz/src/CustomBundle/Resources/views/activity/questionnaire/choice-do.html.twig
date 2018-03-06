@@ -1,0 +1,28 @@
+<div class="testpaper-question testpaper-question-choice  js-testpaper-question {% if setting('magic.testpaper_watermark') %}js-testpaper-watermark{% endif %}" data-watermark-url="{{ path('cloud_testpaper_watermark') }}" id="question{{ question.id }}">
+  <div class="testpaper-question-body">
+    {% include 'activity/questionnaire/question-stem.html.twig' %}
+
+    <ul class="testpaper-question-choices js-testpaper-question-list">
+      {% for key, choice in question.metas|default() %}
+        {% set choiceIndex = (65+key)|chr %}
+        <li><span class="testpaper-question-choice-index">{{ choiceIndex }}.</span> {{ choice|bbCode2Html|raw }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="testpaper-question-footer clearfix">
+
+    <div class="testpaper-question-choice-inputs js-testpaper-question-label">
+      {% for key, choice in question.metas|default() %}
+        {% set choiceIndex = (65+key)|chr %}
+
+        <label class="{% if question.type == 'single_choice' %}radio{% else %}checkbox{% endif %}-inline">
+          <input type="{% if question.type == 'single_choice' %}radio{% else %}checkbox{% endif %}" data-type="{{ question.type }}" name="{{ question.id }}" value="{{ key }}">
+          {{ choiceIndex }}
+        </label>
+      {% endfor %}
+    </div>
+
+    <div class="testpaper-question-actions pull-right">
+    </div>
+  </div>
+</div>

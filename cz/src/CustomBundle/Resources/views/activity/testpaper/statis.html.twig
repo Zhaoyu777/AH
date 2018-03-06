@@ -1,0 +1,83 @@
+{% extends 'activity/activity-form-layout.html.twig' %}
+
+{% do script(['custombundle/js/activity-manage/testpaper/index.js','custombundle/js/activity/index.js']) %}
+
+{% set questionTypeDict = getQuestionTypes() %}
+{% set taskStatus = data('TaskStatus', {taskId:task.id, type:'complect'}) %}
+
+{% block body %}
+  <input type="hidden" class="js-task-status" value="{{ taskStatus.status|default("") }}">
+  <div
+    class="iframe-parent-content {{ containerClass|default('') }} {% if course.type|default() == 'instant' %}bt50{% endif %}">
+    <div class="prevent-copy container">
+      <div class="testpaper-body">
+        <div class="es-section testpaper-heading js-testpaper-heading">
+          <div class="testpaper-titlebar clearfix">
+            <h1 class="testpaper-title">
+              {% if paperResult|default(null) %}{{ paperResult.paperName }}{% else %}{{ paper.name }}{% endif %} <br>
+              <small class="text-sm">
+
+              </small>
+            </h1>
+            <div class="testpaper-status">
+              <div class="label label-info">{{ '结果统计'|trans }}</div>
+            </div>
+          </div>
+          <div class="activity-content">
+            <div class="operation-btn">
+              {% if lesson.status == 'teaching' and mode|default('teaching') != 'report' %}
+                <button
+                  class="cz-btn cz-btn-orange js-rend-call {% if taskStatus.status|default("") == 'start' or taskStatus.status|default("") == 'end' %} hidden {% endif %}"
+                  data-url="{{ path('task_start', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">开始回答</button>
+                <button
+                  class="cz-btn cz-btn-orange js-rend-call {% if not (taskStatus.status|default("") == 'start') %} hidden {% endif %}"
+                  data-url="{{ path('task_end', {taskId:task.id, lessonId:lesson.id, courseId:lesson.courseId}) }}">停止回答</button>
+              {% endif %}
+              <button class="cz-btn cz-btn-default js-rend-stop {% if not (taskStatus.status|default("") == 'end' or lesson.status == 'teached') %} hidden {% endif %}"
+                 disabled>活动已结束</button>
+            </div>
+          </div>
+          <div class="mtl">
+              <span class="gray-dark stu-num">本班共有<span
+                  class="color-primary">{{ memberNum|default(0) }}</span>人，实际完成<span
+                  class="color-primary actual-num js-actual-num">{{ actualNum|default(0) }}</span>人</span>
+          </div>
+        </div>
+        {% include 'activity/testpaper/paper-result-objective.html.twig' %}
+      </div>
+      <div class="js-testpaper-questions">
+        {% for type in questionTypes|default([]) if questions[type]|default(null) %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <strong class="">{{ questionTypeDict[type] }}</strong>
+              <small class="color-gray">
+                {{ '共%total.number%题，共%total.score%分'|trans({'%total.number%': total[type].number,'%total.score%': total[type].score}) }}{% if total[type].missScore > 0 %}{{ '，漏选得%total.missScore%分'|trans({'%total.missScore%': total[type].missScore}) }}{% endif %}
+              </small>
+            </div>
+            <div class="panel-body">
+              {% for question in questions[type]|default(null) %}
+                {% if question.isDeleted|default(null) %}
+                  {% include 'question/part/question-delete.html.twig' with {showScore:1,question:question} %}
+                {% else %}
+                  {% set questionTemplate = getQuestionTypeTemplate(question.type, 'statis') %}
+                  {% if questionTemplate %}
+                    {% include questionTemplate %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% include 'activity/content-footer.html.twig' %}
+
+  <input type="hidden" name="fetchQuestionUrl"
+         value="{{ path('fetch_testpaper_questions', {activityId: activity.id, testId: paper.id}) }}">
+  <input type="hidden" id="taskId" value="{{ task.id }}">
+  <input type="hidden" id="race" value="{{ is_course_teacher(activity.fromCourseId) }}">
+  <input id="js-socket-params" type="hidden" name=""
+         value="{{ path('instant_course_lesson_push_params', {courseId: lesson.courseId,lessonId: lesson.id}) }}">
+{% endblock %}

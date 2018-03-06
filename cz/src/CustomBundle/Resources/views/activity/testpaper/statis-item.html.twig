@@ -1,0 +1,26 @@
+{% set questionTypeDict = getQuestionTypes() %}
+
+<div class="js-current-finish-number" hidden>{{actualNum}}</div>
+
+{% for type in questionTypes|default([]) if questions[type]|default(null) %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <strong class="">{{ questionTypeDict[type] }}</strong>
+    <small class="color-gray">
+      {{'共%total.number%题，共%total.score%分'|trans({'%total.number%': total[type].number,'%total.score%': total[type].score})}}{% if total[type].missScore > 0 %}{{'，漏选得%total.missScore%分'|trans({'%total.missScore%': total[type].missScore})}}{% endif %}
+    </small>
+  </div>
+  <div class="panel-body">
+    {% for question in questions[type]|default(null) %}
+      {% if question.isDeleted|default(null) %}
+        {% include 'question/part/question-delete.html.twig' with {showScore:1,question:question}%}
+      {% else %}
+        {% set questionTemplate = getQuestionTypeTemplate(question.type, 'statis') %}
+        {% if questionTemplate %}
+          {% include questionTemplate %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}

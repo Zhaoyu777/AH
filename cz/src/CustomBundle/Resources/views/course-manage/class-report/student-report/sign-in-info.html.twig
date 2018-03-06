@@ -1,0 +1,34 @@
+<div class="row">
+  {% for record in signInRecords %}
+    <div class="col-md-6 row">
+      <div class="col-md-3 col-xs-4">
+        <div class="text-lg gray-darker pbm sign-time">第{% if record.time == 1 %}一{% else %}二{% endif %}次签到</div>
+      </div>
+      <div class="col-md-9 col-xs-8">
+        <div class="mbm">{{ record.updateTime|default(record.createdTime)|date('Y-m-d H:i:s') }}
+          <span class="{% if record.status == 'attend' %}color-success{% else %}
+              color-danger{% endif %} mll sign-status">
+            {% if record.status == 'attend' %}
+              出勤
+            {% elseif record.status == 'absent' %}
+              缺勤
+            {% elseif record.status == 'late' %}
+              迟到
+            {% elseif record.status == 'leave' %}
+              请假
+            {% elseif record.status == 'early' %}
+              早退
+            {% endif %}
+          </span>
+        </div>
+        {% if record.status == 'attend' %}
+          <div class="mbm">{{ record.address|default('无位置信息') }}</div>
+        {% endif %}
+      </div>
+    </div>
+  {% else %}
+    <div class="empty">
+      未发起签到
+    </div>
+  {% endfor %}
+</div>

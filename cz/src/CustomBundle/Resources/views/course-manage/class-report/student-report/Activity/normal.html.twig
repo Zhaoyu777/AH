@@ -1,0 +1,19 @@
+<div class="pbs class-report-body__list">
+  <i class="{{ meta.icon }} class-report-body_icon"></i>
+  <span class="class-report-body_name">任务{{ taskIndex }}：{{ chapter['task'].activity.title }}</span>
+  {% set taskIndex = taskIndex + 1 %}
+</div>
+<div class="class-report_result">
+  {% if stage != 'in' %}
+    {% if taskResults[chapter['task'].id]|default(null).status|default() == 'finish' %}
+      <span class="color-success text-lg">
+        已完成
+        <span class="color-primary mtm">积分 +{{ chapter['task'].activity.score }}</span>
+      </span>
+    {% else %}
+      <span class="color-danger text-lg">
+        未完成
+      </span>
+    {% endif %}
+  {% endif %}
+</div>

@@ -1,0 +1,70 @@
+<div id="brain-storm-production">
+  {% for index,group in groups %}
+    {% set result = group['results'][0]|default() %}
+    {% set captain = data('TaskGroupCaptain', {groupId:group.id}) %}
+    <div class="cz-group-content clearfix js-group-members-{{ group.id }}">
+      <p class="group-name color-orange text-28 mbs">第{{ loop.index }}组 {{ group.title }}</p>
+      <p class="color-orange text-16 mbs">
+        组长：<span class="js-{{ group.id }}-group">{{ captain.truename|default("") }}</span>
+        <span class="mll js-last-commit-info">
+              <span>最后提交：</span>
+              <span class="js-group-way-name">
+                {% if result %}{{ result.truename|default("") }}{% endif %}
+              </span>
+              <span class="mls js-group-way-time">
+                {% if result %}
+                  {% if result.updatedTime %}
+                    {{ result.updatedTime|date('Y-m-d H:i:s')|default("") }}
+                  {% else %}
+                    {{ result.createdTime|date('Y-m-d H:i:s')|default("") }}
+                  {% endif %}
+                {% endif %}
+              </span>
+          </span>
+      </p>
+      <div class="group-{{ group.id }}-content mt10">
+        <div class="wall-container clearfix">
+          {% if result %}
+            <div class="brain-stu-info js-wall-stu-info">
+              {{ result.content }}
+            </div>
+          {% else %}
+            <div class="color-white text-24 mvm">
+              待提交结果...
+            </div>
+          {% endif %}
+          <div class="score-box">
+            {% if result.score|default() %}
+              <div class="js-score-show color-orange text-24">+ {{ result.score }} 分</div>
+            {% elseif mode == 'report' %}
+              <div class="js-score-show color-orange">未给分</div>
+            {% elseif app.user.isTeacher() and result.id|default() %}
+              {% if lesson.status == 'teaching' %}
+                <a class="btn btn-lg js-grade-btn wall-grade-btn mts" href="javascript:;" data-id=""
+                   data-target="#modal" data-toggle="modal"
+                   data-url="{{ path('brain_storm_remark',{resultId: result.id}) }}">评分</a>
+              {% else %}
+                <div class="btn btn-default btn-lg disabled">评分</div>
+              {% endif %}
+              <div class="js-score-show color-orange text-24" id="{{ result.id }}"></div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="border-top-light-black" />
+  {% endfor %}
+</div>
+
+<div class="js-group-way-submit hidden">
+  <div class="wall-container clearfix">
+    <div class="brain-stu-info js-wall-stu-info js-group-way-content">
+      {{ 'content' }}
+    </div>
+    <div class="score-box">
+      <a class="btn btn-lg js-grade-btn wall-grade-btn mts" href="javascript:;" data-id=""
+         data-target="#modal" data-toggle="modal" data-url="">评分</a>
+      <div class="js-score-show color-orange text-24" id=""></div>
+    </div>
+  </div>
+</div>

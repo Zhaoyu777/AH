@@ -1,0 +1,39 @@
+<div class="ani singin__title" swiper-animate-effect="fadeInLeft " swiper-animate-duration="1s" swiper-animate-delay="0">
+	课堂签到
+	<img src="{{ asset('/static-dist/custombundle/img/class-report-mobile/course_title.png') }}"/>
+</div>
+<div class="ani singin-content" swiper-animate-effect="fadeInRight " swiper-animate-duration="1s" swiper-animate-delay="0">
+	{% if signIns %}
+		<div class="singin-content__title">
+			签到于
+		</div>
+		{% for signIn in signIns %}
+			<div class="singin-content__item">
+				<i class="singin-content__icon cz-icon cz-icon-iccheckcircleblack24px"></i>
+				<span class="singin-content__date">{{ signIn.createdTime|date('H:i:s')|default("") }}</span>
+				{{ signIn.createdTime|date('Y-m-d')|default("") }}
+			</div>
+		{% endfor %}
+	{% else  %}
+		<div class="singin-not">
+			<img src="{{ asset('/static-dist/custombundle/img/class-report-mobile/sad.png') }}"/>
+			<div class="singin-not__info">本节课未签到</div>
+		</div>
+	{% endif %}
+</div>
+
+
+{% if continuousNumber %}
+	<div class="ani" swiper-animate-effect="fadeInUp" swiper-animate-duration="1s" swiper-animate-delay="0.3s">
+		<div class="encourage-well encourage-well--lg">
+			<div class="encourage-well__info">
+			你已连续签到<span class="encourage-well_number">{{ continuousNumber }}</span>次,请继续保持!
+			</div>
+			<img class="encourage-well__img" src="{{ asset('/static-dist/custombundle/img/class-report-mobile/big_thumb.png') }}"/>
+		</div>
+	</div>
+{% endif %}
+
+
+
+

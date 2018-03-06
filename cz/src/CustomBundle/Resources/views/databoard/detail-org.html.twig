@@ -1,0 +1,84 @@
+{% extends 'layout.html.twig' %}
+
+{% set bodyClass = 'data-body' %}
+
+{% do script(['libs/echarts.js', 'libs/bootstrap-datetimepicker.js','libs/jquery-validation.js', 'custombundle/js/data-board/detail-org/index.js']) %}
+
+{% block title %}
+  {{ '数据看板内页学院页'|trans }}
+{% endblock %}
+
+{% block body %}
+  {% include 'databoard/part/sidebar.html.twig' %}
+  <div class="data-left-page-title">
+    <div class="data-left-page__title">
+      <span class="text-gradient">课堂质量诊断与改进系统</span>
+    </div>
+    <div class="data-left-page__btns">
+      {% set studentOrg = data('CzieStudentOrg', {orgCode:app.request.query.get('orgCode')})|default() %}
+      <a class="btn data-btn sidebar-btn" href="{{ path('admin_data_analysis_teachers', {orgCode:app.request.query.get('orgCode')}) }}">学院教学情况</a>
+      {% if studentOrg %}
+        <a class="btn data-btn sidebar-btn mll" href="{{ path('admin_data_analysis_students', {orgCode:studentOrg}) }}">学院学生情况</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="inner-index-content">
+    <div class="clearfix">
+      <div class="pull-left data-columns inner-left-columns">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page2/columns/course_num.png" srcset="/static-dist/custombundle/img/databoard/page2/columns/course_num@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__green clearfix">
+          <img class="pull-left mtm" width="28" src="/static-dist/custombundle/img/databoard/page2/columns/course_num_img.png" srcset="/static-dist/custombundle/img/databoard/page2/columns/course_num_img@2x.png">
+          <div class="pull-left mlm">
+            <div class="data-columns-block__title">开课</div>
+            {{ startCourseCount }}<span class="data-columns-block__unit"></span>
+          </div>
+        </div>
+      </div>
+      <div class="pull-left data-columns inner-left-columns">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page1/columns/prepare_lesson.png" srcset="/static-dist/custombundle/img/databoard/page1/columns/prepare_lesson@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__yellow clearfix">
+          <div class="pull-left">
+            <div class="data-columns-block__title">备课老师人数</div>
+            {{ haveTeachingPlanTeachersCount|default(0) }}<span class="data-columns-block__unit">人</span>
+          </div>
+        </div>
+        <div class="data-columns-block data-columns-block__yellow clearfix">
+          <div class="pull-left mlm">
+            <div class="data-columns-block__title">老师人数</div>
+            {{ teachersCounts|default(0) }}<span class="data-columns-block__unit">人</span>
+          </div>
+        </div>
+      </div>
+      <div class="pull-left data-columns">
+        <div class="data-columns-label">
+          <img class="img-responsive" src="/static-dist/custombundle/img/databoard/page2/columns/course_report.png" srcset="/static-dist/custombundle/img/databoard/page2/columns/course_report@2x.png">
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          <div class="data-columns-block__title">当前课堂报告</div>
+          {{ classReportCounts.day }}<span class="data-columns-block__unit"></span>
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          <div class="data-columns-block__title">本周课堂报告</div>
+          {{ classReportCounts.week }}<span class="data-columns-block__unit"></span>
+        </div>
+        <div class="data-columns-block data-columns-block__blue">
+          <div class="data-columns-block__title">本月课堂报告</div>
+          {{ classReportCounts.month }}<span class="data-columns-block__unit"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row inner-index-content__chart">
+      {% include 'databoard/colleges/teach-resources.html.twig' with {dataInfo:dataInfo} %}
+
+      {% include 'databoard/colleges/course-share-count.html.twig' with {dataInfo:dataInfo} %}
+    </div>
+  </div>
+  <a class="db-enter-btn btn data-btn" href="{{path('custom_data_board_index')}}">
+    返回
+  </a>
+{% endblock %}

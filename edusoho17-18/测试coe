@@ -1,0 +1,180 @@
+周一：
+webpack的打包方案
+起因：
+es6规范 没法编写
+后端less编译不好
+前端资源未压缩
+但三方
+
+打包方案
+less减少编译编译css
+ES6编译成ES5
+打包压缩
+减少http请求
+webpack
+
+modue bundler 模块打包机
+流程：源文件->mode bundler->
+
+
+let a. = {
+  score:0,
+  scores:{0:0,1:0,2:0,3:0,4:0,5:0},
+  shoScore:function(){
+    this.score += Math.round((Math.random()*100));
+    console.log(this.score);
+  }
+}
+
+let b = {
+  score:0,
+  scores:{0:0,1:0,2:0,3:0,4:0,5:0},
+  shoScore:function(){
+    this.score += Math.round((Math.random()*100));
+    console.log(this.score);
+  }
+}
+let c;
+
+setInterval(() => {
+  this..a.score = Math.round((Math.random()*100));
+  this.b.score = Math.round((Math.random()*100));
+
+  if (this.a.score > this.b.scotr) {
+    this.c = this.a.score;
+  } else {
+    this.c = this.b.scotr;
+  }
+    console.log(this.c.score);
+}, 1000);
+
+
+var f = v => 5;
+var f = {$a, $b} => $a
++$b;
+
+let aaaa = {
+  t: {} => { console.log(this) }
+};
+
+
+class haha {
+    constructor(){
+    	this.a = {
+	  score:0,
+	  scores:{0:0,1:0,2:0,3:0,4:0,5:0},
+	  shoScore:function(){
+	    this.score += Math.round((Math.random()*100));
+	    console.log(this.score);
+	  }
+	};
+	this.b = {
+	  score:0,
+	  scores:{0:0,1:0,2:0,3:0,4:0,5:0},
+	  shoScore:function(){
+	    this.score += Math.round((Math.random()*100));
+	    console.log(this.score);
+	  }
+	};
+	this.c = [];
+    }
+
+    function int(){
+	setInterval(() => {
+	  this.a.score = Math.round((Math.random()*100));
+	  this.b.score = Math.round((Math.random()*100));
+	   
+	  this.panduan(this.a.scores, this.a.score);
+	  this.panduan(this.b.scores, this.b.score);
+
+	  if (this.a.score > this.b.scotr) {
+	    this.c = this.a.score;
+	  } else {
+	    this.c = this.b.scotr;
+	  }
+	  coonsole.log(this.c.score);
+	  coonsole.log(this.a.scores);
+	  coonsole.log(this.b.scores);
+	}, 1000);
+    }
+
+    function panduan(scores, score) {
+    	scores = arr.sort(sortNumber);
+	if (scores[0] < score) {
+	    scores[0] = score;
+	}
+    }
+
+    
+}
+
+var promise = new Promise(function(resolve, reject) {
+  if (1==1){
+    resolve(value);
+  } else {
+    reject(error);
+  }
+
+});
+
+promise.then(function(e) {
+  console.log(123);
+}, function(error) {
+  console.log('mmp');
+});
+
+我一直在等待。等待
+
+function heihei (pan) {
+    return new Promise(function (resolve, reject) {
+        if (pan) {
+            resolve("ok");
+        } else {
+            reject("no");
+        }
+    });
+}
+
+heihei(true).then(function (message) {
+    alert(message);
+}, function (error) {
+    alert(error);
+});
+
+
+对象概念：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

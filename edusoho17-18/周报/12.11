@@ -1,0 +1,81 @@
+一 : xxxx 65
+计划：folat 精确查询，改用double数据类型，迭代会仪
+完成：
+
+
+二 : xxxx 75 xxx 75 xx 70 x 50
+计划：
+上午：34042 超过落后
+下午：34042 教师积分
+
+33866 开始回答->消失
+
+
+&:将自己想法强加到别人的身上
+完成：
+
+三 : xxxx 75 xxx 65 xx 60 x 50    4:20 - 9:00
+计划：老师的个人教学统计数据页 34175 : 下课后保存课后体会报错
+
+完成：UPDATE `upload_files` SET termCode  = (SELECT shortCode FROM `czie_term` WHERE isVisible = 1);
+
+type: text 图文 video 视频 ppt  audio 音频 doc 文档 interval 课间休息
+
+记录目标
+
+四 : xxxx 75 xxx 70 xx 60 x 50    4:20 - 9:00
+计划：教师同比增长数
+完成：
+
+五 : 
+计划：
+完成：
+
+
+完成:bugfix/teacher-score bugfix/34042-statistics  bugfix/testpaper-content
+
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `courseLessonRate` DOUBLE(10,3) COMMENT '课程备课率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `lessonRate` DOUBLE(10,3) COMMENT '课次备课率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `studentAttendRate` DOUBLE(10,3) COMMENT '学生出勤率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `taskOuterCompletionRate` DOUBLE(10,3) DEFAULT '0' COMMENT '课外活动成率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `taskInCompletionRate` DOUBLE(10,3) COMMENT '课堂活动完成率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `teachingAimsFinishedRate` DOUBLE(10,3) DEFAULT '0' COMMENT '教学目标达成率 ';");
+        
+
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `studentAttendRate` DOUBLE(10,3) DEFAULT '0' COMMENT '学生出勤率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `taskInCompletionRate` DOUBLE(10,3) COMMENT '课堂活动完成率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `taskAfterCompletionRate` DOUBLE(10,3) DEFAULT '0' COMMENT '课后活动完成率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `taskBeforeCompletionRate` DOUBLE(10,3) DEFAULT '0' COMMENT '课前活动完成率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `teachingAimsFinishedRate` DOUBLE(10,3) DEFAULT '0' COMMENT '教学目标达成率 ';");
+
+        $connection->exec("ALTER TABLE `czie_student_course_statistics` MODIFY COLUMN `studentAttendence` DOUBLE(10,1) DEFAULT '0' COMMENT '平均出勤率';");
+        $connection->exec("ALTER TABLE `czie_student_course_statistics` MODIFY COLUMN `taskInCompletionRate` DOUBLE(10,1) DEFAULT '0' COMMENT '课堂互动完成率';");
+        $connection->exec("ALTER TABLE `czie_student_course_statistics` MODIFY COLUMN `taskOutCompletionRate` DOUBLE(10,1) DEFAULT '0' COMMENT '课外活动完成率';");
+
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `courseLessonRate` DOUBLE(10,3) COMMENT '课程备课率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `lessonRate` DOUBLE(10,3) COMMENT '课次备课率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `studentAttendRate` DOUBLE(10,3) COMMENT '学生出勤率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `taskOuterCompletionRate` DOUBLE(10,3) DEFAULT '0' COMMENT '课外活动成率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `taskInCompletionRate` DOUBLE(10,3) COMMENT '课堂活动完成率';");
+        $connection->exec("ALTER TABLE `czie_teacher_course_statistics` MODIFY COLUMN `teachingAimsFinishedRate` DOUBLE(10,3) DEFAULT '0' COMMENT '教学目标达成率 ';");
+        
+
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `studentAttendRate` DOUBLE(10,3) DEFAULT '0' COMMENT '学生出勤率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `taskInCompletionRate` DOUBLE(10,3) COMMENT '课堂活动完成率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `taskAfterCompletionRate` DOUBLE(10,3) DEFAULT '0' COMMENT '课后活动完成率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `taskBeforeCompletionRate` DOUBLE(10,3) DEFAULT '0' COMMENT '课前活动完成率';");
+        $connection->exec("ALTER TABLE `czie_course_statistics` MODIFY COLUMN `teachingAimsFinishedRate` DOUBLE(10,3) DEFAULT '0' COMMENT '教学目标达成率 ';");
+
+        $connection->exec("ALTER TABLE `czie_student_course_statistics` MODIFY COLUMN `studentAttendence` DOUBLE(10,1) DEFAULT '0' COMMENT '平均出勤率';");
+        $connection->exec("ALTER TABLE `czie_student_course_statistics` MODIFY COLUMN `taskInCompletionRate` DOUBLE(10,1) DEFAULT '0' COMMENT '课堂互动完成率';");
+        $connection->exec("ALTER TABLE `czie_student_course_statistics` MODIFY COLUMN `taskOutCompletionRate` DOUBLE(10,1) DEFAULT '0' COMMENT '课外活动完成率';");
+
+$this->getFileService()->searchFileCount(array(
+            'createdUserId' => $this->userId
+        ));
+
+    protected function getFileService()
+    {
+        return $this->getServiceKernel()->createService('File:UploadFileService');
+    }
+

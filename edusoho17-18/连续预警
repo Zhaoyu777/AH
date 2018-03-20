@@ -1,0 +1,71 @@
+ 	    CREATE TABLE IF NOT EXISTS `czie_course_continuous_warning` (
+                `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                `courseId` int(11) NOT NULL default '0' COMMENT '课程ID',
+                `continuous` int(11) NOT NULL default '0' COMMENT '连续预警次数',
+                `total` int(11) NOT NULL default '0' COMMENT '总预警次数',
+                `type` enum('testInComple','teachingAimFinished') NOT NULL COMMENT '目标类型 testInComple：任务参与率，teachingAimFinished：目标达成,
+                `createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+            PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='连续预警记录表';
+
+
+            CREATE TABLE IF NOT EXISTS `activity_practices` (
+              `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+              `duration` int(11) NOT NULL DEFAULT '0' COMMENT '参考时长',
+              `score` int(2) NOT NULL DEFAULT '0' COMMENT '完成获得积分数',
+	      `fileIds` varchar(1024) COMMENT '预览资料',
+	      `mediaCount` int(10) NOT NULL DEFAULT '0' COMMENT '资料数',
+              `createdUserId` int(11) NOT NULL,
+              `createdTime` int(10) DEFAULT 0,
+              `updatedTime` int(11) DEFAULT 0,
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='连续预警记录表';
+
+
+            CREATE TABLE IF NOT EXISTS `activity_practice_result` (
+              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+              `activityId` int(10) NOT NULL,
+              `courseId` int(10) NOT NULL,
+              `courseTaskId` int(10) NOT NULL,
+              `userId` int(10) NOT NULL,
+              `score` int(10) NOT NULL DEFAULT '0' COMMENT '评分',
+              `remark` text COMMENT '评论',
+              `opUserId` int(10) NOT NULL,
+	      `isCollected` enum(0,1) DEFAULT '0' COMMENT '教师是否收藏',
+              `createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+              `updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+            CREATE TABLE IF NOT EXISTS `activity_content` (
+              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+              `uri` varchar(255) COMMENT '图片路径',
+              `likeNum` int(10) NOT NULL DEFAULT '0' COMMENT '点赞数',
+              `postNum` int(10) NOT NULL DEFAULT '0' COMMENT '回复数',
+              `userId` int(10) NOT NULL,
+              `createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+              `updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+            CREATE TABLE IF NOT EXISTS `activity_content_post` (
+              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+              `contentId` int(10) unsigned NOT NULL,
+              `userId` int(10) unsigned NOT NULL,
+              `parentId` int(10) unsigned,
+              `content` text COMMENT '评论',
+              `createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+              `updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+            CREATE TABLE IF NOT EXISTS `activity_content_like` (
+              `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+              `contentId` int(10) unsigned NOT NULL,
+              `userId` int(10) unsigned NOT NULL,
+              `createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点赞时间',
+              PRIMARY KEY (`id`)
+            ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+

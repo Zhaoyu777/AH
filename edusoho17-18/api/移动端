@@ -1,0 +1,42 @@
+教师学生所有课程接口
+get: /weixin/learningCourses
+添加字段:lessonStatus 上课状态(上课中/非上课中)
+
+当前活动接口
+get: /weixin/student/course/{courseId}/lesson/{lessonId}/task/{taskId}
+
+courseId, lessonId,没什么用 taskId:选参,为空会获取当前正在进行课程
+
+{
+  lessonNumber: 1,
+  lessonTitle: 2,
+  activityTitle: 3,
+  activityContent: 4,
+  activityType: ...,
+  duration: 6,
+  about: 7,
+  status: true/false,
+}
+
+课程课次接口
+get: /weixin/course/{courseId}/lessons/complete  ->>>完整课次(包含任务及各种状太)
+
+get: /weixin/course/{courseId}/lessons/concision  ->>>只有课次信息和状态
+
+{
+  courseSetTitle:xxxxx,
+  courseTitle:hhhhh,
+  cover:null,
+  lessons:[
+    {id:"26668"
+     isEvaluation:false
+     number:"4"
+     status:"teaching"
+     title:null}
+  ]
+}
+
+学习接口
+get: /weixin/course/{courseId}/study 选填参数 lessonId
+lessonId 不传则为默认课次
+接口数据不变

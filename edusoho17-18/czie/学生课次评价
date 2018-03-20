@@ -1,0 +1,11 @@
+CREATE TABLE `czie_lesson_evaluation` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`courseId` int(10) NOT NULL '课程id',
+	`lessonId` int(10) NOT NULL '课次id',
+	`remark` text COMMENT '评论内容',
+	`score` int(10) NOT NULL '评分',
+	`studentId` int(10) NOT NULL '学员id',
+	`createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+PRIMARY KEY (`id`)
+) COMMENT='课次评价';
+

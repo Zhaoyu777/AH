@@ -1,0 +1,64 @@
+server {
+    set $root_dir /var/www/czie;
+    set $webpack_server http://127.0.0.1:3030;
+
+    server_name czie.edusoho.com czie.ys.edusoho.cn;
+    root $root_dir/web;
+
+    error_log /var/log/nginx/czie_error.log;
+    access_log /var/log/nginx/czie_access.log;
+
+    location / {
+        try_files $uri /app_dev.php$is_args$args;
+    }
+
+    location ~ ^/static-dist {
+        proxy_pass $webpack_server;
+    }
+
+    location ~ ^/(app_dev)\.php(/|$) {
+        fastcgi_pass   unix:/var/run/php71-fpm.sock;
+        # fastcgi_pass 127.0.0.1:9000;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_param HTTP_X-Sendfile-Type X-Accel-Redirect;
+        fastcgi_param HTTP_X-Accel-Mapping /udisk=$root_dir/app/data/udisk;
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 8 128k;
+    }
+
+
+
+    location ~ ^/udisk {
+        root $root_dir/app/data/;
+        internal;
+    }
+
+
+
+卸载php(第二种)
+
+sudo aptitude purge `dpkg -l | grep php| awk '{print $2}' |tr "\n" " "`
+
+    1
+
+查询，卸载已安装php，就卸载完了。
+(如果aptitude命令报错就安装aptiude：apt-get install aptitude)
+
+如果想要安装其他php版本：
+添加支持源
+
+add-apt-repository ppa:ondrej/php
+
+接下来就apt-get安装就好了
+
+解决办法如下：
+1.终端输入 ps  -aux ，列出进程,找到含有apt-get的进程，直接sudo kill PID解决。
+2.强制解锁--命令:
+sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock
+
+重启apache2
+sudo /etc/init.d/apache2 restart

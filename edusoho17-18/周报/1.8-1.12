@@ -1,0 +1,29 @@
+一 : xx 70 jl 65
+计划：
+33032 后台课程管理 11:30
+33436 导入问题 
+34494 学生百分比
+完成：全部完成
+
+
+二 :  xx 75 jl 65  00:30 8:00
+计划：
+完成：
+
+三 : 
+计划：
+完成：bugfix/34948-copy 
+
+四 : 
+计划：确认课程管理  
+完成：后台课程优化
+
+五 : xx 80 jl 75
+计划：课程主带教师修改
+完成：
+
+SELECT * FROM `course_v8` WHERE id IN (SELECT id FROM `course_set_v8` WHERE courseNo is null)
+
+1218  580*2.2 0.2
+
+1160 160

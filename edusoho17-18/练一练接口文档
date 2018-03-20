@@ -1,0 +1,220 @@
+九，练一练
+ 
+### 1.获取练一练活动所有结果
+url:/weixin/practice/task/{taskId}/result
+
+请求方式：get
+
+输入：
+
+输出：
+
+```json
+{
+  taskStatus:"start"(活动状态)
+  results:[
+   0:{
+     id: "1"
+     truename:"hzy"
+     number："学号"
+     avatar:"null"
+     score:"2"
+     userId:"31747"
+     content:{
+       id:"111"
+       likeNum:"0"
+       postNum:"0"
+       resultId:"335"
+       thumb:"/files/display-wall2017/07-24/150088754231747.jpg?version=8.0.21"
+       uri:"public://display-wall2017/07-24/150088754231747.jpg"
+       userId:"31747"
+      }
+    }
+  ]
+}
+```
+
+### 2.练一练作品点赞
+
+url:/weixin/practice/content/${contentId}/like
+
+请求方式：post
+
+输入：
+
+输出：
+
+```json
+{
+  true
+}
+```
+
+### 3.练一练作品取消点赞
+
+url:/weixin/practice/content/${contentId}/cancel_like
+
+请求方式：post
+
+输入：
+
+输出：
+
+```json
+{
+  true
+}
+```
+
+### 4.练一练作品详情
+
+url:/weixin/practice/result/content/{contentId}/show
+
+请求方式：get
+
+输入：
+
+输出：
+
+```json
+{
+  content:{
+      avatar:"/files/default/2017/05-08/093346a57015159978.jpeg?version=8.0.21"
+      name:"黄zy"
+      thumb:"/files/display-wall2017/07-24/150088754231747.jpg?version=8.0.21"
+  }
+  posts:[
+    o:{
+      avatar:"/files/user/2017/05-06/143734ec0d04054904.jpg?version=8.0.21"
+      conment:"123"
+      date:"1500888231"
+      name:"测试管理员"
+      postId:"74"
+      replyName:null
+      userId:"2"    
+    }
+  ]
+}
+```
+
+### 5.练一练作品评论
+
+url:/weixin/practice/content/${contentId}/post
+
+请求方式：post
+
+输入：content
+
+输出：
+
+```json
+{
+  avatar:"/files/user/2017/05-06/143734ec0d04054904.jpg?version=8.0.21"
+  conment:"321123"
+  date:"1500888348"
+  name:"测试管理员"
+  replyName:null
+}
+```
+
+### 6.练一练作品评分
+
+url:/weixin/practice/result/{resultId}/remark
+
+请求方式：post
+
+输入：courseId, resultId, score, remark
+
+输出：
+
+```json
+{
+  "2"(分数)
+}
+```
+
+
+
+推送推送暗号：
+图片首次上传：create practice result
+{
+  'user':{},
+  'result':{},
+  'content':{},
+}
+
+
+图片再次上传：change practice image
+{
+  'result':{},
+  'content':{},
+}
+
+
+点赞：like practice content
+{
+  'result':{},
+  'likeUserId':2,
+  'content':{},
+}
+
+
+取消点赞：cancel like practice content
+{
+  'result':{},
+  'likeUserId':2,
+  'content':{},
+}
+
+
+评论图片：practice post num
+{
+  'result':{},
+  'postNum':2,
+  'post':{},
+  'user':{},
+}
+
+
+评分：task result remark
+result：
+{
+  'resultId':1,
+  'userId':2,
+  'taskId':3,
+  'score':4,
+  'type':'practice',
+  'activityId':5,
+}
+
+
+添加
+### 查询课程所有课次
+
+url:/weixin/course/{courseId}/lessons/concision
+
+请求方式：get
+
+输入：
+
+```json
+{
+  'courseSetTitle':'1',
+  'courseTitle':'1',
+  'cover':'img',
+  'lessons':[
+    0:{id:"26543"
+       isEvaluation:false
+       number:"3"
+       status:"created"
+       title:"手机拍照和图片处理"}
+    1:{id:"26543"
+       isEvaluation:false
+       number:"3"
+       status:"created"
+       title:"手机拍照和图片处理"}
+  ]
+}
+```
+
+

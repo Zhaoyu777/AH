@@ -1,0 +1,74 @@
+CREATE TABLE IF NOT EXISTS `czie_teacher_course_statistics` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`userId` int(10) NOT NULL,
+	`termCode` varchar(255) COMMENT '学期',
+	`courseLessonRatio` float DEFAULT '0' COMMENT '课程备课率',
+	`lessonRatio` float DEFAULT '0' COMMENT '课次备课率',
+	`studentAttendRatio` float DEFAULT '0' COMMENT '学生出勤率',
+	`taskOuterCompletionRate` float DEFAULT '0' COMMENT '课外活动成率',
+	`taskInCompletionRate` float DEFAULT '0' COMMENT '课堂活动完成率',
+	`loginDays` int(10) DEFAULT '0' COMMENT '平台登录天数',
+	`homeworkNUm` int(10) DEFAULT '0' COMMENT '作业布置次数',
+	`analysisNum` int(10) DEFAULT '0' COMMENT '课堂报告份数',
+	`resourcesNum` int(10) DEFAULT '0' COMMENT '个人资源总数',
+	`resourcesIncreaseNum` int(10) DEFAULT '0' COMMENT '资源同比增长数',
+	`resourcesQuoteNum` int(10) DEFAULT '0' COMMENT '资源被引用数',
+	`createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+	`updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+PRIMARY KEY (`id`)
+) COMMENT='教师课程所有统计';
+
+CREATE TABLE IF NOT EXISTS `czie_course_statistics` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`courseId` int(10) NOT NULL,
+	`lessonId` int(10) NOT NULL,
+	`studentAttendRatio` float DEFAULT '0' COMMENT '学生出勤率',
+	`taskInCompletionRate` float DEFAULT '0' COMMENT '课堂活动完成率',
+	`taskAfterCompletionRate` float DEFAULT '0' COMMENT '课后活动完成率',
+	`taskBeforeCompletionRate` float DEFAULT '0' COMMENT '课后活动完成率',
+	`evaluationScore` float DEFAULT '0' COMMENT '课程评价平均分',
+	`totalScore` int(10) DEFAULT '0' COMMENT '课次总积分',
+	`createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+	`updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+PRIMARY KEY (`id`)
+) COMMENT='课程统计';
+
+
+教师课程统计
+
+查询出需要更新的人
+查询出需要更新的课程
+//更具课程查询出需要更新的课次
+课次查询出需要更新的字段
+统计字段
+修改表数据
+
+课前任务完成率:旁听教师不记录其数据
+课后任务完成率:旁听教师不记录其数据
+课堂活动完成率
+学生
+
+
+
+$results = $this->getUserService()->searchUsers(array('roles' => 'ROLE_TEACHER'), array(), array(), PHP_INT_MAX);
+$results = $this->getCourseService()->searchCourses(array(), array(), array(), PHP_INT_MAX);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

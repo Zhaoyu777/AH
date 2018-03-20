@@ -1,0 +1,109 @@
+推送接口：
+一句话问答。推送 
+{
+groupId: 小组id 
+taskId: 任务id
+result: {
+	nickname: 姓名 学号
+	truename: 姓名
+	number:	学号
+	avatar: 头像
+	content: 
+	}
+}
+
+抢答。推送 race answer result
+你接收对象的 result
+{
+raceAnswer: 抢答结果信息
+user: 用户信息 
+taskId: 任务id
+: {
+	nickname: 姓名-学号
+	resultId: 抢答结果id
+	score: 分数
+	userId: 用户id
+	avatar： 头像
+	}
+}
+
+
+
+点名答题。推送  rand rollcall start
+你接收对象的
+{
+taskId: 任务id
+result: {
+	nickname: 姓名 学号
+	truename: 姓名
+	number:	学号
+	avatar: 头像
+	resultId: 抢答结果id
+	score: 分数
+	userId: 用户id
+	}
+}
+
+头脑风暴.推送 brain storm change
+{
+taskId: 任务id
+groupId：分组id
+brainStorm：返回结果
+result: {
+	id：
+	content：
+	nickname: 姓名 学号
+	truename: 姓名
+	number:	学号
+	avatar: 头像
+	resultId: 抢答结果id
+	score: 分数
+	userId: 用户id
+	}
+}
+
+调查已完成
+测验待定
+
+评论
+抢答，头脑风暴，点名答题。推送
+
+{
+'resultId': 结果id
+'taskId': 任务id
+'score': 获得积分
+'type': 任务类型
+}
+头脑风暴多一个参数：groupId: 分组id
+
+2017.7.17
+点赞个数 推送
+点赞，取消点赞两个 Event：like display wall content
+{
+result: {}结果信息
+content: 点赞数
+}
+
+content:{  
+  likeNum: 点赞数
+}
+
+评论个数， Event：display wall post num
+{
+result: {} 结果信息
+postNum: 评论数量
+}
+
+result:{
+  id:
+  userId:
+  groupId:
+  courseTaskId:
+}
+
+
+
+
+
+
+

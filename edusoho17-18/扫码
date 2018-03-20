@@ -1,0 +1,18 @@
+扫码->判断方法->已登录->已加入课程->已开课->重定向具体活动
+扫码->判断方法->已登录->已加入课程->未开课->重定向具体课次
+
+扫码->判断方法->已登录->未加入课程->加入课程->已开课->重定向具体活动
+扫码->判断方法->已登录->未加入课程->加入课程->未开课->重定向具体课次
+
+扫码->判断方法->未登录->去登录->未加入课程->加入课程->已开课->重定向具体活动
+扫码->判断方法->未登录->去登录->未加入课程->未开课->重定向具体课次
+
+扫码->判断方法->未登录->去登录—>登陆完成->加入课程->具体页面
+
+
+$this->generateUrl('weixin_qr_code_join_lesson', array('lessonId' => $lessonId),  true)
+
+$lesson = $this->getCourseLessonService()->getCourseLesson($lessonId);
+$goto = $this->weixinEntry."#/course/{$lesson['courseId']}/study?lessonId={$lesson['id']}";
+urlencode($goto);
+var_dump($this->generateUrl('weixin_login', array('goto' => $goto),  true));

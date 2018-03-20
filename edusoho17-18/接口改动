@@ -1,0 +1,91 @@
+一，移动端接口优化
+
+这些都是使用get方式去请求,需要修改成post请求，接口不规范，有安全漏洞。
+需要前端配合修改发起请求的方式，一起修改才能完成
+
+
+课程
+
+check ### 7.开始上课
+url: /weixin/course/lesson/start
+
+check ### 8.下课
+url: /weixin/course/lesson/end
+
+check ### 9.取消上课
+url: /weixin/course/lesson/cancel
+
+
+签到
+
+check ### 1.老师开始签到
+url:/weixin/lesson/${lessonId}/start
+
+check ### 3.结束签到
+url:/weixin/sign_in/${signInId}/end
+
+### 5.修改学员签到状态
+url:/weixin/sign_in/member/${memberId}/set_status
+
+### 6.签到-学生
+url:/weixin/lesson/${lessonId}/time/${timeId}/student/sign_in
+
+
+活动
+
+老师点名
+/weixin/instant/course/student/rand
+
+点名评分（请求方式需要改动）
+/weixin/instant/course/teacher/task/remark/result
+
+### 2.展示墙作品点赞
+url:/weixin/display_wall/content/${contentId}/like
+
+### 3.展示墙作品取消点赞
+url:/weixin/display_wall/content/${contentId}/cancel_like
+
+### 5.展示墙作品评论
+url:/weixin/display_wall/content/${contentId}/post
+
+### 6.展示墙作品评分
+url:/weixin/display_wall/result/${resultId}/group_way/${groupWay}/submit_way/${submitWay}/remark
+
+### 1.学生抢,回答名额
+url:/weixin/course/${courseId}/task/${taskId}/activity/${activityId}/race_answer/race
+
+### 3.教师评分
+url:/weixin/course/${courseId}/result/${resultId}/race_answer/remark_result
+
+### 3.教师评分
+url:/weixin/brain_storm/result/${resultId}/remark
+
+1.学生开始测验
+url:/weixin/task/${taskId}/testpaper/do
+
+### 3.微信图片上传（展示墙）
+url:/weixin/picture/download
+
+
+
+check ### 3.加入随机分组
+url:/weixin/task/${taskId}/random_group/${groupId}/join
+
+check ### 4.活动开始
+url:/weixin/course/${courseId}/lesson/${lessonId}/task/${taskId}/start
+
+check ### 5.活动结束
+url:/weixin/course/{courseId}/lesson/{lessonId}/task/{taskId}/end
+
+### 10.学生对课次评价
+url:/weixin/course/${courseId}/lesson/${lessonId}/evaluation
+
+二，课程导入
+
+
+三，
+
+
+
+
+

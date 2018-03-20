@@ -1,0 +1,13 @@
+git clean -fd
+git log
+git revert
+git config core.filemode false 忽略文件权限
+
+ssh root@wild.ys.edusoho.cn
+
+cd /var/dockerservers/wild.ys.edusoho.cn/www/czie-edusoho
+docker exec -ti wild.ys.edusoho.cn bash
+
+
+czie
+cd dockerservers/wild.ys.edusoho.cn/ 

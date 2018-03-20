@@ -1,0 +1,52 @@
+一 :  xx jl 
+计划：
+完成：
+
+二 :  xx jl
+计划：
+完成：
+
+三 :  xx jl
+计划：
+完成：
+
+feature/36762-testpaper
+featre/36229-terms
+
+四 :  xx jl
+计划：
+完成：
+http://192.168.19.254
+
+五 :   xx jl 
+计划：
+完成：
+feature/35686-sign
+
+
+bugfix/36752-work
+bugfix/32371-practice-work
+视频播放
+文档播放
+图文显示
+音频播放
+课间休息
+
+
+    protected function getCourseSet($members, $request)
+    {
+        $courseIds = ArrayToolkit::column($members, 'courseId');
+        if (empty($request['shortCode'])) {
+            $courses = $this->getCourseService()->findInstantCoursesByIds($courseIds);
+            //$currentTerm = $this->getCourseService()->getCurrentTerm();
+            // $courses = $this->getCourseService()->findInstantCoursesByIdsAndTermCode($courseIds, $currentTerm['shortCode']);
+        } else {
+            $termCode = $request['shortCode'];
+            $courses = $this->getCourseService()->findInstantCoursesByIdsAndTermCode($courseIds, $termCode);
+        }
+        $courseSetIds = ArrayToolkit::column($courses, 'courseSetId');
+        $courseSets = $this->getCourseSetService()->findCourseSetsByIds($courseSetIds);
+
+        return $courseSets;
+    }
+

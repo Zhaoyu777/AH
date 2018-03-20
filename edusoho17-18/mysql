@@ -1,0 +1,46 @@
+1. 为查询缓存优化你的查询
+
+2. EXPLAIN 你的 SELECT 查询
+
+3. 当只要一行数据时使用 LIMIT 1
+
+4. 为搜索字段建索引
+
+5. 千万不要 ORDER BY RAND()
+
+6. 避免 SELECT *
+
+7. 使用 ENUM 而不是 VARCHAR
+
+8. 尽可能的使用 NOT NULL, 必要时可以用null
+
+9. 垂直分割
+
+10. 拆分大的 DELETE 或 INSERT 语句  2000条为一批
+
+
+
+索引原理，
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT c.* FROM course_v8 c LEFT JOIN `course_member` cm ON c.id = cm.courseId WHERE c.type = 'instant' AND c.status <> 'delete' AND cm.role = 'teacher' AND cm.userId = 2 AND c.termCode = '16-17-2' 
+
+SELECT * FROM `course_v8` WHERE `termCode` = '16-17-2' 
+
+ALTER TABLE `course_v8` ADD INDEX <`termCode`>;
+
+SELECT s.* FROM czie_course_statistics s LEFT JOIN course_v8 c on s.courseId = c.id WHERE c.termCode = '17-18-1' group by courseId
+
+

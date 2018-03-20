@@ -1,0 +1,48 @@
+一 : 未知的心情未知的路。探索的乐趣，寻找存在的意义
+
+计划：
+整理后四天的开发计划
+整理需求基本开发流程，预估技术点
+
+完成：本周需要完成 教师数据统计，课次数据统计的数据校准。缺勤人员 缺勤提醒
+
+
+二 : 心情大好，不服来战
+计划：教师数据统计（公式审核），部分显示bug，数据错误处理
+use CustomBundle\Biz\Statistics\Statistics\Statistics;
+
+        $a = new Statistics();
+        $a->statistics();
+
+完成：页面样式字段优化，教师数据学期问题
+      数据统计优化
+
+三 : 
+计划：
+完成：统计教师班级的数据精确（数据库精确问题，排除线上数据问题，排名问题，定时认为问题）
+
+四 : 心情值70点，
+计划：日志，定时，33394,数据校验
+完成：日志定时ok， 非法数据已校验
+
+五 : 心情棒啊，心情75点
+计划：课堂参与率。
+
+    public function findAttendByTermCode($termCode, $studentAttendRate)
+    {
+        return $this->searchStatistics(array(
+            'studentAttendRate' => $studentAttendRate,
+            'termCode' => $termCode
+        ), array(), 0, PHP_INT_MAX);
+    }
+
+    public function findTaskInByTermCode($termCode, $taskInCompletionRate)
+    {
+        return $this->searchStatistics(array(
+            'taskInCompletionRate' => $taskInCompletionRate,
+            'termCode' => $termCode
+        ), array(), 0, PHP_INT_MAX);
+    }
+
+
+完成：

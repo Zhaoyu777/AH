@@ -1,0 +1,317 @@
+http://edusoho.pages.codeages.net/edusoho-develop-guide/setup/setup-edusoho.html
+配置开发环境
+
+开发 EduSoho 需安装 PHP、MySQL、Nginx、NodeJS 等环境。本文档提供以下操作系统的开发环境安装：
+
+Ubuntu
+macOS
+Windows
+Ubuntu
+
+安装 PHP
+
+EduSoho 可以运行在 PHP 5.5 及以上版本，推荐安装当前最新稳定版本 PHP 7.1 。
+
+sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install php-pear php7.1-cli php7.1-common php7.1-curl \
+    php7.1-dev php7.1-fpm php7.1-json php7.1-mbstring php7.1-mcrypt \
+    php7.1-mysql php7.1-opcache php7.1-zip php7.1-intl php7.1-gd php7.1-xml
+修改 PHP-FPM 监听方式为127.0.0.1:9000：
+
+sudo sed -i 's/listen = .*/listen = 127.0.0.1:9000/g' /etc/php/7.1/fpm/pool.d/www.conf
+重启 PHP-FPM 服务进程：
+
+sudo service php7.1-fpm restart
+安装 MySQL
+
+EduSoho 可以运行在 MySQL 5.5 及以上版本，推荐安装当前最新稳定版本 MySQL 5.7。
+
+配置 MySQL 5.7 的源：
+
+# 可在 http://dev.mysql.com/downloads/repo/apt/ 页面找到 mysql-apt-config 的最新版本。
+wget http://dev.mysql.com/get/mysql-apt-config_0.8.7-1_all.deb
+sudo dpkg -i mysql-apt-config_0.8.7-1_all.deb
+这时会弹出让你选择，将：
+
+MySQL Server修改为： mysql-5.7
+MySQL Tools & Connectors (Currently selected: Enabled)修改为Disabled。
+MySQL Preview Packages修改过为 Disabled。
+sudo apt-get update
+sudo apt-get install mysql-server 
+安装过程中会提示设置 MySQL 的 root 密码，按回车即可，表示密码为空。
+
+ 注意
+为方便开发，这里设置了 MySQL 的 root 密码为空。如在生产环境，请勿这样做，需设置一定强度的密码。
+
+MySql 5.7.6 起，安装时如果 root 不设置密码，那么默认会采用auth_socket的方式登陆 MySQL 。也就是登陆 MySQL 时验证你的 Linux 的当前用户是否为 root，如果不是就不能登陆。在auth_socket模式下，应用程序通过数据库的用户名、密码是无法连接的，这就需要我们将数据库的登陆模式，改为mysql_native_password模式。
+
+进入数据库：sudo mysql -uroot，执行：
+
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '';
+FLUSH PRIVILEGES;
+exit;
+安装 Nginx
+
+sudo add-apt-repository ppa:nginx/stable
+sudo apt-get update
+sudo apt-get install nginx
+验证 Nginx 服务启动是否成功：
+
+echo "Hello, EduSoho!" >> /var/www/index.html
+echo "<?php \nphpinfo();" >> /var/www/phpinfo.php
+在浏览器中打开http://localhost，出现Hello, EduSoho!表示 Nginx 启动成功。 在浏览器中打开http://localhost/phpinfo.php，出现 PHP 配置相关信息，表示 PHP 配置成功。
+
+如启动失败，可通过查看/var/log/nginx/error.log日志文件来获得错误信息。
+
+安装 Node.js
+
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+echo "
+deb https://mirrors.tuna.tsinghua.edu.cn/nodesource/deb_6.x trusty main
+deb-src https://mirrors.tuna.tsinghua.edu.cn/nodesource/deb_6.x/ trusty main
+" | sudo tee /etc/apt/sources.list.d/nodesource.list 
+sudo apt-get update
+sudo apt-get install -y nodejs
+安装 yarn：
+
+sudo npm install -g yarn
+配置 npm、yarn 源为国内源，以大幅提升NPM的安装速度：
+
+sudo npm config set registry https://registry.npm.taobao.org
+sudo yarn config set registry https://registry.npm.taobao.org
+安装 Git
+
+sudo apt-add-repository ppa:git-core/ppa
+sudo apt-get update
+sudo apt-get install git
+安装 phpMyAdmin
+
+phpMyAdmin 是一款方便易用的 MySql 数据库管理软件。可以在 官网 下载最新版的 phpMyAdmin。
+
+下载后，将 phpMyAdmin 解压到：/var/www/phpmyadmin目录下，创建配置文件config.inc.php，内容如下：
+
+<?php
+
+$i = 0;
+
+/* Server: localhost [1] */
+$i++;
+$cfg['Servers'][$i]['verbose'] = 'localhost';
+$cfg['Servers'][$i]['host'] = 'localhost';
+$cfg['Servers'][$i]['port'] = '';
+$cfg['Servers'][$i]['socket'] = '';
+$cfg['Servers'][$i]['auth_type'] = 'config';
+$cfg['Servers'][$i]['user'] = 'root';
+$cfg['Servers'][$i]['password'] = '';
+$cfg['Servers'][$i]['AllowNoPassword'] = true;
+在打开浏览器打开 http://localhost/phpmyadmin/ ，即可进入 phpMyAdmin。
+
+macOS
+
+Homebrew 是 macOS 下流行的包管理软件，下面通过 Homebrew 来安装各软件包。
+
+安装 PHP
+
+添加 PHP 软件仓库：
+
+brew tap homebrew/dupes
+brew tap homebrew/versions
+brew tap homebrew/homebrew-php
+安装 PHP 软件包：
+
+brew install php71
+安装后 php.ini 以及 fpm 的配置文件均在/usr/local/etc/php/7.1/目录下。
+
+设置环境变量：
+
+查看环境PATH：echo $PATH，确认/usr/local/bin, /usr/local/sbin是否存在且排在/usr/sbin之前。如不满足，则需根据你系统所使用的shell，将环境变量添加到~/.bashrc, ~/.zshrc或~/.profile中去：
+
+PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+启动 PHP-FPM 服务：
+
+brew services start php71
+ 提示
+可以通过以下命令重启、停止 PHP-FPM 服务：
+
+brew services restart php71 # 重启
+brew services stop php71 # 停止
+配置 PHP-FPM 随机启动：
+
+mkdir -p ~/Library/LaunchAgents
+cp /usr/local/opt/php71/homebrew.mxcl.php71.plist ~/Library/LaunchAgents/
+验证 PHP-FPM 服务是否启动成功：
+
+ps aux | grep php-fpm
+如存在相关 PHP-FPM 进程，则表明启动成功。
+
+安装 Nginx
+
+brew install nginx
+Nginx 安装后，可在/usr/local/etc/nginx目录下，找到 Nginx 系列配置文件。
+
+修改配置：
+
+主要修改如下： 1. 监听端口8080，改为80； 2. 调整localhost的root目录到/var/www下； 3. 指定error_log, access_log日志目录到/var/log/nginx目录下； 4. 开启localhost对.php文件结尾的解析； 5. 调整virtual server的配置目录为sites-enabled，这样添加virtual server只需在sites-enabled目录下添加相应的配置文件即可。
+
+其中第2,3,5条规则调整是为了跟 Ubuntu 的配置风格保持一致。
+
+建立目录：
+
+sudo mkdir -p /var/www
+sudo chown root:staff /var/www
+sudo chmod g+w /var/www
+sudo mkdir -p /var/log/nginx
+mkdir /usr/local/etc/nginx/sites-enabled
+替换/usr/local/etc/nginx/nginx.conf的配置内容为：
+
+user  nobody;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log debug;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen       80;
+        server_name  localhost;
+        root         /var/www;
+        charset utf-8;
+
+        location / {
+            index  index.html index.htm index.php;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+            include        fastcgi_params;
+            fastcgi_param  SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        }
+    }
+
+    include sites-enabled/*;
+}
+启动 Nginx 服务：
+
+sudo brew services start nginx
+也可通过sudo brew services restart|stop nginx命令来重启、停止服务。
+
+ 注意
+由于系统限制，使用80及低于80端口的应用程序需以root权限启动。所以启动80端口的Nginx需通过sudo来启动。
+
+验证 Nginx 服务启动是否成功：
+
+echo "Hello, EduSoho!" >> /var/www/index.html
+echo "<?php \nphpinfo();" >> /var/www/phpinfo.php
+在浏览器中打开http://localhost，出现Hello, EduSoho!表示 Nginx 启动成功。 在浏览器中打开http://localhost/phpinfo.php，出现 PHP 配置相关信息，表示 PHP 配置成功。
+
+如启动失败，可通过查看/var/log/nginx/error.log日志文件来获得错误信息。
+
+配置Nginx服务随机启动：
+
+cp /usr/local/opt/nginx/homebrew.mxcl.nginx.plist ~/Library/LaunchAgents/
+安装 MySQL
+
+brew install mysql
+启动 MySQL 服务：
+
+brew services start mysql
+也可通过brew services restart mysql、brew services stop mysql命令来重启、停止服务。
+
+Mysql的root密码默认为空，可以通过：mysql -uroot命令进入mysql。
+
+配置 MySQL 服务随机启动：
+
+cp /usr/local/opt/mysql/homebrew.mxcl.mysql.plist ~/Library/LaunchAgents/
+安装 phpMyAdmin
+
+phpMyAdmin 是一款方便易用的 MySql 数据库管理软件。可以在 官网 下载最新版的 phpMyAdmin。
+
+下载后，将 phpMyAdmin 解压到：/var/www/phpmyadmin目录下，创建配置文件config.inc.php，内容如下：
+
+<?php
+
+$i = 0;
+
+/* Server: localhost [1] */
+$i++;
+$cfg['Servers'][$i]['verbose'] = 'localhost';
+$cfg['Servers'][$i]['host'] = 'localhost';
+$cfg['Servers'][$i]['port'] = '';
+$cfg['Servers'][$i]['socket'] = '';
+$cfg['Servers'][$i]['auth_type'] = 'config';
+$cfg['Servers'][$i]['user'] = 'root';
+$cfg['Servers'][$i]['password'] = '';
+$cfg['Servers'][$i]['AllowNoPassword'] = true;
+在打开浏览器打开 http://localhost/phpmyadmin/ ，即可进入 phpMyAdmin。
+
+安装 NodeJS
+
+brew install node
+安装 yarn：
+
+npm install -g yarn
+配置 NPM、YARN 源为国内源，以大幅提升NPM的安装速度：
+
+npm config set registry https://registry.npm.taobao.org
+yarn config set registry https://registry.npm.taobao.org
+Windows
+
+TODO...
+
+配置开发编辑器
+
+Visual Studio Code、Atom是目前开源界最流行的两款编辑器，推荐使用 Visual Studio Code 作为开发的编辑器。在开始编写代码之前，请先阅读 Visual Studio Code 的使用文档，了解下编辑器的基本操作、快键键、插件安装等，参考官方文档或中文翻译的官方文档。
+
+为统一代码风格，以及提高编码效率，需要安装一些编辑器的插件，以下为推荐安装的插件。
+
+PHP Intelephense
+
+PHP 代码自动提示、补全。安装此插件后，需关闭编辑器本身自带的代码提示，否则会重复显示函数提示。打开“用户设置"(快捷键CMD + ,)，将 php.suggest.basic 设置为 false。
+
+php cs fixer
+
+PHP 格式化代码。在插件中心搜索php cs fixer，会出现2个同名的插件，我们这里选择安装作者是 junstyle 的php cs fixer。
+
+该插件，需要安装 PHP Coding Standards Fixer：
+
+wget http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -O php-cs-fixer
+sudo chmod a+x php-cs-fixer
+sudo mv php-cs-fixer /usr/local/bin/php-cs-fixer
+PHP DocBlocker
+
+代码注释补全，在给类、函数写注释时，能自动补全。
+
+Twig
+
+对 Twig 语法高亮，及语法自动提示提供支持。
+
+EditorConfig for VS Code
+
+EditorConfig 是跨编辑器定义代码风格配置文件的一个标准，含行结束符、文件字符集、缩进方式、缩进空格数等。安装此插件后，VSCode 会默认读取项目根目录下的.editorconfig配置文件，作为当前项目的配置。
+
+Git History
+
+显示整个项目的 git 日志，或当前文件的 git 日志。
+
+Git Blame
+
+在编辑器底部状态条中显示当前光标所在行的 git 提交人的信息。

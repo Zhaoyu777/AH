@@ -1,0 +1,81 @@
+wx67f3450df54cd3c7
+p65B7F3J8vSEKtgcTY_fqNoc9xNBie5U0meA3_QVVXUtL7pbnI5z5O03qrt0n8BL
+
+Rmm40OCVRW2E8zy2QaO3ZN4pNpQii7T263pdMa4dehWiO2HbjSLgK1rq8TOQwR5B
+1z7r5CcF4yjjDWiHiCEbgktQMgc4Z4_V1JVK7u1M2qBEFaENrTKF5BwK_-cxQWvHr-k56nSRnOShzkjM3fGco0A
+czie.ys.edusoho.cn/wexin/uplode?media_id=1KAOETOT1MxcwFYL5EpcOKWzhwUpEWcVWg-bIsXxmqJLQbedBupBbHnDoLU6_BwrHLDTjdsYIJpLiZj7W-612Eg&filename=hzy
+
+
+sudo vim /etc/hosts
+
+sudo chmod -Rf 777 /var/www/edusoho
+
+cd /etc/nginx/sites-enabled/
+
+sudo service nginx restart
+
+tail -f czie_error.log
+
+ㄟ( ▔, ▔ )ㄏ
+
+31747
+32189
+
+console.log(123);
+
+git log 查询日志
+
+git reset --hard e3960e9ed38549d8de3d4f8c2ce519afdfde044c 反会当当前日志节点
+
+phpunit -c app src
+
+SELECT *,sum(score) as scores FROM course_member m RIGHT JOIN czie_user_score s ON m.userId = s.userId WHERE m.courseId = 1683 
+
+git clone
+
+/usr/local/bin/redis-server
+
+git clean -f
+
+前端文档
+codeages cd000!!!
+
+lsof -i :3030
+
+kill -9 2494
+
+/usr/local/bin/redis-server
+
+ 
+
+11801
+11853
+
+course-student
+teacher-lesson
+
+"access_token":"DEzxgzmP_M3woR673hpc_V_TlaV8QJutjrdmNsAf1xxS7TzY_fNoEB585QmV6iC19ELxseqTladXL1L6s65G5nxgWJ6i64yRwdi4jaxyYH6d8ItmtWHeclwgwc9zT0oFyZ2xtN4FCMZy8MTd8dkWuHYdpXXSlHJzj7gbRaOuAiajq8nQn4BTEVMqsJnIO4hCktrkSc5XoHoP5zIjzW_fAA"
+
+INSERT INTO `zhkt_course_main_teacher`(`courseId`, `teacherId`) VALUES (1822,11853),(1823,11853);\
+
+
+(4-9/2)(4-9/2)
+
+（16 - 18） -（16-18)
+
+16 - 18 -16 +18 
+
+32
+
+16 - 18+18 +
+
+25
+
+SELECT * FROM `course_v8` WHERE termCode = '16-17-2 ' AND status='published' AND type= 'instant' group by (courseSetId)
+        $courses1 = $this->getCourseService()->findInstantCoursesByTermCode('17-18-1');
+        $courseSetIds1 = ArrayToolkit::column($courses1, 'courseSetId');
+        $courses2 = $this->getCourseService()->findInstantCoursesByTermCode('16-17-2');
+        $courseSetIds2 = ArrayToolkit::column($courses2, 'courseSetId');
+
+        var_dump(array_intersect($courseSetIds1,$courseSetIds2));exit();
+

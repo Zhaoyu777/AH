@@ -1,0 +1,69 @@
+activity_race_answer  --抢答活动扩展表
+
+CREATE TABLE IF NOT EXISTS `activity_race_answer` (
+	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+	`createdUserId` int(11) NOT NULL,
+	`createdTime` int(10) DEFAULT 0,
+	`updatedTime` int(11) DEFAULT 0,
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+activity_race_answer_result	--学员抢答结果表(每个任务默认限制十人，显示按时间先后排序)
+
+CREATE TABLE IF NOT EXISTS `activity_race_answer_result` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`activityId` int(10) NOT NULL,
+	`courseId` int(10) NOT NULL,
+	`courseTaskId` int(10) NOT NULL,
+	`userId` int(10) NOT NULL,
+	`score` int(10) NOT NULL DEFAULT '0' COMMENT '评分',
+	`remark` text COMMENT '评论',
+	`opUserId` int(10) NOT NULL,
+	`createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+	`updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+activity_race_answer_status	--抢答活动状态表（是否可以多次关闭开启？以前的活动是可以的）
+
+CREATE TABLE `activity_race_answer_status` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`activityId` int(10) NOT NULL,
+	`courseTaskId` int(10) NOT NULL,
+	`status` enum('start','end') NOT NULL DEFAULT 'start' COMMENT '活动状态',
+	`createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+	`updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+接口：
+api_race_answer_start:       --开始活动
+    
+apirace__answer_end: 	--结束活动
+    
+api_race_answer_status:	--活动状态
+    
+api_race_answer_student_rob: --学生抢题
+
+api_race_answer_result_student:	--手机学生抢题&评分结果
+
+api_race_answer_result_teacher:	--手机老师抢题&评分结果
+
+api_race_answer_remark:	--老师评论
+
+race_answer_result: 		--pc抢答结果
+
+
+分享课程
+CREATE TABLE `czie_course_share` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`courseId` int(10) NOT NULL, 课程Id
+	`teacherId` int(10) NOT NULL,	被分享教师Id
+	`opUserId` enum('start','end') NOT NULL DEFAULT 'start' COMMENT '分享教师Id',
+	`createdTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+	`updatedTime` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后更新时间',
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+

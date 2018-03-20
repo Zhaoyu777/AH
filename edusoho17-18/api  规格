@@ -1,0 +1,141 @@
+ES api 3.0
+
+总api文档
+
+
+路由
+
+参考文档
+
+路由必须以 api开头，如 http://域名/api/courses/3
+
+请求header中， 必须要有此属性 Accept = application/vnd.edusoho.v2+json
+
+
+
+
+类型
+request method
+
+
+
+
+新增
+POST
+
+
+修改
+PATCH
+
+
+删除
+DELETE
+
+
+获取单个
+GET
+
+
+查询多个
+GET
+
+
+
+
+URL 格式为 /api/{常量1}/{变量1}/{常量2}/{变量2}
+
+如果格式为 /api/{常量1} 或 /api/{常量1}/{变量1}/{常量2} 表示是search 或 add， 方法名必须为search 或 add
+如果格式为 /api/{常量1}/{变量1} 或 /api/{常量1}/{变量1}/{常量2}/{变量2}， 方法名必须为update, remove
+
+包名由统一前缀和常量1决定 （常量1，首字母大写，去掉复数s，加上统一前缀为包名， es的统一前缀为 ApiBundle\Api\Resource\ )
+类名由常量1 和 常量2决定, 常量1，常量2，首字母大写，去掉复数s，结果拼接上，为类名
+例子如下
+
+
+
+
+URL
+类和方法
+描述
+
+
+
+
+GET /api/courses
+Course/Course::search
+查询多个课程,或者分页查询
+
+
+GET /api/courses/{courseId}
+Course/Course::get
+获取单个课程信息
+
+
+POST /api/courses
+Course/Course::add
+创建课程
+
+
+PATCH /api/courses/{courseId}
+Course/Course::update
+修改课程
+
+
+DELETE /api/courses/{courseId}
+Course/Course::remove
+删除课程
+
+
+GET /api/courses/{courseId}/members
+Course/CourseMember::search
+获取课程下的学员
+
+
+GET /api/courses/{courseId}/members/{memberId}
+Course/CourseMember::get
+获取单个学员信息
+
+
+POST /api/courses/{courseId}/members
+Course/CourseMember::add
+添加课程学员
+
+
+PATCH /api/courses/{courseId}/members/{memberId}
+Course/CourseMember::update
+修改学员信息
+
+
+DELETE /api/courses/{courseId}/members/{memberId}
+Course/CourseMember::remove
+删除课程学员
+
+
+
+
+
+返回值
+
+如果有异常，返回
+
+{
+    'error': '123',
+    'message': '...'
+}
+
+特殊逻辑 -- search
+
+如果是search功能，需要传 limit 和 offset (limit 为要获取的总数，offset为从第几条开始获取，0表示第一条, 不传会有默认值)
+
+返回格式为
+
+{
+    'data': [{
+
+    }],
+    'paging': {
+        'limit': 10,   //search方法额外接受 limit 和 offset参数
+        'offset': 0,
+        'total': 5   //总数
+    }
+}
